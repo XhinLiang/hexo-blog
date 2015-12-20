@@ -4,12 +4,12 @@
 
 # Site
 title: XhinLiang
-subtitle: 写段优雅的代码,泡个漂亮的妹子
-description: 快乐的小码农,本科在读
+subtitle: 写段优雅的代码，泡个漂亮的妹子
+description: 快乐的小码农，本科在读
 author: Xhin Liang
-language: zh-rCN
+language: zh-CN
 timezone: 
-
+avatar: /uploads/avatar.png
 # URL
 ## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
 url: http://xhinliang.github.io
@@ -63,11 +63,13 @@ pagination_dir: page
 # Extensions
 ## Plugins: http://hexo.io/plugins/
 ## Themes: http://hexo.io/themes/
-theme: landscape
+theme: hueman
 
 # Deployment
 ## Docs: http://hexo.io/docs/deployment.html
 deploy:
   type: git
   repo: git@github.com:xhinliang/xhinliang.github.io.git
-  branch: master
+  banch: master
+
+duoshuo_shortname: xhinliang

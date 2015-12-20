@@ -5,7 +5,9 @@ categories: Android
 toc: true
 ---
 
-##前言
+>![](./uploads/avatar.png)
+
+## 前言
 
 最近抽空了解了RxJava && Retrofit 这两个库，然后正好我所在的[微客工作室](wecanstudio.me)要写个签到的App。于是乎把最近学到的好玩的东西都加上了，恰逢博客开张，写篇博文庆祝一下。
 
@@ -27,7 +29,7 @@ toc: true
  
 
 ```
-compile 'io.reactivex:rxjava:1.0.14' 
+    compile 'io.reactivex:rxjava:1.0.14' 
     compile 'io.reactivex:rxandroid:1.0.1'
     compile 'com.google.code.gson:gson:2.4'
     compile 'com.squareup.okhttp:okhttp:2.5.0'
@@ -52,11 +54,11 @@ compile 'io.reactivex:rxjava:1.0.14'
    
 
 ```
- public interface Api {
-        String BASE_URL = "http://121.42.209.19/RestfulApi/index.php/";
-	    @GET("api/users")
-	    Observable<User> login(@Query("name") String name, @Query("phone") String phone);
-	    //...MORE...
+public interface Api {
+    String BASE_URL = "http://121.42.209.19/RestfulApi/index.php/";
+	@GET("api/users")
+	Observable<User> login(@Query("name") String name, @Query("phone") String phone);
+	//...MORE...
 }
 ```
 
