@@ -56,9 +56,9 @@ toc: true
 ```
 public interface Api {
     String BASE_URL = "http://121.42.209.19/RestfulApi/index.php/";
-	@GET("api/users")
-	Observable<User> login(@Query("name") String name, @Query("phone") String phone);
-	//...MORE...
+    @GET("api/users")
+    Observable<User> login(@Query("name") String name, @Query("phone") String phone);
+    //...MORE...
 }
 ```
 
