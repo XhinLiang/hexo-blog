@@ -59,8 +59,8 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 ## 存在的问题
 
 *原先的这段代码事实上是可以用的，运行起来也没有什么问题，但是作为代码洁癖患者，我们还是可以挑出刺来*
-1. 在主线程进行 **IO操作** ，影响用户体验。
-2.  **IO** 操作有 **Checked异常** ，但是在代码中捕获异常后代码变得非常难看。 
+- 在主线程进行 **IO操作** ，影响用户体验。
+- **IO** 操作有 **Checked异常** ，但是在代码中捕获异常后代码变得非常难看。 
 
 **最让我不能忍的莫过于这段**
 
@@ -160,8 +160,8 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
 **对于这一段代码，我们要做的重构工作已经完成，然而还有一些小问题**
 
-1. 进度条没有显示
-2. 没有对上传的图片进行压缩
+- 进度条没有显示
+- 没有对上传的图片进行压缩
 
 其实第一条很简单，只需把 **ProgressDialog** 的样式改为水平即可
 
