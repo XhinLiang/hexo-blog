@@ -110,6 +110,7 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data) {
                     }
                 }
             })
+            .observeOn(AndroidSchedulers.mainThread())
             .filter(new Func1<AVFile, Boolean>() {
                 @Override
                 public Boolean call(AVFile avFile) {
@@ -120,7 +121,6 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data) {
                     return true;
                 }
             })
-            .observeOn(AndroidSchedulers.mainThread())
             .compose(this.<AVFile>bindToLifecycle())
             .subscribe(new Action1<AVFile>() {
                 @Override
@@ -212,6 +212,7 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data) {
                     }
                 }
             })
+            .observeOn(AndroidSchedulers.mainThread())
             .filter(new Func1<AVFile, Boolean>() {
                 @Override
                 public Boolean call(AVFile avFile) {
@@ -222,7 +223,6 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data) {
                     return true;
                 }
             })
-            .observeOn(AndroidSchedulers.mainThread())
             .compose(this.<AVFile>bindToLifecycle())//这里用了RxLifeCycle来管理Subscription
             .subscribe(new Action1<AVFile>() {
                 @Override
