@@ -72,4 +72,4 @@ deploy:
   repo: git@github.com:xhinliang/xhinliang.github.io.git
   banch: master
 
-duoshuo_shortname: xhinliang
+duoshuo_shortname: XhinLiang

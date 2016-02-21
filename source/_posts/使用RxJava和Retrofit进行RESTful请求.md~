@@ -25,8 +25,7 @@ toc: true
 
 ## 准备工作
 1. 添加依赖
-
-```
+    ```
     compile 'io.reactivex:rxjava:1.0.14' 
     compile 'io.reactivex:rxandroid:1.0.1'
     compile 'com.google.code.gson:gson:2.4'
@@ -39,8 +38,7 @@ toc: true
     compile 'com.jakewharton.rxbinding:rxbinding-support-v4:0.2.0'
     compile 'com.jakewharton.rxbinding:rxbinding-appcompat-v7:0.2.0'
     compile 'com.jakewharton.rxbinding:rxbinding-design:0.2.0'
-```
-
+    ```
 **看到这么多的依赖，大家不要慌张。其实有很多只是同一个库的不同版本，例如RxBinding这个库就对Support-v4 AppCompat-v7 等四个包做了匹配，如果你的项目中没有使用Design包或者你不需要做Design包控件的RxBinding，你也就不需要添加最后一行的依赖**
 
 2. 阅读[接口文档](https://github.com/XhinLiang/Studio/blob/master/Api.md)
