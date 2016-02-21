@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    
+    <title>记一次使用RxJava重构的经历 | XhinLiang</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+        <meta name="keywords" content="Android,Java,RxJava" />
+    
+    <meta name="description" content="前言垃圾代码时常会出现在时间不够的情况下，所以重构是一件非常重要非常有意义的事情。
+需求我们的 Studio 项目中需要上传头像的功能，所以选择了一个开源库 PhotoPicker 来做图片的选择。通过这个库我们就可以在Activity # onActivityResult 方法来获取用户选择的图片地址，然后通过 LeanCloud 的 AVFile 来进行上传。
+原来的实现12345678910">
+<meta property="og:type" content="article">
+<meta property="og:title" content="记一次使用RxJava重构的经历">
+<meta property="og:url" content="http://xhinliang.github.io/2015/12/21/记一次使用RxJava重构的经历/index.html">
+<meta property="og:site_name" content="XhinLiang">
+<meta property="og:description" content="前言垃圾代码时常会出现在时间不够的情况下，所以重构是一件非常重要非常有意义的事情。
+需求我们的 Studio 项目中需要上传头像的功能，所以选择了一个开源库 PhotoPicker 来做图片的选择。通过这个库我们就可以在Activity # onActivityResult 方法来获取用户选择的图片地址，然后通过 LeanCloud 的 AVFile 来进行上传。
+原来的实现12345678910">
+<meta property="og:updated_time" content="2016-02-21T06:27:45.196Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="记一次使用RxJava重构的经历">
+<meta name="twitter:description" content="前言垃圾代码时常会出现在时间不够的情况下，所以重构是一件非常重要非常有意义的事情。
+需求我们的 Studio 项目中需要上传头像的功能，所以选择了一个开源库 PhotoPicker 来做图片的选择。通过这个库我们就可以在Activity # onActivityResult 方法来获取用户选择的图片地址，然后通过 LeanCloud 的 AVFile 来进行上传。
+原来的实现12345678910">
+    
+
+    
+
+    
+        <link rel="icon" href="/uploads/avatar.png" />
+    
+
+    <link rel="stylesheet" href="/vendor/font-awesome/css/font-awesome.min.css" type="text/css">
+    <link rel="stylesheet" href="/vendor/titillium-web/styles.css" type="text/css">
+    <link rel="stylesheet" href="/vendor/source-code-pro/styles.css" type="text/css">
+
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+    <script src="/vendor/jquery/2.0.3/jquery.min.js" type="text/javascript"></script>
+    
+    
+        <link rel="stylesheet" href="/vendor/fancybox/jquery.fancybox.css" type="text/css">
+    
+    
+        <link rel="stylesheet" href="/vendor/scrollLoading/style.css" type="text/css">
+    
+    
+    
+
+</head>
+
+<body>
+    <div id="wrap">
+        <header id="header">
+    <div id="header-outer" class="outer">
+        <div class="container">
+            <div class="container-inner">
+                <div id="header-title">
+                    <h1 class="logo-wrap">
+                        <a href="/" class="logo"></a>
+                    </h1>
+                    
+                        <h2 class="subtitle-wrap">
+                            <p class="subtitle">写段优雅的代码，泡个漂亮的妹子</p>
+                        </h2>
+                    
+                </div>
+                <div id="header-inner" class="nav-container">
+                    <a id="main-nav-toggle" class="nav-icon fa fa-bars"></a>
+                    <div class="nav-container-inner">
+                        <ul id="main-nav">
+                            
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/">主页</a>
+                                </li>
+                            
+                                        <ul class="main-nav-list"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Android/">Android</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/生活/">生活</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/算法/">算法</a></li></ul>
+                                    
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/about/index.html">关于</a>
+                                </li>
+                            
+                        </ul>
+                        <nav id="sub-nav">
+                            <div id="search-form-wrap">
+
+    <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="搜索"><input type="hidden" name="sitesearch" value="http://xhinliang.github.io"></form>
+
+</div>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+        <div class="container">
+            <div class="main-body container-inner">
+                <div class="main-body-inner">
+                    <section id="main">
+                        <div class="main-body-header">
+    <h1 class="header">
+    
+    <a class="page-title-link" href="/categories/Android/">Android</a>
+    </h1>
+</div>
+                        <div class="main-body-content">
+                            <article id="post-记一次使用RxJava重构的经历" class="article article-single article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+        记一次使用RxJava重构的经历
+        </h1>
+    
+
+            </header>
+        
+        <div class="article-subtitle">
+            <a href="/2015/12/21/记一次使用RxJava重构的经历/" class="article-date">
+    <time datetime="2015-12-21T00:55:29.000Z" itemprop="datePublished">2015-12-21</time>
+</a>
+            
+    <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/RxJava/">RxJava</a></li></ul>
+
+        </div>
+        <div class="article-entry" itemprop="articleBody">
+            <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>垃圾代码时常会出现在时间不够的情况下，所以重构是一件非常重要非常有意义的事情。</p>
+<h2 id="需求"><a href="#需求" class="headerlink" title="需求"></a>需求</h2><p>我们的 <strong><a href="https://github.com/XhinLiang/Studio" target="_blank" rel="external">Studio</a></strong> 项目中需要上传头像的功能，所以选择了一个开源库 <a href="https://github.com/donglua/PhotoPicker" target="_blank" rel="external">PhotoPicker</a> 来做图片的选择。通过这个库我们就可以在<strong>Activity # onActivityResult</strong> 方法来获取用户选择的图片地址，然后通过 <a href="https://leancloud.cn/" target="_blank" rel="external">LeanCloud</a> 的 <strong>AVFile</strong> 来进行上传。</p>
+<h2 id="原来的实现"><a href="#原来的实现" class="headerlink" title="原来的实现"></a>原来的实现</h2><figure class="highlight aspectj"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">protected</span> <span class="function"><span class="keyword">void</span> <span class="title">onActivityResult</span><span class="params">(<span class="keyword">int</span> requestCode, <span class="keyword">int</span> resultCode, Intent data)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">super</span>.onActivityResult(requestCode, resultCode, data);</span><br><span class="line">    <span class="keyword">if</span> (resultCode != RESULT_OK)</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    <span class="keyword">if</span> (requestCode != <span class="number">1</span> || data == <span class="keyword">null</span>)</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    String photo = data.getStringArrayListExtra(PhotoPickerActivity.KEY_SELECTED_PHOTOS).get(<span class="number">0</span>);</span><br><span class="line">    AVFile file = <span class="keyword">null</span>;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        file = AVFile.withAbsoluteLocalPath(String.format(<span class="string">"avatar_%s.jpg"</span>, user.name), photo);</span><br><span class="line">    &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (file == <span class="keyword">null</span>)</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    <span class="keyword">final</span> ProgressDialog pd = <span class="keyword">new</span> ProgressDialog(<span class="keyword">this</span>);</span><br><span class="line">    pd.setMax(<span class="number">100</span>);</span><br><span class="line">    pd.show();</span><br><span class="line">    <span class="keyword">final</span> AVFile finalFile = file;</span><br><span class="line">    file.saveInBackground(<span class="keyword">new</span> SaveCallback() &#123;</span><br><span class="line">        <span class="annotation">@Override</span></span><br><span class="line">        <span class="keyword">public</span> <span class="function"><span class="keyword">void</span> <span class="title">done</span><span class="params">(AVException e)</span> </span>&#123;</span><br><span class="line">            pd.hide();</span><br><span class="line">            <span class="keyword">if</span> (e != <span class="keyword">null</span>) &#123;</span><br><span class="line">                showSimpleDialog(R.string.<span class="keyword">error</span>);</span><br><span class="line">                <span class="keyword">return</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            user.imgurl = finalFile.getUrl();</span><br><span class="line">            observableUpdate.subscribe(observerUser);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;, <span class="keyword">new</span> ProgressCallback() &#123;</span><br><span class="line">        <span class="annotation">@Override</span></span><br><span class="line">        <span class="keyword">public</span> <span class="function"><span class="keyword">void</span> <span class="title">done</span><span class="params">(Integer integer)</span> </span>&#123;</span><br><span class="line">            pd.setProgress(integer);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="存在的问题"><a href="#存在的问题" class="headerlink" title="存在的问题"></a>存在的问题</h2><p><em>原先的这段代码事实上是可以用的，运行起来也没有什么问题，但是作为代码洁癖患者，我们还是可以挑出刺来</em></p>
+<ul>
+<li>在主线程进行 <strong>IO操作</strong> ，影响用户体验。</li>
+<li><strong>IO</strong> 操作有 <strong>Checked异常</strong> ，但是在代码中捕获异常后代码变得非常难看。 </li>
+</ul>
+<p><strong>最让我不能忍的莫过于这段</strong></p>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">AVFile <span class="keyword">file</span> = <span class="keyword">null</span>;</span><br><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">    <span class="keyword">file</span> = AVFile.withAbsoluteLocalPath(String.format(<span class="string">"avatar_%s.jpg"</span>, user.name), photo);</span><br><span class="line">&#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">    e.printStackTrace();</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">if</span> (<span class="keyword">file</span> == <span class="keyword">null</span>)</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line"><span class="keyword">final</span> ProgressDialog pd = <span class="keyword">new</span> ProgressDialog(<span class="keyword">this</span>);</span><br><span class="line">pd.setMax(<span class="number">100</span>);</span><br><span class="line">pd.show();</span><br><span class="line"><span class="keyword">final</span> AVFile finalFile = <span class="keyword">file</span>;</span><br></pre></td></tr></table></figure>
+<p>由于 <strong>AVFile</strong> 的 <strong>withAbsoluteLocalPath</strong> 方法有 <strong>Checked</strong> 异常，在调用的时候必须捕获异常，然而在上传头像 （<strong>AVFile</strong> 的 <strong>saveInBackgroud</strong> 方法）中，我们需要更新用户的 <strong>头像URL</strong> 而需要使用到这个 <strong>AVFile</strong> 对象，所以我们还得在定义一个 <strong>final</strong> 对象！</p>
+<figure class="highlight fortran"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">final</span> AVFile finalFile = <span class="keyword">file</span>;</span><br></pre></td></tr></table></figure>
+<h4 id="多么蛋疼！！！"><a href="#多么蛋疼！！！" class="headerlink" title="多么蛋疼！！！"></a>多么蛋疼！！！</h4><h2 id="解决办法"><a href="#解决办法" class="headerlink" title="解决办法"></a>解决办法</h2><p>事实上我们根据 <strong>RxJava</strong> “流”的概念可以想到，这一大串代码，事实上也可以化为一个”流“，而这个”流“就是从我们获取的头像的本地地址开始的。</p>
+<p>然后接下来的代码都很简单了</p>
+<figure class="highlight aspectj"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">protected</span> <span class="function"><span class="keyword">void</span> <span class="title">onActivityResult</span><span class="params">(<span class="keyword">int</span> requestCode, <span class="keyword">int</span> resultCode, Intent data)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">super</span>.onActivityResult(requestCode, resultCode, data);</span><br><span class="line">    <span class="keyword">if</span> (resultCode != RESULT_OK || requestCode != REQUEST_FOR_SELECT_PICTURE || data == <span class="keyword">null</span>)</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    String photo = data.getStringArrayListExtra(PhotoPickerActivity.KEY_SELECTED_PHOTOS).get(<span class="number">0</span>);</span><br><span class="line">    Observable.just(photo)</span><br><span class="line">            .subscribeOn(Schedulers.io())</span><br><span class="line">            .observeOn(Schedulers.io())</span><br><span class="line">            .map(<span class="keyword">new</span> Func1&lt;String, AVFile&gt;() &#123;</span><br><span class="line">                <span class="annotation">@Override</span></span><br><span class="line">                <span class="keyword">public</span> <span class="function">AVFile <span class="title">call</span><span class="params">(String s)</span> </span>&#123;</span><br><span class="line">                    <span class="keyword">try</span> &#123;</span><br><span class="line">                        <span class="keyword">return</span> AVFile.withAbsoluteLocalPath(String.format(<span class="string">"avatar_%s_%d.jpg"</span>, user.name, System.currentTimeMillis()), s);</span><br><span class="line">                    &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">                        <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;)</span><br><span class="line">            .observeOn(AndroidSchedulers.mainThread())</span><br><span class="line">            .filter(<span class="keyword">new</span> Func1&lt;AVFile, Boolean&gt;() &#123;</span><br><span class="line">                <span class="annotation">@Override</span></span><br><span class="line">                <span class="keyword">public</span> <span class="function">Boolean <span class="title">call</span><span class="params">(AVFile avFile)</span> </span>&#123;</span><br><span class="line">                    <span class="keyword">if</span> (avFile == <span class="keyword">null</span>) &#123;</span><br><span class="line">                        showSimpleDialog(R.string.can_not_find_file);</span><br><span class="line">                        <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">                    &#125;</span><br><span class="line">                    <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;)</span><br><span class="line">            .compose(<span class="keyword">this</span>.&lt;AVFile&gt;bindToLifecycle())</span><br><span class="line">            .subscribe(<span class="keyword">new</span> Action1&lt;AVFile&gt;() &#123;</span><br><span class="line">                <span class="annotation">@Override</span></span><br><span class="line">                <span class="keyword">public</span> <span class="function"><span class="keyword">void</span> <span class="title">call</span><span class="params">(<span class="keyword">final</span> AVFile file)</span> </span>&#123;</span><br><span class="line">                    <span class="keyword">final</span> ProgressDialog pd = <span class="keyword">new</span> ProgressDialog(MyDetailsActivity.<span class="keyword">this</span>);</span><br><span class="line">                    pd.setMax(<span class="number">100</span>);</span><br><span class="line">                    pd.show();</span><br><span class="line">                    file.saveInBackground(<span class="keyword">new</span> SaveCallback() &#123;</span><br><span class="line">                        <span class="annotation">@Override</span></span><br><span class="line">                        <span class="keyword">public</span> <span class="function"><span class="keyword">void</span> <span class="title">done</span><span class="params">(AVException e)</span> </span>&#123;</span><br><span class="line">                            pd.hide();</span><br><span class="line">                            <span class="keyword">if</span> (e != <span class="keyword">null</span>) &#123;</span><br><span class="line">                                showSimpleDialog(R.string.<span class="keyword">error</span>);</span><br><span class="line">                                <span class="keyword">return</span>;</span><br><span class="line">                            &#125;</span><br><span class="line">                            user.imgurl = file.getUrl();</span><br><span class="line">                            observableUpdate.subscribe(observerUser);</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;, <span class="keyword">new</span> ProgressCallback() &#123;</span><br><span class="line">                        <span class="annotation">@Override</span></span><br><span class="line">                        <span class="keyword">public</span> <span class="function"><span class="keyword">void</span> <span class="title">done</span><span class="params">(Integer integer)</span> </span>&#123;</span><br><span class="line">                            pd.setProgress(integer);</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>使用了 <strong>RxJava</strong>，我们的代码变得非常清晰，也比原来的代码优雅了很多。更重要的是，我们通过 <strong>RxJava</strong> 的 <strong>线程控制</strong> ，把 <strong>IO操作</strong> 真正放到了 <strong>IO线程</strong> 中，主线程不受影响，界面依旧流畅。</p>
+<h2 id="超越重构"><a href="#超越重构" class="headerlink" title="超越重构"></a>超越重构</h2><p><em>维基百科上对于 ”重构“ 一词的解释如下</em></p>
+<blockquote>
+<p>代码重构（英语：Code refactoring）指对软件代码做任何更动以增加可读性或者简化结构而不影响输出结果。 </p>
+</blockquote>
+<p><strong>对于这一段代码，我们要做的重构工作已经完成，然而还有一些小问题</strong></p>
+<ul>
+<li>进度条没有显示</li>
+<li>没有对上传的图片进行压缩</li>
+</ul>
+<p>其实第一条很简单，只需把 <strong>ProgressDialog</strong> 的样式改为水平即可</p>
+<figure class="highlight dns"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">final ProgressDialog pd = new ProgressDialog(MyDetailsActivity.this)<span class="comment">;</span></span><br><span class="line">pd.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL)<span class="comment">;</span></span><br><span class="line">pd.setMax(100)<span class="comment">;</span></span><br><span class="line">pd.show()<span class="comment">;</span></span><br></pre></td></tr></table></figure>
+<p>第二条改起来也简单，我们根据用户选择的图片找到这个文件，读入为 <strong>Bitmap</strong> ，然后获取它的<strong>原始宽高</strong>，然后再根据它<strong>原始宽高</strong>的大小判断是否需要进行压缩（我们只进行尺寸压缩，不进行质量压缩），这里我们选择 <strong>1000px</strong> 作为临界值，如果宽度或者高度有一个大于 <strong>1000px</strong> 则对宽高进行等比例压缩。</p>
+<p> <strong>完整代码如下</strong></p>
+<figure class="highlight aspectj"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">protected</span> <span class="function"><span class="keyword">void</span> <span class="title">onActivityResult</span><span class="params">(<span class="keyword">int</span> requestCode, <span class="keyword">int</span> resultCode, Intent data)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">super</span>.onActivityResult(requestCode, resultCode, data);</span><br><span class="line">    <span class="keyword">if</span> (resultCode != RESULT_OK || requestCode != REQUEST_FOR_SELECT_PICTURE || data == <span class="keyword">null</span>)</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">    <span class="comment">//因为设置了PhotoPicker只能选择一个图片，所以这里只选取List的第一个元素</span></span><br><span class="line">    String photo = data.getStringArrayListExtra(PhotoPickerActivity.KEY_SELECTED_PHOTOS).get(<span class="number">0</span>);</span><br><span class="line">    <span class="comment">//这一段IO处理事实上是耗时的，但又没有到达需要加上等待动画的地步</span></span><br><span class="line">    Observable.just(photo)</span><br><span class="line">            .subscribeOn(Schedulers.io())</span><br><span class="line">            .observeOn(Schedulers.io())</span><br><span class="line">            .map(<span class="keyword">new</span> Func1&lt;String, File&gt;() &#123;</span><br><span class="line">                <span class="annotation">@Override</span></span><br><span class="line">                <span class="keyword">public</span> <span class="function">File <span class="title">call</span><span class="params">(String filePath)</span> </span>&#123;</span><br><span class="line">                    Bitmap bitmap = compressImageByPixel(filePath, <span class="number">1000</span>);</span><br><span class="line">                    String uploadName = String.format(<span class="string">"avatar_%s_%d"</span>, user.name, System.currentTimeMillis());</span><br><span class="line">                    File file = <span class="keyword">new</span> File(getFilesDir().getAbsolutePath(), uploadName);</span><br><span class="line">                    <span class="keyword">try</span> &#123;</span><br><span class="line">                        bitmap.compress(Bitmap.CompressFormat.JPEG, <span class="number">100</span>, <span class="keyword">new</span> FileOutputStream(file));</span><br><span class="line">                    &#125; <span class="keyword">catch</span> (FileNotFoundException e) &#123;</span><br><span class="line">                        <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">                    &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">                        bitmap.recycle();</span><br><span class="line">                    &#125;</span><br><span class="line">                    <span class="keyword">return</span> file;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;)</span><br><span class="line">            .map(<span class="keyword">new</span> Func1&lt;File, AVFile&gt;() &#123;</span><br><span class="line">                <span class="annotation">@Override</span></span><br><span class="line">                <span class="keyword">public</span> <span class="function">AVFile <span class="title">call</span><span class="params">(File compressFile)</span> </span>&#123;</span><br><span class="line">                    <span class="keyword">try</span> &#123;</span><br><span class="line">                        <span class="keyword">return</span> AVFile.withFile(compressFile.getName(), compressFile);</span><br><span class="line">                    &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">                        <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;)</span><br><span class="line">            .observeOn(AndroidSchedulers.mainThread())</span><br><span class="line">            .filter(<span class="keyword">new</span> Func1&lt;AVFile, Boolean&gt;() &#123;</span><br><span class="line">                <span class="annotation">@Override</span></span><br><span class="line">                <span class="keyword">public</span> <span class="function">Boolean <span class="title">call</span><span class="params">(AVFile avFile)</span> </span>&#123;</span><br><span class="line">                    <span class="keyword">if</span> (avFile == <span class="keyword">null</span>) &#123;</span><br><span class="line">                        showSimpleDialog(R.string.can_not_find_file);</span><br><span class="line">                        <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">                    &#125;</span><br><span class="line">                    <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;)</span><br><span class="line">            .compose(<span class="keyword">this</span>.&lt;AVFile&gt;bindToLifecycle())<span class="comment">//这里用了RxLifeCycle来管理Subscription</span></span><br><span class="line">            .subscribe(<span class="keyword">new</span> Action1&lt;AVFile&gt;() &#123;</span><br><span class="line">                <span class="annotation">@Override</span></span><br><span class="line">                <span class="keyword">public</span> <span class="function"><span class="keyword">void</span> <span class="title">call</span><span class="params">(<span class="keyword">final</span> AVFile file)</span> </span>&#123;</span><br><span class="line">                    <span class="keyword">final</span> ProgressDialog pd = <span class="keyword">new</span> ProgressDialog(MyDetailsActivity.<span class="keyword">this</span>);</span><br><span class="line">                    pd.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);</span><br><span class="line">                    pd.setMax(<span class="number">100</span>);</span><br><span class="line">                    pd.show();</span><br><span class="line">                    file.saveInBackground(<span class="keyword">new</span> SaveCallback() &#123;</span><br><span class="line">                        <span class="annotation">@Override</span></span><br><span class="line">                        <span class="keyword">public</span> <span class="function"><span class="keyword">void</span> <span class="title">done</span><span class="params">(AVException e)</span> </span>&#123;</span><br><span class="line">                            pd.dismiss();</span><br><span class="line">                            <span class="keyword">if</span> (e != <span class="keyword">null</span>) &#123;</span><br><span class="line">                                showSimpleDialog(R.string.<span class="keyword">error</span>, e.getMessage());</span><br><span class="line">                                <span class="keyword">return</span>;</span><br><span class="line">                            &#125;</span><br><span class="line">                            user.imgurl = file.getUrl();</span><br><span class="line">                            observableUpdate.subscribe(observerUser);</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;, <span class="keyword">new</span> ProgressCallback() &#123;</span><br><span class="line">                        <span class="annotation">@Override</span></span><br><span class="line">                        <span class="keyword">public</span> <span class="function"><span class="keyword">void</span> <span class="title">done</span><span class="params">(Integer integer)</span> </span>&#123;</span><br><span class="line">                            pd.setProgress(integer);</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="function">Bitmap <span class="title">compressImageByPixel</span><span class="params">(String imgPath, <span class="keyword">int</span> maxSize)</span> </span>&#123;</span><br><span class="line">    BitmapFactory.Options newOpts = <span class="keyword">new</span> BitmapFactory.Options();</span><br><span class="line">    newOpts.inJustDecodeBounds = <span class="keyword">true</span>;<span class="comment">//只读边,不读内容</span></span><br><span class="line">    BitmapFactory.decodeFile(imgPath, newOpts);</span><br><span class="line">    newOpts.inJustDecodeBounds = <span class="keyword">false</span>;</span><br><span class="line">    <span class="keyword">int</span> scale = <span class="number">1</span>;</span><br><span class="line">    <span class="comment">//缩放比,用高或者宽其中较大的一个数据进行计算</span></span><br><span class="line">    <span class="keyword">if</span> (newOpts.outWidth &gt; newOpts.outHeight &amp;&amp; newOpts.outWidth &gt; maxSize) &#123;</span><br><span class="line">        scale = newOpts.outWidth / maxSize;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (newOpts.outWidth &lt; newOpts.outHeight &amp;&amp; newOpts.outWidth &gt; maxSize) &#123;</span><br><span class="line">        scale = newOpts.outHeight / maxSize;</span><br><span class="line">    &#125;</span><br><span class="line">    scale++;</span><br><span class="line">    newOpts.inSampleSize = scale;<span class="comment">//设置采样率</span></span><br><span class="line">    <span class="function"><span class="keyword">return</span> BitmapFactory.<span class="title">decodeFile</span><span class="params">(imgPath, newOpts)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h2><p> <strong><a href="https://github.com/XhinLiang/Studio" target="_blank" rel="external">Studio</a></strong> 是我很用心写的一个应用，代码已经尽我能力进行了优化，如果大家有时间不妨到看看源代码，欢迎大家 <strong>PR</strong> 。</p>
+
+        </div>
+        <footer class="article-footer">
+            
+
+
+
+    <a data-url="http://xhinliang.github.io/2015/12/21/记一次使用RxJava重构的经历/" data-id="cikwa64e20001nvo8c0l6f89z" class="article-share-link"><i class="fa fa-share"></i>分享到</a>
+<script>
+    (function ($) {
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+        </footer>
+    </div>
+</article>
+
+    <section id="comments">
+    
+        
+    <div class="ds-thread" data-thread-key="2015/12/21/记一次使用RxJava重构的经历/" data-title="记一次使用RxJava重构的经历" data-url="http://xhinliang.github.io/2015/12/21/记一次使用RxJava重构的经历/"></div>
+    <style>
+        #ds-thread #ds-reset .ds-textarea-wrapper {
+            background: none;
+        }
+        #ds-reset .ds-avatar img {
+            box-shadow: none;
+        }
+        #ds-reset .ds-gradient-bg {
+            background: #f7f7f7;
+        }
+        #ds-thread #ds-reset li.ds-tab a {
+            border-radius: 3px;
+        }
+        #ds-thread #ds-reset .ds-post-button {
+            color: white;
+            border: none;
+            box-shadow: none;
+            background: #d32;
+            text-shadow: none;
+            font-weight: normal;
+            font-family: 'Microsoft Yahei';
+        }
+        #ds-thread #ds-reset .ds-post-button:hover {
+            color: white;
+            background: #DE594C;
+        }
+        #ds-thread #ds-reset .ds-post-button:active {
+            background: #d32;
+        }
+        #ds-smilies-tooltip ul.ds-smilies-tabs li a.ds-current {
+            color: white;
+            background: #d32;
+            box-shadow: none;
+            text-shadow: none;
+            font-weight: normal;
+        }
+    </style>
+
+    
+    </section>
+
+                        </div>
+                    </section>
+                    <aside id="sidebar">
+    <a class="sidebar-toggle" title="Expand Sidebar"><i class="toggle icon"></i></a>
+    <div class="sidebar-top">
+        <p>关注我 :</p>
+        <ul class="social-links">
+            
+                
+                <li>
+                    <a class="social-tooltip" title="twitter" href="/" target="_blank">
+                        <i class="icon fa fa-twitter"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="facebook" href="/" target="_blank">
+                        <i class="icon fa fa-facebook"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="google-plus" href="/" target="_blank">
+                        <i class="icon fa fa-google-plus"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="github" href="https://github.com/XhinLiang" target="_blank">
+                        <i class="icon fa fa-github"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="weibo" href="/" target="_blank">
+                        <i class="icon fa fa-weibo"></i>
+                    </a>
+                </li>
+                
+            
+        </ul>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/2015/12/26/大三上读书流水/" id="article-nav-newer" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">下一篇</strong>
+        <p class="article-nav-title">
+        
+            大三上读书流水
+        
+        </p>
+        <i class="icon fa fa-chevron-right" id="icon-chevron-right"></i>
+    </a>
+    
+    
+        <a href="/2015/12/03/使用RxJava和Retrofit进行RESTful请求/" id="article-nav-older" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">上一篇</strong>
+        <p class="article-nav-title">RxJava &amp;&amp; Retrofit 简化RESTful请求</p>
+        <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
+        </a>
+    
+</nav>
+
+    
+    <div class="widgets-container">
+        
+            
+                
+    <div class="widget-wrap">
+        <h3 class="widget-title">最新文章</h3>
+        <div class="widget">
+            <ul id="recent-post" class="">
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2015/12/26/大三上读书流水/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+    
+</a>
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/生活/">生活</a></p>
+                            <p class="item-title"><a href="/2015/12/26/大三上读书流水/" class="title">大三上读书流水</a></p>
+                            <p class="item-date"><time datetime="2015-12-26T14:36:29.000Z" itemprop="datePublished">2015-12-26</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2015/12/21/记一次使用RxJava重构的经历/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+    
+</a>
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Android/">Android</a></p>
+                            <p class="item-title"><a href="/2015/12/21/记一次使用RxJava重构的经历/" class="title">记一次使用RxJava重构的经历</a></p>
+                            <p class="item-date"><time datetime="2015-12-21T00:55:29.000Z" itemprop="datePublished">2015-12-21</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2015/12/03/使用RxJava和Retrofit进行RESTful请求/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+    
+</a>
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Android/">Android</a></p>
+                            <p class="item-title"><a href="/2015/12/03/使用RxJava和Retrofit进行RESTful请求/" class="title">RxJava &amp;&amp; Retrofit 简化RESTful请求</a></p>
+                            <p class="item-date"><time datetime="2015-12-03T08:55:29.000Z" itemprop="datePublished">2015-12-03</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2015/12/03/使用二分法求整数幂/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+    
+</a>
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/算法/">算法</a></p>
+                            <p class="item-title"><a href="/2015/12/03/使用二分法求整数幂/" class="title">使用二分法求整数幂</a></p>
+                            <p class="item-date"><time datetime="2015-12-03T00:55:29.000Z" itemprop="datePublished">2015-12-03</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">分类</h3>
+        <div class="widget">
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/生活/">生活</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/算法/">算法</a><span class="category-list-count">1</span></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">归档</h3>
+        <div class="widget">
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">十二月 2015</a><span class="archive-list-count">4</span></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">标签</h3>
+        <div class="widget">
+            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/ACM/">ACM</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/">Android</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/C/">C</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/C/">C++</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RxJava/">RxJava</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/算法/">算法</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/读书/">读书</a><span class="tag-list-count">1</span></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-float">
+        <h3 class="widget-title">标签云</h3>
+        <div class="widget tagcloud">
+            <a href="/tags/ACM/" style="font-size: 10px;">ACM</a> <a href="/tags/Android/" style="font-size: 20px;">Android</a> <a href="/tags/C/" style="font-size: 10px;">C</a> <a href="/tags/C/" style="font-size: 10px;">C++</a> <a href="/tags/Java/" style="font-size: 10px;">Java</a> <a href="/tags/RxJava/" style="font-size: 10px;">RxJava</a> <a href="/tags/算法/" style="font-size: 10px;">算法</a> <a href="/tags/读书/" style="font-size: 10px;">读书</a>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">链接</h3>
+        <div class="widget">
+            <ul>
+                
+                    <li>
+                        <a href="http://hexo.io">Hexo</a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+
+            
+        
+    </div>
+</aside>
+                </div>
+            </div>
+        </div>
+        <footer id="footer">
+    <div class="container">
+        <div class="container-inner">
+            <a id="back-to-top" href="javascript:;"><i class="icon fa fa-angle-up"></i></a>
+            <div class="credit">
+                <h1 class="logo-wrap">
+                    <a href="/" class="logo"></a>
+                </h1>
+                <p>&copy; 2016 Xhin Liang</p>
+                <p>Powered by <a href="//hexo.io/" target="_blank">Hexo</a>. Theme by <a href="//github.com/ppoffice" target="_blank">PPOffice</a></p>
+            </div>
+        </div>
+    </div>
+</footer>
+        
+    
+    <script type="text/javascript">
+    var duoshuoQuery = {short_name:'xhinliang'};
+    (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0]
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+    </script>
+
+
+
+    
+        <script src="/vendor/fancybox/jquery.fancybox.pack.js" type="text/javascript"></script>
+    
+
+    
+        <script src="/vendor/scrollLoading/jquery.scrollLoading.js" type="text/javascript"></script>
+        <script src="/vendor/scrollLoading/main.js" type="text/javascript"></script>
+    
+
+
+<!-- Custom Scripts -->
+<script src="/js/main.js" type="text/javascript"></script>
+
+    </div>
+</body>
+</html>
