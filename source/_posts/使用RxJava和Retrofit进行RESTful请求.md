@@ -27,18 +27,18 @@ toc: true
 1. 添加依赖
 
 ```
-    compile 'io.reactivex:rxjava:1.0.14' 
-    compile 'io.reactivex:rxandroid:1.0.1'
-    compile 'com.google.code.gson:gson:2.4'
-    compile 'com.squareup.okhttp:okhttp:2.5.0'
-    compile 'com.squareup.retrofit:retrofit:2.0.0-beta2'
-    compile 'com.squareup.retrofit:converter-gson:2.0.0-beta2'
-    compile 'com.squareup.retrofit:adapter-rxjava:2.0.0-beta2'
-    compile 'com.trello:rxlifecycle:0.3.0'
-    compile 'com.trello:rxlifecycle-components:0.3.0'
-    compile 'com.jakewharton.rxbinding:rxbinding-support-v4:0.2.0'
-    compile 'com.jakewharton.rxbinding:rxbinding-appcompat-v7:0.2.0'
-    compile 'com.jakewharton.rxbinding:rxbinding-design:0.2.0'
+compile 'io.reactivex:rxjava:1.0.14' 
+compile 'io.reactivex:rxandroid:1.0.1'
+compile 'com.google.code.gson:gson:2.4'
+compile 'com.squareup.okhttp:okhttp:2.5.0'
+compile 'com.squareup.retrofit:retrofit:2.0.0-beta2'
+compile 'com.squareup.retrofit:converter-gson:2.0.0-beta2'
+compile 'com.squareup.retrofit:adapter-rxjava:2.0.0-beta2'
+compile 'com.trello:rxlifecycle:0.3.0'
+compile 'com.trello:rxlifecycle-components:0.3.0'
+compile 'com.jakewharton.rxbinding:rxbinding-support-v4:0.2.0'
+compile 'com.jakewharton.rxbinding:rxbinding-appcompat-v7:0.2.0'
+compile 'com.jakewharton.rxbinding:rxbinding-design:0.2.0'
 ```
 
 **看到这么多的依赖，大家不要慌张。其实有很多只是同一个库的不同版本，例如RxBinding这个库就对Support-v4 AppCompat-v7 等四个包做了匹配，如果你的项目中没有使用Design包或者你不需要做Design包控件的RxBinding，你也就不需要添加最后一行的依赖**
@@ -103,11 +103,11 @@ public void onCreate() {
     okHttpClient.networkInterceptors().add(new Interceptor() {
             @Override
             public Response intercept(Chain chain) throws IOException {
-            return chain.proceed(chain.request().newBuilder()
-                .header(KEY_BUILD_VERSION, BuildConfig.VERSION_NAME)
-                .build());
+                return chain.proceed(chain.request().newBuilder()
+                           .header(KEY_BUILD_VERSION, BuildConfig.VERSION_NAME)
+                           .build());
             }
-            });
+    });
     //初始化Gson
     Gson gson = new GsonBuilder()
         .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)

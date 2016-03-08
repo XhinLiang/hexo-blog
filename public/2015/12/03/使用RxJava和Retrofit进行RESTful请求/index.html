@@ -40,7 +40,7 @@ Retrofit
 
 
 推荐教程">
-<meta property="og:updated_time" content="2016-02-21T08:16:33.592Z">
+<meta property="og:updated_time" content="2016-02-21T08:41:26.045Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="RxJava && Retrofit 简化RESTful请求">
 <meta name="twitter:description" content="前言最近抽空了解了RxJava &amp;amp;&amp;amp; Retrofit 这两个库，然后正好我所在的微客工作室要写个签到的App。于是乎把最近学到的好玩的东西都加上了，恰逢博客开张，写篇博文庆祝一下。
@@ -201,7 +201,7 @@ Retrofit
 <ol>
 <li>在Application中进行初始化</li>
 </ol>
-<figure class="highlight aspectj"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">void</span> <span class="title">onCreate</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">super</span>.onCreate();</span><br><span class="line">    OkHttpClient okHttpClient = <span class="keyword">new</span> OkHttpClient();</span><br><span class="line">    <span class="comment">//OKHttp的使用</span></span><br><span class="line">    okHttpClient.networkInterceptors().add(<span class="keyword">new</span> Interceptor() &#123;</span><br><span class="line">            <span class="annotation">@Override</span></span><br><span class="line">            <span class="keyword">public</span> <span class="function">Response <span class="title">intercept</span><span class="params">(Chain chain)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> chain.<span class="keyword">proceed</span>(chain.request().newBuilder()</span><br><span class="line">                .header(KEY_BUILD_VERSION, BuildConfig.VERSION_NAME)</span><br><span class="line">                .build());</span><br><span class="line">            &#125;</span><br><span class="line">            &#125;);</span><br><span class="line">    <span class="comment">//初始化Gson</span></span><br><span class="line">    Gson gson = <span class="keyword">new</span> GsonBuilder()</span><br><span class="line">        .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)</span><br><span class="line">        .setDateFormat(DATE_FORMAT_PATTERN)</span><br><span class="line">        .create();</span><br><span class="line">    <span class="comment">//初始化Retrofit</span></span><br><span class="line">    retrofit = <span class="keyword">new</span> Retrofit.Builder()</span><br><span class="line">        .client(okHttpClient)</span><br><span class="line">        .addConverterFactory(GsonConverterFactory.create(gson))</span><br><span class="line">        .addCallAdapterFactory(RxJavaCallAdapterFactory.create())</span><br><span class="line">        .baseUrl(Api.BASE_URL)</span><br><span class="line">        .build();</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//返回Retrofit的API</span></span><br><span class="line"><span class="keyword">public</span> &lt;T&gt; <span class="function">T <span class="title">createApi</span><span class="params">(Class&lt;T&gt; service)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (!apis.containsKey(service)) &#123;</span><br><span class="line">        T instance = retrofit.create(service);</span><br><span class="line">        apis.put(service, instance);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//noinspection unchecked</span></span><br><span class="line">    <span class="keyword">return</span> (T) apis.get(service);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight aspectj"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">void</span> <span class="title">onCreate</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">super</span>.onCreate();</span><br><span class="line">    OkHttpClient okHttpClient = <span class="keyword">new</span> OkHttpClient();</span><br><span class="line">    <span class="comment">//OKHttp的使用</span></span><br><span class="line">    okHttpClient.networkInterceptors().add(<span class="keyword">new</span> Interceptor() &#123;</span><br><span class="line">            <span class="annotation">@Override</span></span><br><span class="line">            <span class="keyword">public</span> <span class="function">Response <span class="title">intercept</span><span class="params">(Chain chain)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">                <span class="keyword">return</span> chain.<span class="keyword">proceed</span>(chain.request().newBuilder()</span><br><span class="line">                           .header(KEY_BUILD_VERSION, BuildConfig.VERSION_NAME)</span><br><span class="line">                           .build());</span><br><span class="line">            &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">    <span class="comment">//初始化Gson</span></span><br><span class="line">    Gson gson = <span class="keyword">new</span> GsonBuilder()</span><br><span class="line">        .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)</span><br><span class="line">        .setDateFormat(DATE_FORMAT_PATTERN)</span><br><span class="line">        .create();</span><br><span class="line">    <span class="comment">//初始化Retrofit</span></span><br><span class="line">    retrofit = <span class="keyword">new</span> Retrofit.Builder()</span><br><span class="line">        .client(okHttpClient)</span><br><span class="line">        .addConverterFactory(GsonConverterFactory.create(gson))</span><br><span class="line">        .addCallAdapterFactory(RxJavaCallAdapterFactory.create())</span><br><span class="line">        .baseUrl(Api.BASE_URL)</span><br><span class="line">        .build();</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//返回Retrofit的API</span></span><br><span class="line"><span class="keyword">public</span> &lt;T&gt; <span class="function">T <span class="title">createApi</span><span class="params">(Class&lt;T&gt; service)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (!apis.containsKey(service)) &#123;</span><br><span class="line">        T instance = retrofit.create(service);</span><br><span class="line">        apis.put(service, instance);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//noinspection unchecked</span></span><br><span class="line">    <span class="keyword">return</span> (T) apis.get(service);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p><strong>同时Application对外提供静态实例和 Retrofit 实例的Getter（代码略）</strong></p>
 <ol>
 <li>在Activity中获取 <strong>Api</strong> 并绑定点击事件</li>
@@ -215,7 +215,7 @@ Retrofit
 
 
 
-    <a data-url="http://xhinliang.github.io/2015/12/03/使用RxJava和Retrofit进行RESTful请求/" data-id="cikwa64ew000qnvo8ia7m6l4o" class="article-share-link"><i class="fa fa-share"></i>分享到</a>
+    <a data-url="http://xhinliang.github.io/2015/12/03/使用RxJava和Retrofit进行RESTful请求/" data-id="cilj4043c000wy4o8vkzyuv4f" class="article-share-link"><i class="fa fa-share"></i>分享到</a>
 <script>
     (function ($) {
         $('body').on('click', function() {
@@ -410,6 +410,25 @@ Retrofit
                     <li>
                         
                         <div class="item-thumbnail">
+                            <a href="/2016/03/08/简明数据结构/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+    
+</a>
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/算法/">算法</a></p>
+                            <p class="item-title"><a href="/2016/03/08/简明数据结构/" class="title">简明数据结构</a></p>
+                            <p class="item-date"><time datetime="2016-03-08T05:28:29.000Z" itemprop="datePublished">2016-03-08</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
                             <a href="/2015/12/26/大三上读书流水/" class="thumbnail">
     
     
@@ -492,7 +511,7 @@ Retrofit
     <div class="widget-wrap widget-list">
         <h3 class="widget-title">分类</h3>
         <div class="widget">
-            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/生活/">生活</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/算法/">算法</a><span class="category-list-count">1</span></li></ul>
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/生活/">生活</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/算法/">算法</a><span class="category-list-count">2</span></li></ul>
         </div>
     </div>
 
@@ -502,7 +521,7 @@ Retrofit
     <div class="widget-wrap widget-list">
         <h3 class="widget-title">归档</h3>
         <div class="widget">
-            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">十二月 2015</a><span class="archive-list-count">4</span></li></ul>
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">十二月 2015</a><span class="archive-list-count">4</span></li></ul>
         </div>
     </div>
 
@@ -512,7 +531,7 @@ Retrofit
     <div class="widget-wrap widget-list">
         <h3 class="widget-title">标签</h3>
         <div class="widget">
-            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/ACM/">ACM</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/">Android</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/C/">C</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/C/">C++</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RxJava/">RxJava</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/算法/">算法</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/读书/">读书</a><span class="tag-list-count">1</span></li></ul>
+            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/ACM/">ACM</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/">Android</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/C/">C</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/C/">C++</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RxJava/">RxJava</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据结构/">数据结构</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/算法/">算法</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/读书/">读书</a><span class="tag-list-count">1</span></li></ul>
         </div>
     </div>
 
@@ -522,7 +541,7 @@ Retrofit
     <div class="widget-wrap widget-float">
         <h3 class="widget-title">标签云</h3>
         <div class="widget tagcloud">
-            <a href="/tags/ACM/" style="font-size: 10px;">ACM</a> <a href="/tags/Android/" style="font-size: 20px;">Android</a> <a href="/tags/C/" style="font-size: 10px;">C</a> <a href="/tags/C/" style="font-size: 10px;">C++</a> <a href="/tags/Java/" style="font-size: 10px;">Java</a> <a href="/tags/RxJava/" style="font-size: 10px;">RxJava</a> <a href="/tags/算法/" style="font-size: 10px;">算法</a> <a href="/tags/读书/" style="font-size: 10px;">读书</a>
+            <a href="/tags/ACM/" style="font-size: 10px;">ACM</a> <a href="/tags/Android/" style="font-size: 20px;">Android</a> <a href="/tags/C/" style="font-size: 20px;">C</a> <a href="/tags/C/" style="font-size: 10px;">C++</a> <a href="/tags/Java/" style="font-size: 10px;">Java</a> <a href="/tags/RxJava/" style="font-size: 10px;">RxJava</a> <a href="/tags/数据结构/" style="font-size: 10px;">数据结构</a> <a href="/tags/算法/" style="font-size: 20px;">算法</a> <a href="/tags/读书/" style="font-size: 10px;">读书</a>
         </div>
     </div>
 
