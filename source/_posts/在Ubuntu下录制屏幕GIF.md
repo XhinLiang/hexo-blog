@@ -1,7 +1,7 @@
 title: 在Ubuntu下录制屏幕GIF
-date: 2016-03-9 16:38:29
+date: 2016-03-8 13:28:29
 tags: [工具,Linux]
-categories: Linux
+categories: Android
 toc: true
 ---
 
@@ -42,4 +42,6 @@ sudo apt-get install xdotool
 ``` bash
 xdotool getmouselocation
 ```
+
+获得了坐标，**byzanz** 的使用我也不赘述了。
 
