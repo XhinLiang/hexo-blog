@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    
+    <title>RxJava &amp;&amp; Retrofit 简化RESTful请求 | XhinLiang</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+        <meta name="keywords" content="Android" />
+    
+    <meta name="description" content="前言最近抽空了解了RxJava &amp;amp;&amp;amp; Retrofit 这两个库，然后正好我所在的微客工作室要写个签到的App。于是乎把最近学到的好玩的东西都加上了，恰逢博客开张，写篇博文庆祝一下。
+简介
+RxJava
+
+一个在 Java VM 上使用可观测的序列来组成异步的、基于事件的程序的库
+
+
+Retrofit
+
+一个 Android 平台上的类型安全的 REST 客户端。
+
+
+
+推荐教程">
+<meta property="og:type" content="article">
+<meta property="og:title" content="RxJava && Retrofit 简化RESTful请求">
+<meta property="og:url" content="http://xhinliang.github.io/2015/12/03/RxJava_and_Retrofit/index.html">
+<meta property="og:site_name" content="XhinLiang">
+<meta property="og:description" content="前言最近抽空了解了RxJava &amp;amp;&amp;amp; Retrofit 这两个库，然后正好我所在的微客工作室要写个签到的App。于是乎把最近学到的好玩的东西都加上了，恰逢博客开张，写篇博文庆祝一下。
+简介
+RxJava
+
+一个在 Java VM 上使用可观测的序列来组成异步的、基于事件的程序的库
+
+
+Retrofit
+
+一个 Android 平台上的类型安全的 REST 客户端。
+
+
+
+推荐教程">
+<meta property="og:updated_time" content="2016-02-21T08:41:26.045Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="RxJava && Retrofit 简化RESTful请求">
+<meta name="twitter:description" content="前言最近抽空了解了RxJava &amp;amp;&amp;amp; Retrofit 这两个库，然后正好我所在的微客工作室要写个签到的App。于是乎把最近学到的好玩的东西都加上了，恰逢博客开张，写篇博文庆祝一下。
+简介
+RxJava
+
+一个在 Java VM 上使用可观测的序列来组成异步的、基于事件的程序的库
+
+
+Retrofit
+
+一个 Android 平台上的类型安全的 REST 客户端。
+
+
+
+推荐教程">
+    
+
+    
+
+    
+        <link rel="icon" href="/uploads/avatar.png" />
+    
+
+    <link rel="stylesheet" href="/vendor/font-awesome/css/font-awesome.min.css" type="text/css">
+    <link rel="stylesheet" href="/vendor/titillium-web/styles.css" type="text/css">
+    <link rel="stylesheet" href="/vendor/source-code-pro/styles.css" type="text/css">
+
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+    <script src="/vendor/jquery/2.0.3/jquery.min.js" type="text/javascript"></script>
+    
+    
+        <link rel="stylesheet" href="/vendor/fancybox/jquery.fancybox.css" type="text/css">
+    
+    
+        <link rel="stylesheet" href="/vendor/scrollLoading/style.css" type="text/css">
+    
+    
+    
+
+</head>
+
+<body>
+    <div id="wrap">
+        <header id="header">
+    <div id="header-outer" class="outer">
+        <div class="container">
+            <div class="container-inner">
+                <div id="header-title">
+                    <h1 class="logo-wrap">
+                        <a href="/" class="logo"></a>
+                    </h1>
+                    
+                        <h2 class="subtitle-wrap">
+                            <p class="subtitle">写段优雅的代码，泡个漂亮的妹子</p>
+                        </h2>
+                    
+                </div>
+                <div id="header-inner" class="nav-container">
+                    <a id="main-nav-toggle" class="nav-icon fa fa-bars"></a>
+                    <div class="nav-container-inner">
+                        <ul id="main-nav">
+                            
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/">主页</a>
+                                </li>
+                            
+                                        <ul class="main-nav-list"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Android/">Android</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/生活/">生活</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/算法/">算法</a></li></ul>
+                                    
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/about/index.html">关于</a>
+                                </li>
+                            
+                        </ul>
+                        <nav id="sub-nav">
+                            <div id="search-form-wrap">
+
+    <div class="search-form">
+        <input type="text" class="st-default-search-input search-form-input" placeholder="搜索" />
+    </div>
+    <script type="text/javascript">
+(function(w,d,t,u,n,s,e) {w['SwiftypeObject']=n;w[n]=w[n]||function() {
+(w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+})(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+_st('install','3MHy44anUbqi-KpQvFB8','2.0.0');
+</script>
+<style>
+    .st-ui-injected-overlay-container,
+    .st-ui-injected-overlay-container *:not(select) {
+        font-family: inherit !important;
+    }
+    section.st-ui-content.st-search-results a.st-ui-result .st-ui-type-heading {
+        color: #3b8dbd !important;
+    }
+    .st-ui-injected-overlay-container .st-ui-header input[type="text"]:focus {
+        border-bottom: 2px solid #3b8dbd;
+    }
+    .st-ui-injected-overlay-container .st-ui-footer a.st-ui-pagination-link {
+        color: #3b8dbd;
+    }
+    .st-ui-injected-overlay-container .st-ui-footer a.st-ui-pagination-link span.st-ui-arrow {
+        border-color: #3b8dbd;
+    }
+</style>
+
+</div>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+        <div class="container">
+            <div class="main-body container-inner">
+                <div class="main-body-inner">
+                    <section id="main">
+                        <div class="main-body-header">
+    <h1 class="header">
+    
+    <a class="page-title-link" href="/categories/Android/">Android</a>
+    </h1>
+</div>
+                        <div class="main-body-content">
+                            <article id="post-RxJava_and_Retrofit" class="article article-single article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+        RxJava &amp;&amp; Retrofit 简化RESTful请求
+        </h1>
+    
+
+            </header>
+        
+        <div class="article-subtitle">
+            <a href="/2015/12/03/RxJava_and_Retrofit/" class="article-date">
+    <time datetime="2015-12-03T08:55:29.000Z" itemprop="datePublished">2015-12-03</time>
+</a>
+            
+    <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
+
+        </div>
+        <div class="article-entry" itemprop="articleBody">
+            <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>最近抽空了解了RxJava &amp;&amp; Retrofit 这两个库，然后正好我所在的<a href="wecanstudio.me">微客工作室</a>要写个签到的App。于是乎把最近学到的好玩的东西都加上了，恰逢博客开张，写篇博文庆祝一下。</p>
+<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><ol>
+<li><p><a href="https://github.com/ReactiveX/RxJava" target="_blank" rel="external">RxJava</a></p>
+<blockquote>
+<p>一个在 Java VM 上使用可观测的序列来组成异步的、基于事件的程序的库</p>
+</blockquote>
+</li>
+<li><p><a href="https://square.github.io/retrofit" target="_blank" rel="external">Retrofit</a></p>
+<blockquote>
+<p>一个 Android 平台上的类型安全的 REST 客户端。</p>
+</blockquote>
+</li>
+</ol>
+<h2 id="推荐教程"><a href="#推荐教程" class="headerlink" title="推荐教程"></a>推荐教程</h2><ul>
+<li><a href="http://gank.io/post/560e15be2dca930e00da1083" target="_blank" rel="external">给 Android 开发者的 RxJava 详解</a></li>
+<li><a href="https://realm.io/cn/news/droidcon-jake-wharton-simple-http-retrofit-2/" target="_blank" rel="external">用 Retrofit 2 简化 HTTP 请求</a></li>
+</ul>
+<h2 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h2><ol>
+<li>添加依赖</li>
+</ol>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">compile</span> <span class="string">'io.reactivex:rxjava:1.0.14'</span> </span><br><span class="line"><span class="keyword">compile</span> <span class="string">'io.reactivex:rxandroid:1.0.1'</span></span><br><span class="line"><span class="keyword">compile</span> <span class="string">'com.google.code.gson:gson:2.4'</span></span><br><span class="line"><span class="keyword">compile</span> <span class="string">'com.squareup.okhttp:okhttp:2.5.0'</span></span><br><span class="line"><span class="keyword">compile</span> <span class="string">'com.squareup.retrofit:retrofit:2.0.0-beta2'</span></span><br><span class="line"><span class="keyword">compile</span> <span class="string">'com.squareup.retrofit:converter-gson:2.0.0-beta2'</span></span><br><span class="line"><span class="keyword">compile</span> <span class="string">'com.squareup.retrofit:adapter-rxjava:2.0.0-beta2'</span></span><br><span class="line"><span class="keyword">compile</span> <span class="string">'com.trello:rxlifecycle:0.3.0'</span></span><br><span class="line"><span class="keyword">compile</span> <span class="string">'com.trello:rxlifecycle-components:0.3.0'</span></span><br><span class="line"><span class="keyword">compile</span> <span class="string">'com.jakewharton.rxbinding:rxbinding-support-v4:0.2.0'</span></span><br><span class="line"><span class="keyword">compile</span> <span class="string">'com.jakewharton.rxbinding:rxbinding-appcompat-v7:0.2.0'</span></span><br><span class="line"><span class="keyword">compile</span> <span class="string">'com.jakewharton.rxbinding:rxbinding-design:0.2.0'</span></span><br></pre></td></tr></table></figure>
+<p><strong>看到这么多的依赖，大家不要慌张。其实有很多只是同一个库的不同版本，例如RxBinding这个库就对Support-v4 AppCompat-v7 等四个包做了匹配，如果你的项目中没有使用Design包或者你不需要做Design包控件的RxBinding，你也就不需要添加最后一行的依赖</strong></p>
+<ol>
+<li>阅读<a href="https://github.com/XhinLiang/Studio/blob/master/Api.md" target="_blank" rel="external">接口文档</a></li>
+</ol>
+<p><strong>我们可以看到这些接口都是典型的RESTful接口这也正中Retrofit的下怀，时间和精力有限，我就只拿登录这个个接口举例，剩余的代码大家如果感兴趣可以去看<a href="https://github.com/XhinLiang/Studio" target="_blank" rel="external">源代码</a></strong></p>
+<h2 id="正式开始"><a href="#正式开始" class="headerlink" title="正式开始"></a>正式开始</h2><ol>
+<li>写Api接口</li>
+</ol>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">public <span class="class"><span class="keyword">interface</span> <span class="title">Api</span> </span>&#123;</span><br><span class="line">    <span class="built_in">String</span> BASE_URL = <span class="string">"http://121.42.209.19/RestfulApi/index.php/"</span>;</span><br><span class="line">    <span class="annotation">@GET</span>(<span class="string">"api/users"</span>)</span><br><span class="line">        Observable&lt;User&gt; login(<span class="annotation">@Query</span>(<span class="string">"name"</span>) <span class="built_in">String</span> name, <span class="annotation">@Query</span>(<span class="string">"phone"</span>) <span class="built_in">String</span> phone);</span><br><span class="line">    <span class="comment">//...MORE...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>因为我们要使用RxJava的Observable来处理数据，所以定义的时候写上Observable的泛型即可</strong></p>
+<ol>
+<li>写 <strong>POJO</strong> ,事实上就是第一步里面出现的 <strong>User</strong>，<strong>BaseData</strong> , <strong>RegisterBody</strong></li>
+</ol>
+<figure class="highlight processing"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> class User &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="built_in">int</span> position;</span><br><span class="line">    <span class="keyword">public</span> <span class="built_in">int</span> group_name;</span><br><span class="line">    <span class="keyword">public</span> <span class="built_in">int</span> id;</span><br><span class="line">    <span class="keyword">public</span> <span class="built_in">int</span> sex;</span><br><span class="line">    <span class="keyword">public</span> <span class="built_in">int</span> status;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">String</span> phone;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">String</span> sign_date;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">String</span> name;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">String</span> imgurl;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">String</span> description;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">String</span>[] groups = &#123;</span><br><span class="line">        <span class="string">"组别"</span>, <span class="string">"前端"</span>, <span class="string">"后台"</span>, <span class="string">"移动"</span>, <span class="string">"产品"</span>, <span class="string">"设计"</span>, <span class="string">"YOU KNOW NOTHING"</span></span><br><span class="line">    &#125;;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">String</span>[] positions = &#123;</span><br><span class="line">        <span class="string">"职位"</span>, <span class="string">"组员"</span>, <span class="string">"组长"</span>, <span class="string">"室长"</span>, <span class="string">"John Snow"</span></span><br><span class="line">    &#125;;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">String</span>[] sexs = &#123;</span><br><span class="line">        <span class="string">"性别"</span>, <span class="string">"男"</span>, <span class="string">"女"</span></span><br><span class="line">    &#125;;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="built_in">int</span> VALUE_STATUS_SIGN = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="built_in">int</span> VALUE_STATUS_UNSIGN = <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>这里篇幅有限，贴出来的代码可能有所简化，如果大家有时间不妨去看看源代码</strong></p>
+<ol>
+<li>在Application中进行初始化</li>
+</ol>
+<figure class="highlight aspectj"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">void</span> <span class="title">onCreate</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">super</span>.onCreate();</span><br><span class="line">    OkHttpClient okHttpClient = <span class="keyword">new</span> OkHttpClient();</span><br><span class="line">    <span class="comment">//OKHttp的使用</span></span><br><span class="line">    okHttpClient.networkInterceptors().add(<span class="keyword">new</span> Interceptor() &#123;</span><br><span class="line">            <span class="annotation">@Override</span></span><br><span class="line">            <span class="keyword">public</span> <span class="function">Response <span class="title">intercept</span><span class="params">(Chain chain)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">                <span class="keyword">return</span> chain.<span class="keyword">proceed</span>(chain.request().newBuilder()</span><br><span class="line">                           .header(KEY_BUILD_VERSION, BuildConfig.VERSION_NAME)</span><br><span class="line">                           .build());</span><br><span class="line">            &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">    <span class="comment">//初始化Gson</span></span><br><span class="line">    Gson gson = <span class="keyword">new</span> GsonBuilder()</span><br><span class="line">        .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)</span><br><span class="line">        .setDateFormat(DATE_FORMAT_PATTERN)</span><br><span class="line">        .create();</span><br><span class="line">    <span class="comment">//初始化Retrofit</span></span><br><span class="line">    retrofit = <span class="keyword">new</span> Retrofit.Builder()</span><br><span class="line">        .client(okHttpClient)</span><br><span class="line">        .addConverterFactory(GsonConverterFactory.create(gson))</span><br><span class="line">        .addCallAdapterFactory(RxJavaCallAdapterFactory.create())</span><br><span class="line">        .baseUrl(Api.BASE_URL)</span><br><span class="line">        .build();</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//返回Retrofit的API</span></span><br><span class="line"><span class="keyword">public</span> &lt;T&gt; <span class="function">T <span class="title">createApi</span><span class="params">(Class&lt;T&gt; service)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (!apis.containsKey(service)) &#123;</span><br><span class="line">        T instance = retrofit.create(service);</span><br><span class="line">        apis.put(service, instance);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//noinspection unchecked</span></span><br><span class="line">    <span class="keyword">return</span> (T) apis.get(service);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>同时Application对外提供静态实例和 Retrofit 实例的Getter（代码略）</strong></p>
+<ol>
+<li>在Activity中获取 <strong>Api</strong> 并绑定点击事件</li>
+</ol>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">    super.onCreate(savedInstanceState);</span><br><span class="line">    binding = DataBindingUtil.setContentView(<span class="keyword">this</span>, R.layout.activity_login);</span><br><span class="line">    setSupportActionBar(binding.toolbar);</span><br><span class="line">    api = App.from(<span class="keyword">this</span>).createApi(Api.<span class="keyword">class</span>);</span><br><span class="line">    ProgressDialog pd = <span class="keyword">new</span> ProgressDialog(<span class="keyword">this</span>);</span><br><span class="line">    Observable.Transformer&lt;User, User&gt; networkingIndicator = RxNetworking.bindConnecting(pd);</span><br><span class="line">    binding.setName(PreferenceHelper.getInstance(<span class="keyword">this</span>).getString(App.KEY_PREFERENCE_USER, getString(R.<span class="built_in">string</span>.nothing)));</span><br><span class="line">    binding.setPhone(PreferenceHelper.getInstance(<span class="keyword">this</span>).getString(App.KEY_PREFERENCE_PHONE, getString(R.<span class="built_in">string</span>.nothing)));</span><br><span class="line">    observableConnect = Observable</span><br><span class="line">        <span class="comment">//defer操作符是直到有订阅者订阅时，才通过Observable的工厂方法创建Observable并执行</span></span><br><span class="line">        <span class="comment">//defer操作符能够保证Observable的状态是最新的</span></span><br><span class="line">        .defer(<span class="keyword">new</span> Func0&lt;Observable&lt;User&gt;&gt;() &#123;</span><br><span class="line">                @Override</span><br><span class="line">                <span class="keyword">public</span> Observable&lt;User&gt; call() &#123;</span><br><span class="line">                <span class="keyword">return</span> api.login(binding.etName.getText().toString(), binding.etPhone.getText().toString());</span><br><span class="line">                &#125;</span><br><span class="line">                &#125;)</span><br><span class="line">    .subscribeOn(Schedulers.io())</span><br><span class="line">        .observeOn(AndroidSchedulers.mainThread())</span><br><span class="line">        .compose(networkingIndicator);</span><br><span class="line">    RxView.clickEvents(binding.btnLogin)</span><br><span class="line">        .filter(<span class="keyword">new</span> EditTextFilter(binding.etName, R.<span class="built_in">string</span>.name_no_input))</span><br><span class="line">        .filter(<span class="keyword">new</span> EditTextFilter(binding.etPhone, R.<span class="built_in">string</span>.phone_no_input))</span><br><span class="line">        .compose(<span class="keyword">this</span>.&lt;ViewClickEvent&gt;bindToLifecycle())</span><br><span class="line">        .subscribe(<span class="keyword">new</span> Action1&lt;ViewClickEvent&gt;() &#123;</span><br><span class="line">                @<span class="function">Override</span><br><span class="line">                <span class="keyword">public</span> <span class="keyword">void</span> <span class="title">call</span><span class="params">(ViewClickEvent viewClickEvent)</span> </span>&#123;</span><br><span class="line">                login();</span><br><span class="line">                &#125;</span><br><span class="line">                &#125;);</span><br><span class="line">    setRxClick(binding.btnRegister)</span><br><span class="line">        .compose(<span class="keyword">this</span>.&lt;ViewClickEvent&gt;bindToLifecycle())</span><br><span class="line">        .subscribe(<span class="keyword">new</span> Action1&lt;ViewClickEvent&gt;() &#123;</span><br><span class="line">                @<span class="function">Override</span><br><span class="line">                <span class="keyword">public</span> <span class="keyword">void</span> <span class="title">call</span><span class="params">(ViewClickEvent viewClickEvent)</span> </span>&#123;</span><br><span class="line">                startActivity(<span class="keyword">new</span> Intent(LoginActivity.<span class="keyword">this</span>, RegisterActivity.<span class="keyword">class</span>));</span><br><span class="line">                &#125;</span><br><span class="line">                &#125;);</span><br><span class="line">    setupUmengUpdate();</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">login</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    observableConnect</span><br><span class="line">        .compose(<span class="keyword">this</span>.&lt;User&gt;bindToLifecycle())</span><br><span class="line">        .subscribe(<span class="keyword">new</span> Action1&lt;User&gt;() &#123;</span><br><span class="line">                @<span class="function">Override</span><br><span class="line">                <span class="keyword">public</span> <span class="keyword">void</span> <span class="title">call</span><span class="params">(User user)</span> </span>&#123;</span><br><span class="line">                PreferenceHelper.getInstance(LoginActivity.<span class="keyword">this</span>).saveParam(App.KEY_PREFERENCE_USER, binding.etName.getText().toString());</span><br><span class="line">                PreferenceHelper.getInstance(LoginActivity.<span class="keyword">this</span>).saveParam(App.KEY_PREFERENCE_PHONE, binding.etPhone.getText().toString());</span><br><span class="line">                startActivity(<span class="keyword">new</span> Intent(LoginActivity.<span class="keyword">this</span>, MainActivity.<span class="keyword">class</span>).putExtra(MainActivity.KEY_USER, user));</span><br><span class="line">                finish();</span><br><span class="line">                &#125;</span><br><span class="line">                &#125;, <span class="keyword">new</span> Action1&lt;Throwable&gt;() &#123;</span><br><span class="line">                @<span class="function">Override</span><br><span class="line">                <span class="keyword">public</span> <span class="keyword">void</span> <span class="title">call</span><span class="params">(Throwable throwable)</span> </span>&#123;</span><br><span class="line">                <span class="comment">//事实上在code != 200 的时候 , 可以获取响应的body.</span></span><br><span class="line">                <span class="keyword">if</span> (throwable instanceof HttpException)&#123;</span><br><span class="line">                <span class="keyword">try</span> &#123;</span><br><span class="line">                showSimpleDialog(R.<span class="built_in">string</span>.login_fail, ((HttpException) throwable).response().errorBody().<span class="built_in">string</span>());</span><br><span class="line">                &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">                showSimpleDialog(R.<span class="built_in">string</span>.login_fail,throwable.getMessage());</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">return</span>;</span><br><span class="line">                &#125;</span><br><span class="line">                showSimpleDialog(R.<span class="built_in">string</span>.login_fail,throwable.getMessage());</span><br><span class="line">                &#125;</span><br><span class="line">                &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>在博客里总是不适合贴那么多代码的，或者说我的组织能力太差了，贴出来的代码完全不知所云。如果大家有兴趣，还请大家到我的GitHub逛一逛</strong></p>
+
+        </div>
+        <footer class="article-footer">
+            
+
+
+
+    <a data-url="http://xhinliang.github.io/2015/12/03/RxJava_and_Retrofit/" data-id="cim1fb9op000fjuo89p4b5bl6" class="article-share-link"><i class="fa fa-share"></i>分享到</a>
+<script>
+    (function ($) {
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+        </footer>
+    </div>
+</article>
+
+    <section id="comments">
+    
+        
+    <div class="ds-thread" data-thread-key="2015/12/03/RxJava_and_Retrofit/" data-title="RxJava &amp;&amp; Retrofit 简化RESTful请求" data-url="http://xhinliang.github.io/2015/12/03/RxJava_and_Retrofit/"></div>
+    <style>
+        #ds-thread #ds-reset .ds-textarea-wrapper {
+            background: none;
+        }
+        #ds-reset .ds-avatar img {
+            box-shadow: none;
+        }
+        #ds-reset .ds-gradient-bg {
+            background: #f7f7f7;
+        }
+        #ds-thread #ds-reset li.ds-tab a {
+            border-radius: 3px;
+        }
+        #ds-thread #ds-reset .ds-post-button {
+            color: white;
+            border: none;
+            box-shadow: none;
+            background: #d32;
+            text-shadow: none;
+            font-weight: normal;
+            font-family: 'Microsoft Yahei';
+        }
+        #ds-thread #ds-reset .ds-post-button:hover {
+            color: white;
+            background: #DE594C;
+        }
+        #ds-thread #ds-reset .ds-post-button:active {
+            background: #d32;
+        }
+        #ds-smilies-tooltip ul.ds-smilies-tabs li a.ds-current {
+            color: white;
+            background: #d32;
+            box-shadow: none;
+            text-shadow: none;
+            font-weight: normal;
+        }
+    </style>
+
+    
+    </section>
+
+                        </div>
+                    </section>
+                    <aside id="sidebar">
+    <a class="sidebar-toggle" title="Expand Sidebar"><i class="toggle icon"></i></a>
+    <div class="sidebar-top">
+        <p>关注我 :</p>
+        <ul class="social-links">
+            
+                
+                <li>
+                    <a class="social-tooltip" title="twitter" href="https://twitter.com/xhinliang" target="_blank">
+                        <i class="icon fa fa-twitter"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="facebook" href="https://www.facebook.com/xhin.liang" target="_blank">
+                        <i class="icon fa fa-facebook"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="google-plus" href="https://plus.google.com/105647538121556950461" target="_blank">
+                        <i class="icon fa fa-google-plus"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="github" href="https://github.com/XhinLiang" target="_blank">
+                        <i class="icon fa fa-github"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="weibo" href="http://weibo.com/xhinliang" target="_blank">
+                        <i class="icon fa fa-weibo"></i>
+                    </a>
+                </li>
+                
+            
+        </ul>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/2015/12/21/Refactor_of_RxJava/" id="article-nav-newer" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">下一篇</strong>
+        <p class="article-nav-title">
+        
+            记一次使用RxJava重构的经历
+        
+        </p>
+        <i class="icon fa fa-chevron-right" id="icon-chevron-right"></i>
+    </a>
+    
+    
+        <a href="/2015/12/03/Power_of_integer/" id="article-nav-older" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">上一篇</strong>
+        <p class="article-nav-title">使用二分法求整数幂</p>
+        <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
+        </a>
+    
+</nav>
+
+    
+    <div class="widgets-container">
+        
+            
+                
+    <div class="widget-wrap">
+        <h3 class="widget-title">最新文章</h3>
+        <div class="widget">
+            <ul id="recent-post" class="">
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2016/03/19/Pointer_problem_in_C/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+    
+</a>
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2016/03/19/Pointer_problem_in_C/" class="title"></a></p>
+                            <p class="item-date"><time datetime="2016-03-19T00:34:07.444Z" itemprop="datePublished">2016-03-19</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2016/03/11/Think_about_Preference/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/uploads/Think_about_Preference/original_preference.gif)" alt="Android™ 中设置界面的思考" class="thumbnail-image"></span>
+    
+    
+</a>
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Android/">Android</a></p>
+                            <p class="item-title"><a href="/2016/03/11/Think_about_Preference/" class="title">Android™ 中设置界面的思考</a></p>
+                            <p class="item-date"><time datetime="2016-03-11T03:55:29.000Z" itemprop="datePublished">2016-03-11</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2016/03/09/Making_GIF_in_Ubuntu/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+    
+</a>
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Android/">Android</a></p>
+                            <p class="item-title"><a href="/2016/03/09/Making_GIF_in_Ubuntu/" class="title">在Ubuntu下录制屏幕GIF</a></p>
+                            <p class="item-date"><time datetime="2016-03-09T09:28:29.000Z" itemprop="datePublished">2016-03-09</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2016/03/08/Clear_data_structure/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+    
+</a>
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/算法/">算法</a></p>
+                            <p class="item-title"><a href="/2016/03/08/Clear_data_structure/" class="title">简明数据结构</a></p>
+                            <p class="item-date"><time datetime="2016-03-08T05:28:29.000Z" itemprop="datePublished">2016-03-08</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2015/12/26/Reading_in_2015/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+    
+</a>
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/生活/">生活</a></p>
+                            <p class="item-title"><a href="/2015/12/26/Reading_in_2015/" class="title">大三上读书流水</a></p>
+                            <p class="item-date"><time datetime="2015-12-26T14:36:29.000Z" itemprop="datePublished">2015-12-26</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">分类</h3>
+        <div class="widget">
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/生活/">生活</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/算法/">算法</a><span class="category-list-count">2</span></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">归档</h3>
+        <div class="widget">
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">十二月 2015</a><span class="archive-list-count">4</span></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">标签</h3>
+        <div class="widget">
+            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/ACM/">ACM</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/">Android</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/C/">C</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/C/">C++</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/">Linux</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RxJava/">RxJava</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/工具/">工具</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据结构/">数据结构</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/算法/">算法</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/读书/">读书</a><span class="tag-list-count">1</span></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-float">
+        <h3 class="widget-title">标签云</h3>
+        <div class="widget tagcloud">
+            <a href="/tags/ACM/" style="font-size: 10px;">ACM</a> <a href="/tags/Android/" style="font-size: 20px;">Android</a> <a href="/tags/C/" style="font-size: 15px;">C</a> <a href="/tags/C/" style="font-size: 10px;">C++</a> <a href="/tags/Java/" style="font-size: 10px;">Java</a> <a href="/tags/Linux/" style="font-size: 10px;">Linux</a> <a href="/tags/RxJava/" style="font-size: 10px;">RxJava</a> <a href="/tags/工具/" style="font-size: 10px;">工具</a> <a href="/tags/数据结构/" style="font-size: 10px;">数据结构</a> <a href="/tags/算法/" style="font-size: 15px;">算法</a> <a href="/tags/读书/" style="font-size: 10px;">读书</a>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">链接</h3>
+        <div class="widget">
+            <ul>
+                
+                    <li>
+                        <a href="http://www.jianshu.com/users/df40282480b4/latest_articles">小鄧子</a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+
+            
+        
+    </div>
+</aside>
+                </div>
+            </div>
+        </div>
+        <footer id="footer">
+    <div class="container">
+        <div class="container-inner">
+            <a id="back-to-top" href="javascript:;"><i class="icon fa fa-angle-up"></i></a>
+            <div class="credit">
+                <h1 class="logo-wrap">
+                    <a href="/" class="logo"></a>
+                </h1>
+                <p>&copy; 2016 Xhin Liang</p>
+                <p>Powered by <a href="//hexo.io/" target="_blank">Hexo</a>. Theme by <a href="//github.com/ppoffice" target="_blank">PPOffice</a></p>
+            </div>
+        </div>
+    </div>
+</footer>
+        
+    
+    <script type="text/javascript">
+    var duoshuoQuery = {short_name:'xhinliang'};
+    (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0]
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+    </script>
+
+
+
+    
+        <script src="/vendor/fancybox/jquery.fancybox.pack.js" type="text/javascript"></script>
+    
+
+    
+        <script src="/vendor/scrollLoading/jquery.scrollLoading.js" type="text/javascript"></script>
+        <script src="/vendor/scrollLoading/main.js" type="text/javascript"></script>
+    
+
+
+<!-- Custom Scripts -->
+<script src="/js/main.js" type="text/javascript"></script>
+
+    </div>
+</body>
+</html>
