@@ -134,7 +134,7 @@ preferences.getString("preference_key_alert_timess", "");
 ```
 注意这里跟官方的差别有点大，其中  **entry_arr** 是展示给用户的那个数组，而 **value_arr** 这个参数被我砍掉了。因为我觉得像官方一样把整个 **value String** 集合保存在 **SharePreference** 里是十分不优雅的。
 
-我选择了另一种方式，将用户选择的 **entry** 的下标用 **int** 保存起来。
+我选择了另一种方式，将用户选择的 **entry** 的下标用 **int** 保存起来（这也就意味着，多选框的选项不能超过32个）。
 
 也就是说，在用户选择了一个 **entry** 之后，我们只能通 **SharePreference** 获取到的一个 **int** ，这个 **int** 的每一个二进制位的 **0** 或 **1** 就代表了对应下标的选项的选择与否，为了减少二进制操作的麻烦，这里还提供了一个静态方法 **MultiSelectListPreference.getSetByBit** 可以将获得的 **int** 转换为对应的 **Set** ，这个 **Set** 里面包含了被选中的选项的下标。
 

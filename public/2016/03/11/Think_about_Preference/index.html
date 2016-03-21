@@ -17,7 +17,7 @@
 <meta property="og:description" content="引言在 Android™ 中大部分应用都需要一个 系统设置 界面，有很多开发者（或者开发组）都喜欢自己做一个 Activity 或者 Fragment 作为设置界面。但是谷歌本来就为 Android™ 的设置界面提供了一个解决方案，那就是 PreferenceFragment（PreferenceActivity 已经不推荐使用）。
 遗憾的是，由于 Android™ 设备的碎片化，同样的代码，在不">
 <meta property="og:image" content="http://xhinliang.github.io/uploads/Think_about_Preference/original_preference.gif">
-<meta property="og:updated_time" content="2016-03-21T03:18:30.438Z">
+<meta property="og:updated_time" content="2016-03-21T03:28:55.358Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Android™ 中设置界面的思考">
 <meta name="twitter:description" content="引言在 Android™ 中大部分应用都需要一个 系统设置 界面，有很多开发者（或者开发组）都喜欢自己做一个 Activity 或者 Fragment 作为设置界面。但是谷歌本来就为 Android™ 的设置界面提供了一个解决方案，那就是 PreferenceFragment（PreferenceActivity 已经不推荐使用）。
@@ -179,7 +179,7 @@ _st('install','3MHy44anUbqi-KpQvFB8','2.0.0');
 <p>对于 <strong>MultiSelectListPreference</strong>，具体是这个样子的</p>
 <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="title">io.github.xhinliang.mdpreference.MultiSelectListPreference</span></span><br><span class="line">    <span class="attribute">android:key</span>=<span class="value">"preference_key_alert_timeddwexss"</span></span><br><span class="line">    <span class="attribute">android:summary</span>=<span class="value">"Select alert time"</span></span><br><span class="line">    <span class="attribute">android:title</span>=<span class="value">"Alert time"</span></span><br><span class="line">    <span class="attribute">app:entry_arr</span>=<span class="value">"@array/alert_time_entry"</span> /&gt;</span></span><br></pre></td></tr></table></figure>
 <p>注意这里跟官方的差别有点大，其中  <strong>entry_arr</strong> 是展示给用户的那个数组，而 <strong>value_arr</strong> 这个参数被我砍掉了。因为我觉得像官方一样把整个 <strong>value String</strong> 集合保存在 <strong>SharePreference</strong> 里是十分不优雅的。</p>
-<p>我选择了另一种方式，将用户选择的 <strong>entry</strong> 的下标用 <strong>int</strong> 保存起来。</p>
+<p>我选择了另一种方式，将用户选择的 <strong>entry</strong> 的下标用 <strong>int</strong> 保存起来（这也就意味着，多选框的选项不能超过32个）。</p>
 <p>也就是说，在用户选择了一个 <strong>entry</strong> 之后，我们只能通 <strong>SharePreference</strong> 获取到的一个 <strong>int</strong> ，这个 <strong>int</strong> 的每一个二进制位的 <strong>0</strong> 或 <strong>1</strong> 就代表了对应下标的选项的选择与否，为了减少二进制操作的麻烦，这里还提供了一个静态方法 <strong>MultiSelectListPreference.getSetByBit</strong> 可以将获得的 <strong>int</strong> 转换为对应的 <strong>Set</strong> ，这个 <strong>Set</strong> 里面包含了被选中的选项的下标。</p>
 <p>示例代码如下<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> bit = preferences.getInt(<span class="string">"key_multi"</span>,<span class="number">0</span>);</span><br><span class="line">Set&lt;Integer&gt; set = MultiSelectListPreference.getSetByBit(bit);</span><br></pre></td></tr></table></figure></p>
 <h3 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h3><p>为什么在官方的实现里要使用 <strong>entry + value</strong> 这样的方案呢，事实上使用下标来代表是否选择，不是更加优雅吗？（事实上我有想把 <strong>ListPreference</strong> 里的方案也改掉的冲动）</p>
@@ -191,7 +191,7 @@ _st('install','3MHy44anUbqi-KpQvFB8','2.0.0');
 
 
 
-    <a data-url="http://xhinliang.github.io/2016/03/11/Think_about_Preference/" data-id="cim1fb9om000ajuo8cncvun6g" class="article-share-link"><i class="fa fa-share"></i>分享到</a>
+    <a data-url="http://xhinliang.github.io/2016/03/11/Think_about_Preference/" data-id="cim1fo8cw000axdo8qggfjnrh" class="article-share-link"><i class="fa fa-share"></i>分享到</a>
 <script>
     (function ($) {
         $('body').on('click', function() {
@@ -354,16 +354,6 @@ _st('install','3MHy44anUbqi-KpQvFB8','2.0.0');
         
 <nav id="article-nav">
     
-        <a href="/2016/03/19/Pointer_problem_in_C/" id="article-nav-newer" class="article-nav-link-wrap">
-        <strong class="article-nav-caption">下一篇</strong>
-        <p class="article-nav-title">
-        
-            (no title)
-        
-        </p>
-        <i class="icon fa fa-chevron-right" id="icon-chevron-right"></i>
-    </a>
-    
     
         <a href="/2016/03/09/Making_GIF_in_Ubuntu/" id="article-nav-older" class="article-nav-link-wrap">
         <strong class="article-nav-caption">上一篇</strong>
@@ -382,25 +372,6 @@ _st('install','3MHy44anUbqi-KpQvFB8','2.0.0');
         <h3 class="widget-title">最新文章</h3>
         <div class="widget">
             <ul id="recent-post" class="">
-                
-                    <li>
-                        
-                        <div class="item-thumbnail">
-                            <a href="/2016/03/19/Pointer_problem_in_C/" class="thumbnail">
-    
-    
-        <span class="thumbnail-image thumbnail-none"></span>
-    
-    
-</a>
-                        </div>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"></p>
-                            <p class="item-title"><a href="/2016/03/19/Pointer_problem_in_C/" class="title"></a></p>
-                            <p class="item-date"><time datetime="2016-03-19T00:34:07.444Z" itemprop="datePublished">2016-03-19</time></p>
-                        </div>
-                    </li>
                 
                     <li>
                         
@@ -478,6 +449,25 @@ _st('install','3MHy44anUbqi-KpQvFB8','2.0.0');
                         </div>
                     </li>
                 
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2015/12/21/Refactor_of_RxJava/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+    
+</a>
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Android/">Android</a></p>
+                            <p class="item-title"><a href="/2015/12/21/Refactor_of_RxJava/" class="title">记一次使用RxJava重构的经历</a></p>
+                            <p class="item-date"><time datetime="2015-12-21T00:55:29.000Z" itemprop="datePublished">2015-12-21</time></p>
+                        </div>
+                    </li>
+                
             </ul>
         </div>
     </div>
@@ -497,7 +487,7 @@ _st('install','3MHy44anUbqi-KpQvFB8','2.0.0');
     <div class="widget-wrap widget-list">
         <h3 class="widget-title">归档</h3>
         <div class="widget">
-            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">十二月 2015</a><span class="archive-list-count">4</span></li></ul>
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">十二月 2015</a><span class="archive-list-count">4</span></li></ul>
         </div>
     </div>
 
