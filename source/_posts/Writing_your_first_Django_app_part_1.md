@@ -1,4 +1,4 @@
-title: 【译】写下你的第一个 Django 应用
+title: 【译】写下你的第一个 Django 应用 part 1
 date: 2016-4-1 16:55:29
 tags: [Python,Django]
 categories: Python

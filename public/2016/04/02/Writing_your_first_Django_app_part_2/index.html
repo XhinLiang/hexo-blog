@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    
+    <title>【译】写下你的第一个 Django 应用 part 2 | XhinLiang</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+        <meta name="keywords" content="Django,Python" />
+    
+    <meta name="description" content="设置数据库现在，编辑你的 mysite/settings.py，这是一个课业设置模块级别的变量的普通 Python 模块。
+Django使用SQLite作为默认的数据库，如果你只对Django感兴趣，这是最好的选择。SQLite包含在Python里，所以你不需要安装任何东西来支持你的数据库。当你真正开启你的项目的时候，你可能需要更加鲁棒的数据库，例如PostgreSQL，来避免一些在数据库中令人头">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【译】写下你的第一个 Django 应用 part 2">
+<meta property="og:url" content="http://xhinliang.github.io/2016/04/02/Writing_your_first_Django_app_part_2/index.html">
+<meta property="og:site_name" content="XhinLiang">
+<meta property="og:description" content="设置数据库现在，编辑你的 mysite/settings.py，这是一个课业设置模块级别的变量的普通 Python 模块。
+Django使用SQLite作为默认的数据库，如果你只对Django感兴趣，这是最好的选择。SQLite包含在Python里，所以你不需要安装任何东西来支持你的数据库。当你真正开启你的项目的时候，你可能需要更加鲁棒的数据库，例如PostgreSQL，来避免一些在数据库中令人头">
+<meta property="og:image" content="http://xhinliang.github.io/uploads/Writing_your_first_Django_app/admin01.png">
+<meta property="og:updated_time" content="2016-04-02T02:30:15.500Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【译】写下你的第一个 Django 应用 part 2">
+<meta name="twitter:description" content="设置数据库现在，编辑你的 mysite/settings.py，这是一个课业设置模块级别的变量的普通 Python 模块。
+Django使用SQLite作为默认的数据库，如果你只对Django感兴趣，这是最好的选择。SQLite包含在Python里，所以你不需要安装任何东西来支持你的数据库。当你真正开启你的项目的时候，你可能需要更加鲁棒的数据库，例如PostgreSQL，来避免一些在数据库中令人头">
+    
+
+    
+
+    
+        <link rel="icon" href="/uploads/avatar.png" />
+    
+
+    <link rel="stylesheet" href="/vendor/font-awesome/css/font-awesome.min.css" type="text/css">
+    <link rel="stylesheet" href="/vendor/titillium-web/styles.css" type="text/css">
+    <link rel="stylesheet" href="/vendor/source-code-pro/styles.css" type="text/css">
+
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+    <script src="/vendor/jquery/2.0.3/jquery.min.js" type="text/javascript"></script>
+    
+    
+        <link rel="stylesheet" href="/vendor/fancybox/jquery.fancybox.css" type="text/css">
+    
+    
+        <link rel="stylesheet" href="/vendor/scrollLoading/style.css" type="text/css">
+    
+    
+    
+
+</head>
+
+<body>
+    <div id="wrap">
+        <header id="header">
+    <div id="header-outer" class="outer">
+        <div class="container">
+            <div class="container-inner">
+                <div id="header-title">
+                    <h1 class="logo-wrap">
+                        <a href="/" class="logo"></a>
+                    </h1>
+                    
+                        <h2 class="subtitle-wrap">
+                            <p class="subtitle">写段优雅的代码，泡个漂亮的妹子</p>
+                        </h2>
+                    
+                </div>
+                <div id="header-inner" class="nav-container">
+                    <a id="main-nav-toggle" class="nav-icon fa fa-bars"></a>
+                    <div class="nav-container-inner">
+                        <ul id="main-nav">
+                            
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/">主页</a>
+                                </li>
+                            
+                                        <ul class="main-nav-list"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Android/">Android</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Python/">Python</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/生活/">生活</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/算法/">算法</a></li></ul>
+                                    
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/about/index.html">关于</a>
+                                </li>
+                            
+                        </ul>
+                        <nav id="sub-nav">
+                            <div id="search-form-wrap">
+
+    <div class="search-form">
+        <input type="text" class="st-default-search-input search-form-input" placeholder="搜索" />
+    </div>
+    <script type="text/javascript">
+(function(w,d,t,u,n,s,e) {w['SwiftypeObject']=n;w[n]=w[n]||function() {
+(w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+})(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+_st('install','3MHy44anUbqi-KpQvFB8','2.0.0');
+</script>
+<style>
+    .st-ui-injected-overlay-container,
+    .st-ui-injected-overlay-container *:not(select) {
+        font-family: inherit !important;
+    }
+    section.st-ui-content.st-search-results a.st-ui-result .st-ui-type-heading {
+        color: #3b8dbd !important;
+    }
+    .st-ui-injected-overlay-container .st-ui-header input[type="text"]:focus {
+        border-bottom: 2px solid #3b8dbd;
+    }
+    .st-ui-injected-overlay-container .st-ui-footer a.st-ui-pagination-link {
+        color: #3b8dbd;
+    }
+    .st-ui-injected-overlay-container .st-ui-footer a.st-ui-pagination-link span.st-ui-arrow {
+        border-color: #3b8dbd;
+    }
+</style>
+
+</div>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+        <div class="container">
+            <div class="main-body container-inner">
+                <div class="main-body-inner">
+                    <section id="main">
+                        <div class="main-body-header">
+    <h1 class="header">
+    
+    <a class="page-title-link" href="/categories/Python/">Python</a>
+    </h1>
+</div>
+                        <div class="main-body-content">
+                            <article id="post-Writing_your_first_Django_app_part_2" class="article article-single article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+        【译】写下你的第一个 Django 应用 part 2
+        </h1>
+    
+
+            </header>
+        
+        <div class="article-subtitle">
+            <a href="/2016/04/02/Writing_your_first_Django_app_part_2/" class="article-date">
+    <time datetime="2016-04-02T02:25:29.000Z" itemprop="datePublished">2016-04-02</time>
+</a>
+            
+    <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Django/">Django</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Python/">Python</a></li></ul>
+
+        </div>
+        <div class="article-entry" itemprop="articleBody">
+            <h3 id="设置数据库"><a href="#设置数据库" class="headerlink" title="设置数据库"></a>设置数据库</h3><p>现在，编辑你的 <code>mysite/settings.py</code>，这是一个课业设置模块级别的变量的普通 <code>Python</code> 模块。</p>
+<p><code>Django</code>使用<code>SQLite</code>作为默认的数据库，如果你只对<code>Django</code>感兴趣，这是最好的选择。<code>SQLite</code>包含在<code>Python</code>里，所以你不需要安装任何东西来支持你的数据库。当你真正开启你的项目的时候，你可能需要更加鲁棒的数据库，例如<code>PostgreSQL</code>，来避免一些在数据库中令人头痛的问题。</p>
+<p>如果你想要使用另外的数据库，请先安装相对应的<a href="https://docs.djangoproject.com/en/1.9/topics/install/#database-installation" target="_blank" rel="external">数据库支持包</a>并在<code>DATABASES &#39;default&#39;</code>中修改键值。</p>
+<ul>
+<li><code>ENGINE</code>：数据库支持包，如<code>django.db.backends.sqlite3</code>或者 <code>django.db.backends.postgresql</code>或者<code>django.db.backends.mysql</code>或者<code>django.db.backends.oracle</code>，<a href="https://docs.djangoproject.com/en/1.9/ref/databases/#third-party-notes" target="_blank" rel="external">更多</a></li>
+<li><code>NAME</code>：你的数据库的名字，如果你在使用<code>SQLite</code>，数据库仅仅是你电脑上的一个文件，这时<code>NAME</code>应该是这个数据库文件的绝对地址（包含文件的名字）。如果你不作修改，<code>os.path.join(BASE_DIR&#39;db.sqlite3&#39;)</code>会是你默认的设置。</li>
+</ul>
+<p>如果你使用另外的数据库，就必须添加一些额外的设置信息，例如<code>USER``PASSWORD``HOST</code>等等。<a href="https://docs.djangoproject.com/en/1.9/ref/settings/#std:setting-DATABASES" target="_blank" rel="external">更多</a>。</p>
+<blockquote>
+<p><strong>给使用另外数据库的人</strong><br>如果你在使用另外的数据库，请确认你已经创建了数据库，例如<code>CREATE DATABASE datebase_name</code>等等。<br>还有，确认<code>mysite/settings.py</code>有<strong>创建数据库</strong>的权限，这些权限我们接下来会使用到。<br>如果你在使用<code>SQLite</code>，你不需要额外创建任何东西，数据库的文件在它需要被创建的时候已经准备妥当。</p>
+</blockquote>
+<p>当你在修改<code>mysite/settings.py</code>文件是，在<code>TIME_ZONE</code>设置你当前的时区。</p>
+<p>这时候，把注意力集中到<code>INSTALLED_APPS</code>的设置上。这个设置持有了所有这个项目中需要的<code>Django</code>应用。一个<code>Django</code>应用可以被不同的项目使用，你可以在不同的项目中随意打包和分配。</p>
+<p>默认地，<code>INSTALLED_APPS</code>包含了以下的应用，他们都来自<code>Django</code>:</p>
+<ul>
+<li><a href="https://docs.djangoproject.com/en/1.9/ref/contrib/admin/#module-django.contrib.admin" target="_blank" rel="external"><code>django.contrib.admin</code></a> 管理界面，你很快会看到它</li>
+<li><a href="https://docs.djangoproject.com/en/1.9/topics/auth/#module-django.contrib.auth" target="_blank" rel="external"><code>django.contrib.auth</code></a> 认证系统</li>
+<li><a href="https://docs.djangoproject.com/en/1.9/ref/contrib/contenttypes/#module-django.contrib.contenttypes" target="_blank" rel="external"><code>django.contrib.contenttypes</code></a> 关于内容类型的框架</li>
+<li><a href="https://docs.djangoproject.com/en/1.9/topics/http/sessions/#module-django.contrib.sessions" target="_blank" rel="external"><code>django.contrib.sessions</code></a> Session框架</li>
+<li><a href="https://docs.djangoproject.com/en/1.9/ref/contrib/messages/#module-django.contrib.messages" target="_blank" rel="external"><code>django.contrib.messages</code></a> 消息传送框架</li>
+<li><a href="https://docs.djangoproject.com/en/1.9/ref/contrib/staticfiles/#module-django.contrib.staticfiles" target="_blank" rel="external"><code>django.contrib.staticfiles</code></a> 静态文件框架<br>为了使用上的方便这些应用默认会被包含。</li>
+</ul>
+<p>以上的有些应用会使用至少一个数据库表，所以，在使用他们之前，我们需要在数据库中创建表：<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python manage<span class="class">.py</span> migrate</span><br></pre></td></tr></table></figure></p>
+<p>这个<code>migrate</code>命令会查看<code>INSTALLED_APPS</code>设置并根据你的<code>mysite/setting</code>中的设置创建所需要的数据库表，并完成数据库的迁移。你可以看到每一条迁移的消息。</p>
+<blockquote>
+<p>给最小需求者<br>就想我们所说的，默认的应用已经被包含到工程里，不过不是每一个工程都需要他们，如果你不需要他们中的一个或者多个，你可以在执行<code>migrate</code>命令之前把他（们）在<code>INSTALLED_APPS</code>中删掉。</p>
+</blockquote>
+<h3 id="创建模型"><a href="#创建模型" class="headerlink" title="创建模型"></a>创建模型</h3><p>在<code>polls/models.py</code>文件中添加如下代码<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> datetime</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> django.db <span class="keyword">import</span> models</span><br><span class="line"><span class="keyword">from</span> django.utils <span class="keyword">import</span> timezone</span><br><span class="line"><span class="keyword">from</span> django.utils.encoding <span class="keyword">import</span> python_2_unicode_compatible</span><br><span class="line"></span><br><span class="line"><span class="decorator">@python_2_unicode_compatible  # only if you need to support Python 2</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Question</span><span class="params">(models.Model)</span>:</span></span><br><span class="line">    question_text = models.CharField(max_length=<span class="number">200</span>)</span><br><span class="line">    pub_date = models.DateTimeField(<span class="string">'date published'</span>)</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__str__</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> self.question_text</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">was_published_recently</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> self.pub_date &gt;= timezone.now() - datetime.timedelta(days=<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line"><span class="decorator">@python_2_unicode_compatible  # only if you need to support Python 2</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Choice</span><span class="params">(models.Model)</span>:</span></span><br><span class="line">    question = models.ForeignKey(Question, on_delete=models.CASCADE)</span><br><span class="line">    choice_text = models.CharField(max_length=<span class="number">200</span>)</span><br><span class="line">    votes = models.IntegerField(default=<span class="number">0</span>)</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__str__</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> self.choice_text</span><br></pre></td></tr></table></figure></p>
+<p>这段代码就像我一样耿直，所有的模型都是 <code>django.db.models.Model</code>的子类，每个模型都有他自己的变量，每个变量都代表了一个数据库字段。</p>
+<p>每个字段都由一个<a href="https://docs.djangoproject.com/en/1.9/ref/models/fields/#django.db.models.Field" target="_blank" rel="external"><code>Field</code></a>类型来表示，例如<code>CharField</code>用来表示字符串字段<code>DateTimeField</code>用来表示时间字段。这些都是用来告诉<code>Django</code>每个字段持有的类型的。</p>
+<p>每个<code>Field</code>实例的名字（例如<code>question_text``pub_date</code>）就是一个字段的名字，使用机器友好的格式。在这里我们使用<code>Python</code>代码，相应的数据库会使用他们的列的名字。</p>
+<p>在<code>Field</code>的构造方法中，可以添加可选的首个参数，这个参数用来指定一个人类可读的名字。这被<code>Django</code>在内部使用，并在文档中有所展现。如果这个字段没有被提供，<code>Django</code>会使用一个机器可读的名字。在这个例子中，我们只给<code>Question.pub_date</code>声明了一个人类可读的名字。其他的字段都只有机器可读的名字，这些机器可读的名字会同时作为他们的人类可读的名字。</p>
+<p>一些<code>Field</code>类的构造函数需要参数，例如<code>CharField</code>，需要一个<code>max_length</code>参数，这不仅仅会在数据库的计划中被使用，还会用来确认，我们很快就会看到它。</p>
+<p>一个<code>Field</code>当然也可以有可选参数，这里，我们把<code>vote</code>的<code>default</code>数值设为0</p>
+<p>最后，我们使用<code>ForeignKey</code>定义了<code>Choice</code>和<code>Question</code>的一对一关系。<code>Django</code>支持所有的数据库关系：多对一，一对一，多对多。</p>
+<h3 id="让你的-model-生效"><a href="#让你的-model-生效" class="headerlink" title="让你的 model 生效"></a>让你的 model 生效</h3><p>很少的<code>model</code>的<code>Python</code>代码就可以给<code>Django</code>很多信息：</p>
+<ul>
+<li>给应用创建一个数据库模式（<code>CREATE TABLE</code>声明）</li>
+<li>给<code>Question</code>和<code>Choice</code>创建一个数据库连接的 API 。</li>
+</ul>
+<p>不过我们首先需要告诉工程我们的<code>polls</code>应用已经被安装。</p>
+<p>修改<code>mysite/settings.py</code>文件，在<code>INSTALLED_APPS</code>当中添加一行，看起来就像这样：<br><figure class="highlight ocaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">INSTALLED_APPS</span> = [</span><br><span class="line">    <span class="symbol">'polls</span>.apps.<span class="type">PollsConfig'</span>,</span><br><span class="line">    <span class="symbol">'django</span>.contrib.admin',</span><br><span class="line">    <span class="symbol">'django</span>.contrib.auth',</span><br><span class="line">    <span class="symbol">'django</span>.contrib.contenttypes',</span><br><span class="line">    <span class="symbol">'django</span>.contrib.sessions',</span><br><span class="line">    <span class="symbol">'django</span>.contrib.messages',</span><br><span class="line">    <span class="symbol">'django</span>.contrib.staticfiles',</span><br><span class="line">]</span><br></pre></td></tr></table></figure></p>
+<p>现在<code>Django</code>已经添加了<code>polls</code>这个应用，我们通过这行命令来进行数据库的迁移：<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python manage<span class="class">.py</span> makemigrations polls</span><br></pre></td></tr></table></figure></p>
+<p>你可以看到如下的输出：<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Migrations for 'polls':</span><br><span class="line">  0001_initial.py:</span><br><span class="line">    - <span class="operator"><span class="keyword">Create</span> <span class="keyword">model</span> Choice</span><br><span class="line">    - <span class="keyword">Create</span> <span class="keyword">model</span> Question</span><br><span class="line">    - <span class="keyword">Add</span> <span class="keyword">field</span> question <span class="keyword">to</span> choice</span></span><br></pre></td></tr></table></figure></p>
+<p>通过执行<code>makemigrations</code>命令，<code>Django</code>就能根据你的 Model 的改变而做出多方面的调整。</p>
+<p>你可以通过这条指令看到<code>Django</code>对上一条指令执行的<code>SQL</code>代码：<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python manage<span class="class">.py</span> sqlmigrate polls <span class="number">0001</span></span><br></pre></td></tr></table></figure></p>
+<p>接下来你可以在<code>Terminal</code>中看到类似的输出：<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="operator"><span class="keyword">BEGIN</span>;</span></span><br><span class="line"><span class="comment">--</span></span><br><span class="line"><span class="comment">-- Create model Choice</span></span><br><span class="line"><span class="comment">--</span></span><br><span class="line"><span class="operator"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> <span class="string">"polls_choice"</span> (</span><br><span class="line">    <span class="string">"id"</span> <span class="built_in">serial</span> <span class="keyword">NOT</span> <span class="literal">NULL</span> PRIMARY <span class="keyword">KEY</span>,</span><br><span class="line">    <span class="string">"choice_text"</span> <span class="built_in">varchar</span>(<span class="number">200</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line">    <span class="string">"votes"</span> <span class="built_in">integer</span> <span class="keyword">NOT</span> <span class="literal">NULL</span></span><br><span class="line">);</span></span><br><span class="line"><span class="comment">--</span></span><br><span class="line"><span class="comment">-- Create model Question</span></span><br><span class="line"><span class="comment">--</span></span><br><span class="line"><span class="operator"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> <span class="string">"polls_question"</span> (</span><br><span class="line">    <span class="string">"id"</span> <span class="built_in">serial</span> <span class="keyword">NOT</span> <span class="literal">NULL</span> PRIMARY <span class="keyword">KEY</span>,</span><br><span class="line">    <span class="string">"question_text"</span> <span class="built_in">varchar</span>(<span class="number">200</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line">    <span class="string">"pub_date"</span> <span class="keyword">timestamp</span> <span class="keyword">with</span> <span class="keyword">time</span> zone <span class="keyword">NOT</span> <span class="literal">NULL</span></span><br><span class="line">);</span></span><br><span class="line"><span class="comment">--</span></span><br><span class="line"><span class="comment">-- Add field question to choice</span></span><br><span class="line"><span class="comment">--</span></span><br><span class="line"><span class="operator"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> <span class="string">"polls_choice"</span> <span class="keyword">ADD</span> <span class="keyword">COLUMN</span> <span class="string">"question_id"</span> <span class="built_in">integer</span> <span class="keyword">NOT</span> <span class="literal">NULL</span>;</span></span><br><span class="line"><span class="operator"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> <span class="string">"polls_choice"</span> <span class="keyword">ALTER</span> <span class="keyword">COLUMN</span> <span class="string">"question_id"</span> <span class="keyword">DROP</span> <span class="keyword">DEFAULT</span>;</span></span><br><span class="line"><span class="operator"><span class="keyword">CREATE</span> <span class="keyword">INDEX</span> <span class="string">"polls_choice_7aa0f6ee"</span> <span class="keyword">ON</span> <span class="string">"polls_choice"</span> (<span class="string">"question_id"</span>);</span></span><br><span class="line"><span class="operator"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> <span class="string">"polls_choice"</span></span><br><span class="line">  <span class="keyword">ADD</span> <span class="keyword">CONSTRAINT</span> <span class="string">"polls_choice_question_id_246c99a640fbbd72_fk_polls_question_id"</span></span><br><span class="line">    FOREIGN <span class="keyword">KEY</span> (<span class="string">"question_id"</span>)</span><br><span class="line">    <span class="keyword">REFERENCES</span> <span class="string">"polls_question"</span> (<span class="string">"id"</span>)</span><br><span class="line">    DEFERRABLE <span class="keyword">INITIALLY</span> <span class="keyword">DEFERRED</span>;</span></span><br><span class="line"></span><br><span class="line"><span class="operator"><span class="keyword">COMMIT</span>;</span></span><br></pre></td></tr></table></figure></p>
+<p>注意：</p>
+<ul>
+<li>这个输出取决于你所使用的数据库。</li>
+<li>表的名字会自动转成小写（你可以修改这个行为）</li>
+<li>主键会自动加上（可以修改这个行为）</li>
+<li>关联属性会自动加上<code>_id</code>（可以修改这个行为）</li>
+<li>关联属性会被明确指明<code>FOREIGN KEY</code>的约束，不要担心<code>DEFERRABLE</code>这个部分，这只是告诉<code>PostgreSQL</code>在这段事务结束之前不要执行关联属性键。</li>
+<li>这行命令不会真正执行这些<code>SQL</code>指令。</li>
+</ul>
+<p>你可以执行这行命令来检查不进行数据库迁移（不执行下面这行命令）是否会有问题：<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python manage<span class="class">.py</span> check</span><br></pre></td></tr></table></figure></p>
+<p>一切完毕之后，执行这行指令来进行数据库迁移：<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python manage<span class="class">.py</span> migrate</span><br></pre></td></tr></table></figure></p>
+<p>你会看到如下的输出：<br><figure class="highlight lasso"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Operations <span class="keyword">to</span> perform:</span><br><span class="line">  Apply <span class="literal">all</span> migrations: admin, contenttypes, polls, auth, sessions</span><br><span class="line">Running migrations:</span><br><span class="line">  Rendering model states<span class="attribute">...</span> DONE</span><br><span class="line">  Applying polls<span class="number">.0001</span>_initial<span class="attribute">...</span> OK</span><br></pre></td></tr></table></figure></p>
+<p>这个<code>migrate</code>命令会做好所有未执行的数据库迁移操作，还会造好所有的数据库更新操作。</p>
+<p>总而言之，我们就进行了三步操作：</p>
+<ul>
+<li>更新 Models</li>
+<li>执行<code>python manage.py makemigrations</code></li>
+<li>执行<code>python manage.py migrate</code></li>
+</ul>
+<h3 id="完成你的管理界面"><a href="#完成你的管理界面" class="headerlink" title="完成你的管理界面"></a>完成你的管理界面</h3><p>首先我们需要创建一个超级用户：<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python manage<span class="class">.py</span> createsuperuser</span><br></pre></td></tr></table></figure></p>
+<p>然后按照提示进行操作即可，</p>
+<p>然后我们编辑<code>polls/admin.py</code>文件，输入以下代码：<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">from django<span class="class">.contrib</span> import admin</span><br><span class="line"></span><br><span class="line">from <span class="class">.models</span> import Question</span><br><span class="line"></span><br><span class="line">admin<span class="class">.site</span><span class="class">.register</span>(Question)</span><br></pre></td></tr></table></figure></p>
+<p>现在我们来运行服务器：<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python manage<span class="class">.py</span> runserver</span><br></pre></td></tr></table></figure></p>
+<p>这时候我们可以通过<code>/admin/</code>来访问我们的管理界面，例如<code>http://127.0.0.1:8000/admin/</code></p>
+<p>你可以看到如下的管理界面<br><img src="/uploads/Writing_your_first_Django_app/admin01.png" alt="Alt text"></p>
+<p>登陆之后，你就可以随意在管理界面玩耍了<br><img src="/uploads/Writing_your_first_Django_app/admin02.png" alt="Alt text"><br><img src="/uploads/Writing_your_first_Django_app/admin02.png" alt="Alt text"><br><img src="/uploads/Writing_your_first_Django_app/admin03t.png" alt="Alt text"><br><img src="/uploads/Writing_your_first_Django_app/admin04t.png" alt="Alt text"><br><img src="/uploads/Writing_your_first_Django_app/admin05t.png" alt="Alt text"><br><img src="/uploads/Writing_your_first_Django_app/admin06t.png" alt="Alt text"></p>
+
+        </div>
+        <footer class="article-footer">
+            
+
+
+
+    <a data-url="http://xhinliang.github.io/2016/04/02/Writing_your_first_Django_app_part_2/" data-id="cimiiutv0000ayso8xfwfpc2n" class="article-share-link"><i class="fa fa-share"></i>分享到</a>
+<script>
+    (function ($) {
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+        </footer>
+    </div>
+</article>
+
+    <section id="comments">
+    
+        
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+
+    
+    </section>
+
+                        </div>
+                    </section>
+                    <aside id="sidebar">
+    <a class="sidebar-toggle" title="Expand Sidebar"><i class="toggle icon"></i></a>
+    <div class="sidebar-top">
+        <p>关注我 :</p>
+        <ul class="social-links">
+            
+                
+                <li>
+                    <a class="social-tooltip" title="twitter" href="https://twitter.com/xhinliang" target="_blank">
+                        <i class="icon fa fa-twitter"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="facebook" href="https://www.facebook.com/xhin.liang" target="_blank">
+                        <i class="icon fa fa-facebook"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="google-plus" href="https://plus.google.com/105647538121556950461" target="_blank">
+                        <i class="icon fa fa-google-plus"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="github" href="https://github.com/XhinLiang" target="_blank">
+                        <i class="icon fa fa-github"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="weibo" href="http://weibo.com/xhinliang" target="_blank">
+                        <i class="icon fa fa-weibo"></i>
+                    </a>
+                </li>
+                
+            
+        </ul>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+    
+        <a href="/2016/04/01/Writing_your_first_Django_app_part_1/" id="article-nav-older" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">上一篇</strong>
+        <p class="article-nav-title">【译】写下你的第一个 Django 应用 part 1</p>
+        <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
+        </a>
+    
+</nav>
+
+    
+    <div class="widgets-container">
+        
+            
+                
+    <div class="widget-wrap">
+        <h3 class="widget-title">最新文章</h3>
+        <div class="widget">
+            <ul id="recent-post" class="">
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2016/04/02/Writing_your_first_Django_app_part_2/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/uploads/Writing_your_first_Django_app/admin01.png)" alt="【译】写下你的第一个 Django 应用 part 2" class="thumbnail-image"></span>
+    
+    
+</a>
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Python/">Python</a></p>
+                            <p class="item-title"><a href="/2016/04/02/Writing_your_first_Django_app_part_2/" class="title">【译】写下你的第一个 Django 应用 part 2</a></p>
+                            <p class="item-date"><time datetime="2016-04-02T02:25:29.000Z" itemprop="datePublished">2016-04-02</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2016/04/01/Writing_your_first_Django_app_part_1/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+    
+</a>
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Python/">Python</a></p>
+                            <p class="item-title"><a href="/2016/04/01/Writing_your_first_Django_app_part_1/" class="title">【译】写下你的第一个 Django 应用 part 1</a></p>
+                            <p class="item-date"><time datetime="2016-04-01T08:55:29.000Z" itemprop="datePublished">2016-04-01</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2016/03/23/Two_algorithm_problem/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+    
+</a>
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/算法/">算法</a></p>
+                            <p class="item-title"><a href="/2016/03/23/Two_algorithm_problem/" class="title">两道算法题</a></p>
+                            <p class="item-date"><time datetime="2016-03-23T13:02:29.000Z" itemprop="datePublished">2016-03-23</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2016/03/11/Think_about_Preference/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/uploads/Think_about_Preference/original_preference.gif)" alt="Android™ 中设置界面的思考" class="thumbnail-image"></span>
+    
+    
+</a>
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Android/">Android</a></p>
+                            <p class="item-title"><a href="/2016/03/11/Think_about_Preference/" class="title">Android™ 中设置界面的思考</a></p>
+                            <p class="item-date"><time datetime="2016-03-11T03:55:29.000Z" itemprop="datePublished">2016-03-11</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2016/03/09/Making_GIF_in_Ubuntu/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+    
+</a>
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Android/">Android</a></p>
+                            <p class="item-title"><a href="/2016/03/09/Making_GIF_in_Ubuntu/" class="title">在Ubuntu下录制屏幕GIF</a></p>
+                            <p class="item-date"><time datetime="2016-03-09T09:28:29.000Z" itemprop="datePublished">2016-03-09</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">分类</h3>
+        <div class="widget">
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Python/">Python</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/生活/">生活</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/算法/">算法</a><span class="category-list-count">3</span></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">归档</h3>
+        <div class="widget">
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">十二月 2015</a><span class="archive-list-count">4</span></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">标签</h3>
+        <div class="widget">
+            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/ACM/">ACM</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/">Android</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/C/">C</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/C/">C++</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Django/">Django</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/">Linux</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Python/">Python</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RxJava/">RxJava</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/工具/">工具</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据结构/">数据结构</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/算法/">算法</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/读书/">读书</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/面试/">面试</a><span class="tag-list-count">1</span></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-float">
+        <h3 class="widget-title">标签云</h3>
+        <div class="widget tagcloud">
+            <a href="/tags/ACM/" style="font-size: 10px;">ACM</a> <a href="/tags/Android/" style="font-size: 20px;">Android</a> <a href="/tags/C/" style="font-size: 20px;">C</a> <a href="/tags/C/" style="font-size: 10px;">C++</a> <a href="/tags/Django/" style="font-size: 15px;">Django</a> <a href="/tags/Java/" style="font-size: 10px;">Java</a> <a href="/tags/Linux/" style="font-size: 10px;">Linux</a> <a href="/tags/Python/" style="font-size: 15px;">Python</a> <a href="/tags/RxJava/" style="font-size: 10px;">RxJava</a> <a href="/tags/工具/" style="font-size: 10px;">工具</a> <a href="/tags/数据结构/" style="font-size: 10px;">数据结构</a> <a href="/tags/算法/" style="font-size: 20px;">算法</a> <a href="/tags/读书/" style="font-size: 10px;">读书</a> <a href="/tags/面试/" style="font-size: 10px;">面试</a>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">链接</h3>
+        <div class="widget">
+            <ul>
+                
+                    <li>
+                        <a href="http://www.jianshu.com/users/df40282480b4/latest_articles">小鄧子</a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+
+            
+        
+    </div>
+</aside>
+                </div>
+            </div>
+        </div>
+        <footer id="footer">
+    <div class="container">
+        <div class="container-inner">
+            <a id="back-to-top" href="javascript:;"><i class="icon fa fa-angle-up"></i></a>
+            <div class="credit">
+                <h1 class="logo-wrap">
+                    <a href="/" class="logo"></a>
+                </h1>
+                <p>&copy; 2016 Xhin Liang</p>
+                <p>Powered by <a href="//hexo.io/" target="_blank">Hexo</a>. Theme by <a href="//github.com/ppoffice" target="_blank">PPOffice</a></p>
+            </div>
+        </div>
+    </div>
+</footer>
+        
+    
+    <script>
+    var disqus_shortname = 'xhinliang';
+    
+    
+    var disqus_url = 'http://xhinliang.github.io/2016/04/02/Writing_your_first_Django_app_part_2/';
+    
+    (function() {
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+    </script>
+
+
+
+    
+        <script src="/vendor/fancybox/jquery.fancybox.pack.js" type="text/javascript"></script>
+    
+
+    
+        <script src="/vendor/scrollLoading/jquery.scrollLoading.js" type="text/javascript"></script>
+        <script src="/vendor/scrollLoading/main.js" type="text/javascript"></script>
+    
+
+
+<!-- Custom Scripts -->
+<script src="/js/main.js" type="text/javascript"></script>
+
+    </div>
+</body>
+</html>

@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    
+    <title>【译】写下你的第一个 Django 应用 part 1 | XhinLiang</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+        <meta name="keywords" content="Django,Python" />
+    
+    <meta name="description" content="让我们从例子学起
+通过这个教程，我们就可以简单地完成一个投票应用 应用。
+这包含两个部分：
+
+一个关于投票的公共的网站，用户可以查看可以投票的项目，也可以对项目进行投票。
+
+一个后台管理界面，管理员可以增加，修改，删除公共网站里的待投票项目。
+
+
+我们这里假设你已经在你的电脑中安装了 Django 。如果你不确定是否已经安装，可以在 Terminal 中输入这行命令：
+1python -c &quot;im">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【译】写下你的第一个 Django 应用 part 1">
+<meta property="og:url" content="http://xhinliang.github.io/2016/04/01/Writing_your_first_Django_app_part_1/index.html">
+<meta property="og:site_name" content="XhinLiang">
+<meta property="og:description" content="让我们从例子学起
+通过这个教程，我们就可以简单地完成一个投票应用 应用。
+这包含两个部分：
+
+一个关于投票的公共的网站，用户可以查看可以投票的项目，也可以对项目进行投票。
+
+一个后台管理界面，管理员可以增加，修改，删除公共网站里的待投票项目。
+
+
+我们这里假设你已经在你的电脑中安装了 Django 。如果你不确定是否已经安装，可以在 Terminal 中输入这行命令：
+1python -c &quot;im">
+<meta property="og:updated_time" content="2016-04-02T02:25:28.972Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【译】写下你的第一个 Django 应用 part 1">
+<meta name="twitter:description" content="让我们从例子学起
+通过这个教程，我们就可以简单地完成一个投票应用 应用。
+这包含两个部分：
+
+一个关于投票的公共的网站，用户可以查看可以投票的项目，也可以对项目进行投票。
+
+一个后台管理界面，管理员可以增加，修改，删除公共网站里的待投票项目。
+
+
+我们这里假设你已经在你的电脑中安装了 Django 。如果你不确定是否已经安装，可以在 Terminal 中输入这行命令：
+1python -c &quot;im">
+    
+
+    
+
+    
+        <link rel="icon" href="/uploads/avatar.png" />
+    
+
+    <link rel="stylesheet" href="/vendor/font-awesome/css/font-awesome.min.css" type="text/css">
+    <link rel="stylesheet" href="/vendor/titillium-web/styles.css" type="text/css">
+    <link rel="stylesheet" href="/vendor/source-code-pro/styles.css" type="text/css">
+
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+    <script src="/vendor/jquery/2.0.3/jquery.min.js" type="text/javascript"></script>
+    
+    
+        <link rel="stylesheet" href="/vendor/fancybox/jquery.fancybox.css" type="text/css">
+    
+    
+        <link rel="stylesheet" href="/vendor/scrollLoading/style.css" type="text/css">
+    
+    
+    
+
+</head>
+
+<body>
+    <div id="wrap">
+        <header id="header">
+    <div id="header-outer" class="outer">
+        <div class="container">
+            <div class="container-inner">
+                <div id="header-title">
+                    <h1 class="logo-wrap">
+                        <a href="/" class="logo"></a>
+                    </h1>
+                    
+                        <h2 class="subtitle-wrap">
+                            <p class="subtitle">写段优雅的代码，泡个漂亮的妹子</p>
+                        </h2>
+                    
+                </div>
+                <div id="header-inner" class="nav-container">
+                    <a id="main-nav-toggle" class="nav-icon fa fa-bars"></a>
+                    <div class="nav-container-inner">
+                        <ul id="main-nav">
+                            
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/">主页</a>
+                                </li>
+                            
+                                        <ul class="main-nav-list"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Android/">Android</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Python/">Python</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/生活/">生活</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/算法/">算法</a></li></ul>
+                                    
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/about/index.html">关于</a>
+                                </li>
+                            
+                        </ul>
+                        <nav id="sub-nav">
+                            <div id="search-form-wrap">
+
+    <div class="search-form">
+        <input type="text" class="st-default-search-input search-form-input" placeholder="搜索" />
+    </div>
+    <script type="text/javascript">
+(function(w,d,t,u,n,s,e) {w['SwiftypeObject']=n;w[n]=w[n]||function() {
+(w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+})(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+_st('install','3MHy44anUbqi-KpQvFB8','2.0.0');
+</script>
+<style>
+    .st-ui-injected-overlay-container,
+    .st-ui-injected-overlay-container *:not(select) {
+        font-family: inherit !important;
+    }
+    section.st-ui-content.st-search-results a.st-ui-result .st-ui-type-heading {
+        color: #3b8dbd !important;
+    }
+    .st-ui-injected-overlay-container .st-ui-header input[type="text"]:focus {
+        border-bottom: 2px solid #3b8dbd;
+    }
+    .st-ui-injected-overlay-container .st-ui-footer a.st-ui-pagination-link {
+        color: #3b8dbd;
+    }
+    .st-ui-injected-overlay-container .st-ui-footer a.st-ui-pagination-link span.st-ui-arrow {
+        border-color: #3b8dbd;
+    }
+</style>
+
+</div>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+        <div class="container">
+            <div class="main-body container-inner">
+                <div class="main-body-inner">
+                    <section id="main">
+                        <div class="main-body-header">
+    <h1 class="header">
+    
+    <a class="page-title-link" href="/categories/Python/">Python</a>
+    </h1>
+</div>
+                        <div class="main-body-content">
+                            <article id="post-Writing_your_first_Django_app_part_1" class="article article-single article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+        【译】写下你的第一个 Django 应用 part 1
+        </h1>
+    
+
+            </header>
+        
+        <div class="article-subtitle">
+            <a href="/2016/04/01/Writing_your_first_Django_app_part_1/" class="article-date">
+    <time datetime="2016-04-01T08:55:29.000Z" itemprop="datePublished">2016-04-01</time>
+</a>
+            
+    <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Django/">Django</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Python/">Python</a></li></ul>
+
+        </div>
+        <div class="article-entry" itemprop="articleBody">
+            <p>让我们从例子学起</p>
+<p>通过这个教程，我们就可以简单地完成一个投票应用 应用。</p>
+<p>这包含两个部分：</p>
+<ol>
+<li><p>一个关于投票的公共的网站，用户可以查看可以投票的项目，也可以对项目进行投票。</p>
+</li>
+<li><p>一个后台管理界面，管理员可以增加，修改，删除公共网站里的待投票项目。</p>
+</li>
+</ol>
+<p>我们这里假设你已经在你的电脑中安装了 <code>Django</code> 。如果你不确定是否已经安装，可以在 <code>Terminal</code> 中输入这行命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python -c <span class="string">"import django; print(django.get_version())"</span></span><br></pre></td></tr></table></figure>
+<p>如果 <code>Django</code>已经被安装，这时候你可以看到你安装的 <code>Django</code> 版本。如果你没有安装，这里会有提示</p>
+<figure class="highlight crystal"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">“<span class="constant">No</span> <span class="class"><span class="keyword">module</span> <span class="title">named</span> <span class="title">django</span>”</span></span><br></pre></td></tr></table></figure>
+<p>这个教程是在 <code>Django</code> 1.9 ，<code>Python</code> 3.4 中测试的，如果 <code>Django</code> 的版本不对，你可以参考以前的版本的教程，或者更新你的 <code>Django</code> 版本。如果你还在使用 <code>Python</code> 2.7，你可能要对教程里的代码进行一些调整。</p>
+<p><a href="https://docs.djangoproject.com/en/1.9/topics/install/" target="_blank" rel="external">安装 <code>Django</code> 看这里</a></p>
+<h3 id="创建一个工程"><a href="#创建一个工程" class="headerlink" title="创建一个工程"></a>创建一个工程</h3><p>如果这是你第一次使用 <code>Django</code>，你必须注意一下这些初始化安装动作。就像这个名称一样，你需要一些自动生成的代码来建立一个 <code>Django</code> 工程。所谓的 <code>Django</code> <a href="https://docs.djangoproject.com/en/1.9/glossary/#term-project" target="_blank" rel="external">工程</a>，就是一些 <code>Django</code> 设置，数据库设置，<code>Django</code> 特有选项和应用特有设置。</p>
+<blockquote>
+<p><code>Django</code> project – a collection of settings for an instance of <code>Django</code>, including database configuration, <code>Django</code>-specific options and application-specific settings.</p>
+</blockquote>
+<p>在你的工作目录中输入这行命令</p>
+<figure class="highlight nsis"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">django-<span class="literal">admin</span> startproject mysite</span><br></pre></td></tr></table></figure>
+<p>这行命令会在当前目录生成一个叫做<code>mysite</code>的目录。<a href="https://docs.djangoproject.com/en/1.9/faq/troubleshooting/#troubleshooting-django-admin" target="_blank" rel="external">遇到问题？</a></p>
+<blockquote>
+<p>注意：<br>你必须避免建立一个名称与现有的 <code>Python</code> 或者 <code>Django</code> 组件冲突的工程。特别地，你不能建立一个名字为 <code>Django</code> 或者 test 的工程（test 是 <code>Python</code> 自带的包名）</p>
+</blockquote>
+<p>使用 <code>tree</code> 命令查看当前的目录结构：</p>
+<ul>
+<li>mysite/<ul>
+<li>manage.py</li>
+<li>mysite/<ul>
+<li><strong>init</strong>.py</li>
+<li>settings.py</li>
+<li>urls.py</li>
+<li>wsgi.py</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>这些文件的意义如下：</p>
+<ul>
+<li>根目录<code>mysite</code>只是一个你的工程的容器，他的名字对于 <code>Django</code> 而言没有任何意义，你可以随意改名。</li>
+<li>manage.py 是一个让你操作你这个 <code>Django</code> 工程的命令行工具。<a href="https://docs.djangoproject.com/en/1.9/ref/django-admin/" target="_blank" rel="external">详情</a></li>
+<li>根目录里的<code>mysite</code>目录是你这个工程的真正的 <code>Python</code> 包目录。它的名字就是你所需要导入的 <code>Python</code> 包名。（如 <code>mysite.urls</code>）</li>
+<li><code>mysite/__init__.py</code>是一个空白的 <a href="https://docs.python.org/tutorial/modules.html#packages" target="_blank" rel="external"><code>Python</code> 包初始化文件</a>。</li>
+<li><code>mysite/settings.py</code> 这个 <code>Django</code> 工程的设置文件。<a href="https://docs.djangoproject.com/en/1.9/topics/settings/" target="_blank" rel="external">详情</a></li>
+<li><code>mysite/urls.py</code> 这个文件包含了这个工程的 <strong>URL 定义</strong> 和 <strong>内容列表</strong>。<a href="https://docs.djangoproject.com/en/1.9/topics/http/urls/" target="_blank" rel="external">关于 <strong>URL</strong> 分发</a></li>
+<li><code>mysite/wsgi.py</code> 这个文件是这个 <code>Django</code> 工程的兼容服务器网关（WSGI-compatible）的服务器入口。<a href="https://docs.djangoproject.com/en/1.9/howto/deployment/wsgi/" target="_blank" rel="external">详情</a>。</li>
+</ul>
+<h3 id="开发环境的测试"><a href="#开发环境的测试" class="headerlink" title="开发环境的测试"></a>开发环境的测试</h3><p>让我们验证一下我们新建的 <code>Django</code> 工程。在我们的工程根目录中输入这行命令：<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python manage<span class="class">.py</span> runserver</span><br></pre></td></tr></table></figure></p>
+<p>在 <code>Terminal</code> 中你可以看到如下输出：</p>
+<figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">Performing <span class="keyword">system</span> checks...</span><br><span class="line"></span><br><span class="line">System check identified no issues (<span class="number">0</span> silenced).</span><br><span class="line"></span><br><span class="line">You have unapplied migrations; your app may <span class="operator">not</span> work properly <span class="keyword">until</span> they are applied.</span><br><span class="line">Run <span class="string">'python manage.py migrate'</span> <span class="built_in">to</span> apply them.</span><br><span class="line"></span><br><span class="line">March <span class="number">31</span>, <span class="number">2016</span> - <span class="number">15</span>:<span class="number">50</span>:<span class="number">53</span></span><br><span class="line">`Django` <span class="built_in">version</span> <span class="number">1.9</span>, <span class="keyword">using</span> settings <span class="string">'mysite.settings'</span></span><br><span class="line">Starting development server <span class="keyword">at</span> <span class="keyword">http</span>://<span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">8000</span>/</span><br><span class="line">Quit <span class="operator">the</span> server <span class="operator">with</span> CONTROL-C.</span><br></pre></td></tr></table></figure>
+<p><em>注意，先忽略这里的数据库迁移警告，我们会很快讨论到它</em></p>
+<p>你已经启动了 <code>Django</code> 的开发环境服务器，一个清亮的 Web 纯 <code>Python</code> 服务器。<br>到这里，我们已经成功导入了 <code>Django</code> ，所以我们可以愉快地在这个基础上进行开发了。注意我们这里忽略了生产环境的服务器（例如 <code>Apache</code>）设置 – 当我们准备好要部署的时候再来讨论它。</p>
+<p><em>注意：不要将这个开发环境的服务器用于任何生产环境</em></p>
+<p>现在，我们可以访问在浏览器中输入 <a href="http://127.0.0.1:8000/" target="_blank" rel="external">http://127.0.0.1:8000/</a>  来访问我们刚刚启动的服务器。你会看到 <code>“Welcome to Django”</code> 这个界面，证明我们这一步已经完成了。</p>
+<blockquote>
+<p><strong>更改启动的端口</strong><br>这里 <code>Django</code> 默认启动的端口为 8000，如果你想要设置为别的端口，只需要加个参数即可，例如：<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&gt; python manage<span class="class">.py</span> runserver <span class="number">8080</span></span><br><span class="line">&gt;</span><br></pre></td></tr></table></figure></p>
+<p>如果你还想设置启动的 IP ，也很简单：<br><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&gt; <span class="tag">python</span> <span class="tag">manage</span><span class="class">.py</span> <span class="tag">runserver</span> 0<span class="class">.0</span><span class="class">.0</span><span class="class">.0</span><span class="pseudo">:8000</span></span><br><span class="line">&gt;</span><br></pre></td></tr></table></figure></p>
+<p><a href="https://docs.djangoproject.com/en/1.9/ref/django-admin/#django-admin-runserver" target="_blank" rel="external">更多详情</a>。</p>
+<p><strong>自动重载服务器</strong><br>生产环境的服务器可以自动重载（修改代码后不需要重新启动服务器）。不过有些动作（例如添加文件）不会触发重载，在这种情况，你需要手动重启服务器。</p>
+</blockquote>
+<h3 id="创建投票应用"><a href="#创建投票应用" class="headerlink" title="创建投票应用"></a>创建投票应用</h3><p>现在我们的生产环境已经设置完毕了，我们的工作可以正式开始了。</p>
+<p>按照惯例，每一个 <code>Django</code> 应用都是由一个 <code>Python</code> 包组成的。<code>Django</code> 会自动生成通用的目录结构给我们的应用，所以我们可以把精力集中在业务代码上面。</p>
+<blockquote>
+<p><strong>工程和应用</strong><br>工程和应用的区别是什么呢？一个应用是一个完成一些功能的 Web 应用，例如一个博客，一个储存服务或者是一个投票界面。一个工程是很多应用的集合，用来建设一个网站。一句讲噻，一个工程可以包含很多个应用，一个应用可以被很多个不同的工程同时使用。</p>
+</blockquote>
+<p>我们的应用可以在任何 <a href="https://docs.python.org/tutorial/modules.html#the-module-search-path" target="_blank" rel="external"><code>Python</code> path</a> 中使用。在这个教程中，我们会在项目的根目录中创建我们的应用，因为这样我们能将它作为我们的 <code>mysite</code> 工程的顶级模块。</p>
+<p>在我们的根目录中（<code>manage.py</code> 所在的目录）执行以下命令：<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python manage<span class="class">.py</span> startapp polls</span><br></pre></td></tr></table></figure></p>
+<p>这回创建我们的 <code>polls</code> 应用，结构如下：<br>-polls/</p>
+<ul>
+<li><strong>init</strong>.py</li>
+<li>admin.py</li>
+<li>apps.py</li>
+<li>migrations/<ul>
+<li><strong>init</strong>.py</li>
+</ul>
+</li>
+<li>models.py</li>
+<li>tests.py</li>
+<li>views.py</li>
+</ul>
+<p>整个投票应用都会在这个目录里。</p>
+<h3 id="写下第一个-view"><a href="#写下第一个-view" class="headerlink" title="写下第一个 view"></a>写下第一个 view</h3><p>打开 <code>polls/views.py</code> ，输入以下代码：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django.http <span class="keyword">import</span> HttpResponse</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">index</span><span class="params">(request)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> HttpResponse(<span class="string">"Hello, world. You're at the polls index."</span>)</span><br></pre></td></tr></table></figure>
+<p>这是在 <code>Django</code> 里能做到的最简单的 <code>view</code> 了。为了获得这个 <code>view</code> ，我们需要将它与一个 <code>URL</code> 链接起来，所以我们需要 <code>URLconf</code>。</p>
+<p>为了在 <code>polls</code> 文件夹里创建一个 <code>URLconf</code> ，我们先创建一个文件 <code>urls.py</code> 。现在我们的应用文件树应该是这样的：</p>
+<ul>
+<li>polls/<ul>
+<li><strong>init</strong>.py</li>
+<li>admin.py</li>
+<li>apps.py</li>
+<li>migrations/<ul>
+<li><strong>init</strong>.py</li>
+</ul>
+</li>
+<li>models.py</li>
+<li>tests.py</li>
+<li>urls.py</li>
+<li>views.py</li>
+</ul>
+</li>
+</ul>
+<p>在刚刚创建的 <code>polls/urls.py</code> 里写下这段代码：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django.conf.urls <span class="keyword">import</span> url</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> . <span class="keyword">import</span> views</span><br><span class="line"></span><br><span class="line">urlpatterns = [</span><br><span class="line">    url(<span class="string">r'^$'</span>, views.index, name=<span class="string">'index'</span>),</span><br><span class="line">]</span><br></pre></td></tr></table></figure></p>
+<p>下一步就是在根目录里的 URLconf 里添加 polls.urls 这个模块了。<br>在 mysite/urls.py 里，添加依赖 <code>django.conf.urls.include</code> 并在 <code>urlpatterns</code> 里插入一个 <code>include()</code> 方法。<br>现在 <code>mysite/urls.py</code> 应该是这样的：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django.conf.urls <span class="keyword">import</span> include, url</span><br><span class="line"><span class="keyword">from</span> django.contrib <span class="keyword">import</span> admin</span><br><span class="line"></span><br><span class="line">urlpatterns = [</span><br><span class="line">    url(<span class="string">r'^polls/'</span>, include(<span class="string">'polls.urls'</span>)),</span><br><span class="line">    url(<span class="string">r'^admin/'</span>, admin.site.urls),</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+<p>这个 <code>include()</code> 函数可以导入别的 <code>URLconfs</code> 。<br>注意这里的正在表达式不包含 <code>$</code> （正则表达式里的尾匹配），不过这并不代表我们要把尾字符串截掉。在 <code>Django</code> 中出现 <code>include()</code>，就代表砍掉了 <code>URL</code> 前面的部分，留下尾字符串，并把尾字符串传给导入的 <code>URLconf</code> 以便做进一步处理。</p>
+<p>这个 <code>include()</code> 的处理方法让 <code>URL</code> 的处理更容易。我们的应用 <code>polls</code>在它自己的<code>URLconf</code>下，所以他可以不管它前面的路径，例如 <code>/polls/</code> 或者 <code>/fun_polls/</code> 或者 <code>/content/polls</code> 。例如 <code>google.com/polls/result/1</code> 它只需要处理后面的部分，<code>result/1/</code> 即可，而对于前面的 <code>google.com/polls/</code>它完全不需要关心。</p>
+<blockquote>
+<p><strong>什么时候使用 <code>include()</code></strong><br>当我们需要匹配另外一个 URL 模式时，我们就应该使用 <code>include</code>。<code>admin.site.urls</code> 是唯一的例外</p>
+<p><strong>不匹配任何模式时会怎样</strong><br>如果你看到有代码使用<code>include(admin.site.urls)</code> 而不是直接 <code>admin.site.urls</code> ，这份代码应该是旧版本的，你需要更新你的 <code>Django</code> 版本</p>
+</blockquote>
+<p>你现在在你的 <code>URLconf</code> 里连接了一个 <strong>index view</strong>，让我们来运行服务器测试一下：<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python manage<span class="class">.py</span> runserver</span><br></pre></td></tr></table></figure></p>
+<p>在浏览器中输入 <code>http://localhost:8000/polls/</code> 来进行测试。<br>这时候你应该看到一句话:<br><strong>“Hello, world. You’re at the polls index.”</strong><br>这也是我们之前所定义的。</p>
+<p><code>url()</code> 函数接受四个参数，包含两个必要参数和两个可选参数：</p>
+<h4 id="regex"><a href="#regex" class="headerlink" title="regex"></a>regex</h4><p>正则表达式。 <code>Django</code> 从第一个正则表达式开始，遍历整个列表，直到找到一个匹配的为止。<br>注意，这个正则表达式不会搜索 GET 或者 POST 的参数，或者域名。例如<code>https://www.example.com/myapp/</code>,  <code>URLconf</code> 只会匹配 <code>myapp/</code>. 又<code>https://www.example.com/myapp/?page=3</code>,  <code>URLconf</code> 也是只匹配 <code>myapp/</code>.<br>有关<a href="https://en.wikipedia.org/wiki/Regular_expression" target="_blank" rel="external">正则表达式</a>。</p>
+<h4 id="view"><a href="#view" class="headerlink" title="view"></a>view</h4><p>当 <code>Django</code> 找到一个匹配的正则表达式， <code>Django</code> 会调用一个特定的 <code>view</code> 方法，并加上参数 <a href="https://docs.djangoproject.com/en/1.9/ref/request-response/#django.http.HttpRequest" target="_blank" rel="external"><code>HttpRequest</code></a><br>作为第一个参数，在正则表达式中，所有的被捕获的值都将作为参数传给这个方法。如果这个正则使用了简单捕获，所有的值会按位置赋值，如果使用了命名捕获，所有的捕获的值会用作一个键值对赋值。接下来我们会讨论到它。</p>
+<h4 id="kwargs"><a href="#kwargs" class="headerlink" title="kwargs"></a>kwargs</h4><p>人员的关键字参数都可以放到一个字典（<code>dictionary</code>）中被传到目标 <code>view</code> 中，在这系列教程中，我们不会用到这个特性。</p>
+<h4 id="name"><a href="#name" class="headerlink" title="name"></a>name</h4><p>命名你的 <code>URL</code> 让你在任何地方都能更清楚地处理它，特别是在模板中。这个强有力的特性能让你只需要在一个文件稍作改变就能做出全局的 <code>url</code> 匹配规则改变。</p>
+
+        </div>
+        <footer class="article-footer">
+            
+
+
+
+    <a data-url="http://xhinliang.github.io/2016/04/01/Writing_your_first_Django_app_part_1/" data-id="cimiiutv3000hyso88uz3fia6" class="article-share-link"><i class="fa fa-share"></i>分享到</a>
+<script>
+    (function ($) {
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+        </footer>
+    </div>
+</article>
+
+    <section id="comments">
+    
+        
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+
+    
+    </section>
+
+                        </div>
+                    </section>
+                    <aside id="sidebar">
+    <a class="sidebar-toggle" title="Expand Sidebar"><i class="toggle icon"></i></a>
+    <div class="sidebar-top">
+        <p>关注我 :</p>
+        <ul class="social-links">
+            
+                
+                <li>
+                    <a class="social-tooltip" title="twitter" href="https://twitter.com/xhinliang" target="_blank">
+                        <i class="icon fa fa-twitter"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="facebook" href="https://www.facebook.com/xhin.liang" target="_blank">
+                        <i class="icon fa fa-facebook"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="google-plus" href="https://plus.google.com/105647538121556950461" target="_blank">
+                        <i class="icon fa fa-google-plus"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="github" href="https://github.com/XhinLiang" target="_blank">
+                        <i class="icon fa fa-github"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="weibo" href="http://weibo.com/xhinliang" target="_blank">
+                        <i class="icon fa fa-weibo"></i>
+                    </a>
+                </li>
+                
+            
+        </ul>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/2016/04/02/Writing_your_first_Django_app_part_2/" id="article-nav-newer" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">下一篇</strong>
+        <p class="article-nav-title">
+        
+            【译】写下你的第一个 Django 应用 part 2
+        
+        </p>
+        <i class="icon fa fa-chevron-right" id="icon-chevron-right"></i>
+    </a>
+    
+    
+        <a href="/2016/03/23/Two_algorithm_problem/" id="article-nav-older" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">上一篇</strong>
+        <p class="article-nav-title">两道算法题</p>
+        <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
+        </a>
+    
+</nav>
+
+    
+    <div class="widgets-container">
+        
+            
+                
+    <div class="widget-wrap">
+        <h3 class="widget-title">最新文章</h3>
+        <div class="widget">
+            <ul id="recent-post" class="">
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2016/04/02/Writing_your_first_Django_app_part_2/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/uploads/Writing_your_first_Django_app/admin01.png)" alt="【译】写下你的第一个 Django 应用 part 2" class="thumbnail-image"></span>
+    
+    
+</a>
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Python/">Python</a></p>
+                            <p class="item-title"><a href="/2016/04/02/Writing_your_first_Django_app_part_2/" class="title">【译】写下你的第一个 Django 应用 part 2</a></p>
+                            <p class="item-date"><time datetime="2016-04-02T02:25:29.000Z" itemprop="datePublished">2016-04-02</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2016/04/01/Writing_your_first_Django_app_part_1/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+    
+</a>
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Python/">Python</a></p>
+                            <p class="item-title"><a href="/2016/04/01/Writing_your_first_Django_app_part_1/" class="title">【译】写下你的第一个 Django 应用 part 1</a></p>
+                            <p class="item-date"><time datetime="2016-04-01T08:55:29.000Z" itemprop="datePublished">2016-04-01</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2016/03/23/Two_algorithm_problem/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+    
+</a>
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/算法/">算法</a></p>
+                            <p class="item-title"><a href="/2016/03/23/Two_algorithm_problem/" class="title">两道算法题</a></p>
+                            <p class="item-date"><time datetime="2016-03-23T13:02:29.000Z" itemprop="datePublished">2016-03-23</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2016/03/11/Think_about_Preference/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/uploads/Think_about_Preference/original_preference.gif)" alt="Android™ 中设置界面的思考" class="thumbnail-image"></span>
+    
+    
+</a>
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Android/">Android</a></p>
+                            <p class="item-title"><a href="/2016/03/11/Think_about_Preference/" class="title">Android™ 中设置界面的思考</a></p>
+                            <p class="item-date"><time datetime="2016-03-11T03:55:29.000Z" itemprop="datePublished">2016-03-11</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2016/03/09/Making_GIF_in_Ubuntu/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+    
+</a>
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Android/">Android</a></p>
+                            <p class="item-title"><a href="/2016/03/09/Making_GIF_in_Ubuntu/" class="title">在Ubuntu下录制屏幕GIF</a></p>
+                            <p class="item-date"><time datetime="2016-03-09T09:28:29.000Z" itemprop="datePublished">2016-03-09</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">分类</h3>
+        <div class="widget">
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Python/">Python</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/生活/">生活</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/算法/">算法</a><span class="category-list-count">3</span></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">归档</h3>
+        <div class="widget">
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">十二月 2015</a><span class="archive-list-count">4</span></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">标签</h3>
+        <div class="widget">
+            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/ACM/">ACM</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/">Android</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/C/">C</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/C/">C++</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Django/">Django</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/">Linux</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Python/">Python</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RxJava/">RxJava</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/工具/">工具</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据结构/">数据结构</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/算法/">算法</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/读书/">读书</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/面试/">面试</a><span class="tag-list-count">1</span></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-float">
+        <h3 class="widget-title">标签云</h3>
+        <div class="widget tagcloud">
+            <a href="/tags/ACM/" style="font-size: 10px;">ACM</a> <a href="/tags/Android/" style="font-size: 20px;">Android</a> <a href="/tags/C/" style="font-size: 20px;">C</a> <a href="/tags/C/" style="font-size: 10px;">C++</a> <a href="/tags/Django/" style="font-size: 15px;">Django</a> <a href="/tags/Java/" style="font-size: 10px;">Java</a> <a href="/tags/Linux/" style="font-size: 10px;">Linux</a> <a href="/tags/Python/" style="font-size: 15px;">Python</a> <a href="/tags/RxJava/" style="font-size: 10px;">RxJava</a> <a href="/tags/工具/" style="font-size: 10px;">工具</a> <a href="/tags/数据结构/" style="font-size: 10px;">数据结构</a> <a href="/tags/算法/" style="font-size: 20px;">算法</a> <a href="/tags/读书/" style="font-size: 10px;">读书</a> <a href="/tags/面试/" style="font-size: 10px;">面试</a>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">链接</h3>
+        <div class="widget">
+            <ul>
+                
+                    <li>
+                        <a href="http://www.jianshu.com/users/df40282480b4/latest_articles">小鄧子</a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+
+            
+        
+    </div>
+</aside>
+                </div>
+            </div>
+        </div>
+        <footer id="footer">
+    <div class="container">
+        <div class="container-inner">
+            <a id="back-to-top" href="javascript:;"><i class="icon fa fa-angle-up"></i></a>
+            <div class="credit">
+                <h1 class="logo-wrap">
+                    <a href="/" class="logo"></a>
+                </h1>
+                <p>&copy; 2016 Xhin Liang</p>
+                <p>Powered by <a href="//hexo.io/" target="_blank">Hexo</a>. Theme by <a href="//github.com/ppoffice" target="_blank">PPOffice</a></p>
+            </div>
+        </div>
+    </div>
+</footer>
+        
+    
+    <script>
+    var disqus_shortname = 'xhinliang';
+    
+    
+    var disqus_url = 'http://xhinliang.github.io/2016/04/01/Writing_your_first_Django_app_part_1/';
+    
+    (function() {
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+    </script>
+
+
+
+    
+        <script src="/vendor/fancybox/jquery.fancybox.pack.js" type="text/javascript"></script>
+    
+
+    
+        <script src="/vendor/scrollLoading/jquery.scrollLoading.js" type="text/javascript"></script>
+        <script src="/vendor/scrollLoading/main.js" type="text/javascript"></script>
+    
+
+
+<!-- Custom Scripts -->
+<script src="/js/main.js" type="text/javascript"></script>
+
+    </div>
+</body>
+</html>
