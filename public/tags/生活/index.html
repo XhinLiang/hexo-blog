@@ -3,36 +3,18 @@
 <head>
     <meta charset="utf-8">
     
-    <title>使用二分法求整数幂 | XhinLiang</title>
+    <title>标签：: 生活 | XhinLiang</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     
-        <meta name="keywords" content="ACM,C,C++,算法" />
-    
-    <meta name="description" content="引言
-在应用中求幂是一个经常使用到的运算。那么我们求幂的时候是不是经常这样写
-1234567int power(int x,  int n)&amp;#123;    int result = 1;    while (n--)        result *= x;    return result;&amp;#125;
-这样写简单直观，但是时间复杂度太高了。
-解决思路
-为了减少时间的消耗，我们可以使用二分法。">
-<meta property="og:type" content="article">
-<meta property="og:title" content="使用二分法求整数幂">
-<meta property="og:url" content="http://xhinliang.github.io/2015/12/03/Power_of_integer/index.html">
+    <meta name="description" content="本科在读">
+<meta property="og:type" content="website">
+<meta property="og:title" content="XhinLiang">
+<meta property="og:url" content="http://xhinliang.github.io/tags/生活/index.html">
 <meta property="og:site_name" content="XhinLiang">
-<meta property="og:description" content="引言
-在应用中求幂是一个经常使用到的运算。那么我们求幂的时候是不是经常这样写
-1234567int power(int x,  int n)&amp;#123;    int result = 1;    while (n--)        result *= x;    return result;&amp;#125;
-这样写简单直观，但是时间复杂度太高了。
-解决思路
-为了减少时间的消耗，我们可以使用二分法。">
-<meta property="og:updated_time" content="2016-02-21T06:27:45.196Z">
+<meta property="og:description" content="本科在读">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="使用二分法求整数幂">
-<meta name="twitter:description" content="引言
-在应用中求幂是一个经常使用到的运算。那么我们求幂的时候是不是经常这样写
-1234567int power(int x,  int n)&amp;#123;    int result = 1;    while (n--)        result *= x;    return result;&amp;#125;
-这样写简单直观，但是时间复杂度太高了。
-解决思路
-为了减少时间的消耗，我们可以使用二分法。">
+<meta name="twitter:title" content="XhinLiang">
+<meta name="twitter:description" content="本科在读">
     
 
     
@@ -140,130 +122,75 @@ _st('install','3MHy44anUbqi-KpQvFB8','2.0.0');
                         <div class="main-body-header">
     <h1 class="header">
     
-    <a class="page-title-link" href="/categories/算法/">算法</a>
+    <i class="icon fa fa-tag"></i>标签：: <em>生活</em>
     </h1>
 </div>
                         <div class="main-body-content">
-                            <article id="post-Power_of_integer" class="article article-single article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
+                            
+
+    
+    
         
-            <header class="article-header">
-                
+        
+        <section class="archives-wrap">
+            <div class="archive-year-wrap">
+                <a href="/archives/2016" class="archive-year"><i class="icon fa fa-calendar-o"></i>2016</a>
+            </div>
+            <div class="archives">
+    
+    
+    
+        <div class="article-row">
+    
+        <article class="article article-summary">
+    <div class="article-summary-inner">
+        
+        <a href="/2016/04/10/Thinking_in_April/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+    
+        
+<span class="comment-counter">
+    <i class="fa fa-comments-o"></i>
+    
+        <span class="disqus-comment-count" data-disqus-url="http://xhinliang.github.io/2016/04/10/Thinking_in_April/">0</span>
+    
+</span>
+
+    
+</a>
+        
+        <div class="article-meta">
+            <p class="category">
+            <a class="article-category-link" href="/categories/生活/">生活</a>
+            </p>
+            <p class="date"><time datetime="2016-04-10T15:55:29.000Z" itemprop="datePublished">2016-04-10</time></p>
+        </div>
+        
     
         <h1 class="article-title" itemprop="name">
-        使用二分法求整数幂
+        <a href="/2016/04/10/Thinking_in_April/">四月碎碎念</a>
         </h1>
     
 
-            </header>
-        
-        <div class="article-subtitle">
-            <a href="/2015/12/03/Power_of_integer/" class="article-date">
-    <time datetime="2015-12-03T00:55:29.000Z" itemprop="datePublished">2015-12-03</time>
-</a>
-            
-    <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ACM/">ACM</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/C/">C</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/C/">C++</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/算法/">算法</a></li></ul>
-
-        </div>
-        <div class="article-entry" itemprop="articleBody">
-            <h3 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h3><hr>
-<p>在应用中求幂是一个经常使用到的运算。<br>那么我们求幂的时候是不是经常这样写</p>
-<figure class="highlight nimrod"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> power(<span class="type">int</span> x,  <span class="type">int</span> n)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">int</span> <span class="literal">result</span> = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">while</span> (n--)</span><br><span class="line">        <span class="literal">result</span> *= x;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">result</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>这样写简单直观，但是时间复杂度太高了。</p>
-<h3 id="解决思路"><a href="#解决思路" class="headerlink" title="解决思路"></a>解决思路</h3><hr>
-<p>为了减少时间的消耗，我们可以使用<strong>二分法</strong>。</p>
-<p><strong>举个例子：求2的8次幂。</strong></p>
-<p><strong>设结果为result</strong> </p>
-<figure class="highlight nimrod"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="literal">result</span> = <span class="number">2</span>^<span class="number">8</span></span><br><span class="line">设result1 = <span class="number">2</span>^<span class="number">4</span>，很容易推出 <span class="literal">result</span>  =  result1*result1</span><br><span class="line">设result2 = <span class="number">2</span>^<span class="number">2</span>，同理，result1 = result2*result2</span><br><span class="line">......</span><br></pre></td></tr></table></figure>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">再举个例子,result3 = <span class="number">2</span>^<span class="number">7</span></span><br><span class="line">那么 result3 = result1 * <span class="number">2</span>^<span class="number">3</span></span><br><span class="line"><span class="number">2</span>^<span class="number">3</span> = <span class="number">2</span>^<span class="number">2</span> *<span class="number">2</span>^<span class="number">1</span></span><br></pre></td></tr></table></figure>
-<p>那么规律出来了，我们可以写程序了</p>
-<p>这里用了一些不常用的C的知识，有可能比较晦涩难懂。</p>
-<p><strong>稳妥起见，这里再复习一下C的知识</strong></p>
-<h3 id="amp-和-amp-amp-的区别："><a href="#amp-和-amp-amp-的区别：" class="headerlink" title="&amp;和&amp;&amp;的区别："></a>&amp;和&amp;&amp;的区别：</h3><h4 id="amp-–按位与"><a href="#amp-–按位与" class="headerlink" title="&amp;–按位与"></a>&amp;–按位与</h4><p>举个例子<br> 7的二进制是0111，1的二进制是0001；<br> 7&amp;1 即是  0111&amp;0001  = 0001（二进制） = 1（十进制）；<br>再举个例子<br> 11&amp;6  即是 1011&amp;0110 = 0010 = 2;</p>
-<h4 id="amp-amp-–逻辑与"><a href="#amp-amp-–逻辑与" class="headerlink" title="&amp;&amp;–逻辑与"></a>&amp;&amp;–逻辑与</h4><p>这个很简单了，只要两个数都不为0 ；结果就是1<br>10&amp;&amp;1 = 1；<br>1&amp;0 = 0；</p>
-<h4 id="lt-lt-，-gt-gt-位左移和位右移"><a href="#lt-lt-，-gt-gt-位左移和位右移" class="headerlink" title="&lt;&lt;，&gt;&gt;  位左移和位右移"></a>&lt;&lt;，&gt;&gt;  位左移和位右移</h4><p>依旧举例，将8向左移两位，<br>8 &gt;&gt; 2 即为 1000（二进制） 左移两位，结果就是10（二进制），化为十进制那就是2；<br><strong>P.S : n &gt;&gt;= 2 与 n =  n&gt;&gt;2 结果相同。</strong><br>但是在运算速度和内存占用上比后者好一些，这里就不给出详细的解释了。</p>
-<h3 id="核心代码"><a href="#核心代码" class="headerlink" title="核心代码"></a>核心代码</h3><hr>
-<figure class="highlight nimrod"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> power(<span class="type">int</span> x, <span class="type">int</span> n)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span> (n == <span class="number">0</span>)</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    <span class="type">int</span> <span class="literal">result</span> = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">while</span> (n != <span class="number">0</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> ((n &amp; <span class="number">1</span>) != <span class="number">0</span>)</span><br><span class="line">            <span class="literal">result</span> *= x;</span><br><span class="line">        x *= x;</span><br><span class="line">        n &gt;&gt;= <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">result</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-        </div>
-        <footer class="article-footer">
-            
-
-
-
-    <a data-url="http://xhinliang.github.io/2015/12/03/Power_of_integer/" data-id="cimur32h1001fs7o8j9rbdfz7" class="article-share-link"><i class="fa fa-share"></i>分享到</a>
-<script>
-    (function ($) {
-        $('body').on('click', function() {
-            $('.article-share-box.on').removeClass('on');
-        }).on('click', '.article-share-link', function(e) {
-            e.stopPropagation();
-
-            var $this = $(this),
-                url = $this.attr('data-url'),
-                encodedUrl = encodeURIComponent(url),
-                id = 'article-share-box-' + $this.attr('data-id'),
-                offset = $this.offset(),
-                box;
-
-            if ($('#' + id).length) {
-                box = $('#' + id);
-
-                if (box.hasClass('on')){
-                    box.removeClass('on');
-                    return;
-                }
-            } else {
-                var html = [
-                    '<div id="' + id + '" class="article-share-box">',
-                        '<input class="article-share-input" value="' + url + '">',
-                        '<div class="article-share-links">',
-                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
-                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
-                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="article-share-pinterest" target="_blank" title="Pinterest"></a>',
-                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="article-share-google" target="_blank" title="Google+"></a>',
-                        '</div>',
-                    '</div>'
-                ].join('');
-
-              box = $(html);
-
-              $('body').append(box);
-            }
-
-            $('.article-share-box.on').hide();
-
-            box.css({
-                top: offset.top + 25,
-                left: offset.left
-            }).addClass('on');
-
-        }).on('click', '.article-share-box', function (e) {
-            e.stopPropagation();
-        }).on('click', '.article-share-box-input', function () {
-            $(this).select();
-        }).on('click', '.article-share-box-link', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-
-            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
-        });
-    })(jQuery);
-</script>
-
-        </footer>
+        <p class="article-excerpt">
+            手指按在键盘上，心中有千言万语，却不知道如何组织起来。
+写了一大堆，想想还是删掉了。
+学期伊始就收到了一家非常好的小公司的实习 offer。我当时想找辅导员说一下，然后直接去实习。无奈老师和领导推来推去，事情搞得越来越大，不仅浪费了好多时间在申请出校实习上（浪费的有效时间至少20小时），而且到最后没有成功。这段经历相当痛苦，以至于我也明白了许多关于世故的“道理”。
+前两周，经过慎重考虑（事实上还是
+        </p>
     </div>
 </article>
-
-    <section id="comments">
     
-        
-    <div id="disqus_thread">
-        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-    </div>
-
+        </div>
     
-    </section>
+
+
+    </div></section>
+
+
 
                         </div>
                     </section>
@@ -315,23 +242,6 @@ _st('install','3MHy44anUbqi-KpQvFB8','2.0.0');
             
         </ul>
     </div>
-    
-        
-<nav id="article-nav">
-    
-        <a href="/2015/12/03/RxJava_and_Retrofit/" id="article-nav-newer" class="article-nav-link-wrap">
-        <strong class="article-nav-caption">下一篇</strong>
-        <p class="article-nav-title">
-        
-            RxJava &amp;&amp; Retrofit 简化RESTful请求
-        
-        </p>
-        <i class="icon fa fa-chevron-right" id="icon-chevron-right"></i>
-    </a>
-    
-    
-</nav>
-
     
     <div class="widgets-container">
         
@@ -524,13 +434,11 @@ _st('install','3MHy44anUbqi-KpQvFB8','2.0.0');
     var disqus_shortname = 'xhinliang';
     
     
-    var disqus_url = 'http://xhinliang.github.io/2015/12/03/Power_of_integer/';
-    
     (function() {
     var dsq = document.createElement('script');
     dsq.type = 'text/javascript';
     dsq.async = true;
-    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
     (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
     })();
     </script>
