@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    
+    <title>Scrapy 入门 | XhinLiang</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+        <meta name="keywords" content="Python,Scrapy" />
+    
+    <meta name="description" content="创建一个名为 project_name 的项目1scrapy startproject project_name
+定义 ItemItem 使用方法与 Python 的字典类似，提供了额外保护机制避免拼写和未定义字段错误。
+123class Example_Item(scrapy.Item):    field_name = scrapy.Field()    second_name = scrap">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Scrapy 入门">
+<meta property="og:url" content="http://xhinliang.github.io/2016/04/17/Learnning_scrapy/index.html">
+<meta property="og:site_name" content="XhinLiang">
+<meta property="og:description" content="创建一个名为 project_name 的项目1scrapy startproject project_name
+定义 ItemItem 使用方法与 Python 的字典类似，提供了额外保护机制避免拼写和未定义字段错误。
+123class Example_Item(scrapy.Item):    field_name = scrapy.Field()    second_name = scrap">
+<meta property="og:updated_time" content="2016-04-17T11:16:27.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Scrapy 入门">
+<meta name="twitter:description" content="创建一个名为 project_name 的项目1scrapy startproject project_name
+定义 ItemItem 使用方法与 Python 的字典类似，提供了额外保护机制避免拼写和未定义字段错误。
+123class Example_Item(scrapy.Item):    field_name = scrapy.Field()    second_name = scrap">
+    
+
+    
+
+    
+        <link rel="icon" href="/uploads/avatar.png" />
+    
+
+    <link rel="stylesheet" href="/vendor/font-awesome/css/font-awesome.min.css" type="text/css">
+    <link rel="stylesheet" href="/vendor/titillium-web/styles.css" type="text/css">
+    <link rel="stylesheet" href="/vendor/source-code-pro/styles.css" type="text/css">
+
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+    <script src="/vendor/jquery/2.0.3/jquery.min.js" type="text/javascript"></script>
+    
+    
+        <link rel="stylesheet" href="/vendor/fancybox/jquery.fancybox.css" type="text/css">
+    
+    
+        <link rel="stylesheet" href="/vendor/scrollLoading/style.css" type="text/css">
+    
+    
+    
+
+</head>
+
+<body>
+    <div id="wrap">
+        <header id="header">
+    <div id="header-outer" class="outer">
+        <div class="container">
+            <div class="container-inner">
+                <div id="header-title">
+                    <h1 class="logo-wrap">
+                        <a href="/" class="logo"></a>
+                    </h1>
+                    
+                        <h2 class="subtitle-wrap">
+                            <p class="subtitle">胖胖是我女神</p>
+                        </h2>
+                    
+                </div>
+                <div id="header-inner" class="nav-container">
+                    <a id="main-nav-toggle" class="nav-icon fa fa-bars"></a>
+                    <div class="nav-container-inner">
+                        <ul id="main-nav">
+                            
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/">主页</a>
+                                </li>
+                            
+                                        <ul class="main-nav-list"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Android/">Android</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Python/">Python</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/工具/">工具</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/生活/">生活</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/算法/">算法</a></li></ul>
+                                    
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/about/index.html">关于</a>
+                                </li>
+                            
+                        </ul>
+                        <nav id="sub-nav">
+                            <div id="search-form-wrap">
+
+    <div class="search-form">
+        <input type="text" class="st-default-search-input search-form-input" placeholder="搜索" />
+    </div>
+    <script type="text/javascript">
+(function(w,d,t,u,n,s,e) {w['SwiftypeObject']=n;w[n]=w[n]||function() {
+(w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+})(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+_st('install','3MHy44anUbqi-KpQvFB8','2.0.0');
+</script>
+<style>
+    .st-ui-injected-overlay-container,
+    .st-ui-injected-overlay-container *:not(select) {
+        font-family: inherit !important;
+    }
+    section.st-ui-content.st-search-results a.st-ui-result .st-ui-type-heading {
+        color: #3b8dbd !important;
+    }
+    .st-ui-injected-overlay-container .st-ui-header input[type="text"]:focus {
+        border-bottom: 2px solid #3b8dbd;
+    }
+    .st-ui-injected-overlay-container .st-ui-footer a.st-ui-pagination-link {
+        color: #3b8dbd;
+    }
+    .st-ui-injected-overlay-container .st-ui-footer a.st-ui-pagination-link span.st-ui-arrow {
+        border-color: #3b8dbd;
+    }
+</style>
+
+</div>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+        <div class="container">
+            <div class="main-body container-inner">
+                <div class="main-body-inner">
+                    <section id="main">
+                        <div class="main-body-header">
+    <h1 class="header">
+    
+    <a class="page-title-link" href="/categories/Python/">Python</a>
+    </h1>
+</div>
+                        <div class="main-body-content">
+                            <article id="post-Learnning_scrapy" class="article article-single article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+        Scrapy 入门
+        </h1>
+    
+
+            </header>
+        
+        <div class="article-subtitle">
+            <a href="/2016/04/17/Learnning_scrapy/" class="article-date">
+    <time datetime="2016-04-17T05:28:29.000Z" itemprop="datePublished">2016-04-17</time>
+</a>
+            
+    <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Python/">Python</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Scrapy/">Scrapy</a></li></ul>
+
+        </div>
+        <div class="article-entry" itemprop="articleBody">
+            <h3 id="创建一个名为-project-name-的项目"><a href="#创建一个名为-project-name-的项目" class="headerlink" title="创建一个名为 project_name 的项目"></a>创建一个名为 project_name 的项目</h3><figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="title">scrapy</span> startproject project_name</span><br></pre></td></tr></table></figure>
+<h3 id="定义-Item"><a href="#定义-Item" class="headerlink" title="定义 Item"></a>定义 Item</h3><p>Item 使用方法与 Python 的字典类似，提供了额外保护机制避免拼写和未定义字段错误。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Example_Item</span><span class="params">(scrapy.Item)</span>:</span></span><br><span class="line">    field_name = scrapy.Field()</span><br><span class="line">    second_name = scrapy.Field()</span><br></pre></td></tr></table></figure>
+<h3 id="创建爬虫"><a href="#创建爬虫" class="headerlink" title="创建爬虫"></a>创建爬虫</h3><p>创建的爬虫需要放在 project_name/spiders 目录下。<br><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">vim</span> project_name/spider_name.<span class="keyword">py</span></span><br></pre></td></tr></table></figure></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> scrapy</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Spider_name</span><span class="params">(scrapy.Spider)</span>:</span></span><br><span class="line">    <span class="comment"># 这里定义了爬虫的名字，下一步会用到</span></span><br><span class="line">    name = <span class="string">"spider_name"</span></span><br><span class="line">    <span class="comment"># 允许爬取的域名</span></span><br><span class="line">    allowed_domains = [<span class="string">"example.com"</span>]</span><br><span class="line">    <span class="comment"># 开始爬取的页面</span></span><br><span class="line">    start_urls = [</span><br><span class="line">        <span class="string">"http://www.example.com/list"</span></span><br><span class="line">    ]</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 这里是具体的爬取逻辑</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">parse</span><span class="params">(self, response)</span>:</span></span><br></pre></td></tr></table></figure>
+<h3 id="开始爬"><a href="#开始爬" class="headerlink" title="开始爬"></a>开始爬</h3><figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="title">scrapy</span> crawl spider_name</span><br></pre></td></tr></table></figure>
+<h3 id="选择器"><a href="#选择器" class="headerlink" title="选择器"></a>选择器</h3><h4 id="XPath-表达式示例"><a href="#XPath-表达式示例" class="headerlink" title="XPath 表达式示例"></a>XPath 表达式示例</h4><ul>
+<li><code>/html/head/title</code> 选择一个元素 </li>
+<li><code>/html/head/title/text()</code> 选择一个标签内的文字</li>
+<li><code>//td</code> 选择所有的<code>td</code>元素</li>
+<li><code>//div[@link=&quot;fine&quot;]</code> 选择一个具有特定属性的元素</li>
+</ul>
+<h4 id="XPath-嵌套"><a href="#XPath-嵌套" class="headerlink" title="XPath 嵌套"></a>XPath 嵌套</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 在根目录中选择一个 doc 元素</span></span><br><span class="line">doc = response.xpath(<span class="string">'/doc'</span>)[<span class="number">0</span>]</span><br><span class="line">divs = doc.xpath(<span class="string">'div'</span>)</span><br><span class="line">divs_same = doc.xpath(<span class="string">'./div'</span>)</span><br><span class="line">all_divs_<span class="keyword">in</span>_doc = doc.xpath(<span class="string">'.//div'</span>)</span><br><span class="line">all_<span class="keyword">in</span>_doc = doc.xpath(<span class="string">'//div'</span>)</span><br><span class="line"><span class="keyword">for</span> item <span class="keyword">in</span> divs:</span><br><span class="line">    <span class="built_in">print</span>(item.xpath(<span class="string">'./li/a/text()'</span>).extract_first())</span><br></pre></td></tr></table></figure>
+<h4 id="正则"><a href="#正则" class="headerlink" title="正则"></a>正则</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="prompt">&gt;&gt;&gt; </span><span class="keyword">from</span> scrapy <span class="keyword">import</span> Selector</span><br><span class="line"><span class="prompt">&gt;&gt;&gt; </span>doc = <span class="string">"""</span><br><span class="line"><span class="prompt">... </span>&lt;div&gt;</span><br><span class="line"><span class="prompt">... </span>    &lt;ul&gt;</span><br><span class="line"><span class="prompt">... </span>        &lt;li class="item-0"&gt;&lt;a href="link1.html"&gt;first item&lt;/a&gt;&lt;/li&gt;</span><br><span class="line"><span class="prompt">... </span>        &lt;li class="item-1"&gt;&lt;a href="link2.html"&gt;second item&lt;/a&gt;&lt;/li&gt;</span><br><span class="line"><span class="prompt">... </span>        &lt;li class="item-inactive"&gt;&lt;a href="link3.html"&gt;third item&lt;/a&gt;&lt;/li&gt;</span><br><span class="line"><span class="prompt">... </span>        &lt;li class="item-1"&gt;&lt;a href="link4.html"&gt;fourth item&lt;/a&gt;&lt;/li&gt;</span><br><span class="line"><span class="prompt">... </span>        &lt;li class="item-0"&gt;&lt;a href="link5.html"&gt;fifth item&lt;/a&gt;&lt;/li&gt;</span><br><span class="line"><span class="prompt">... </span>    &lt;/ul&gt;</span><br><span class="line"><span class="prompt">... </span>&lt;/div&gt;</span><br><span class="line"><span class="prompt">... </span>"""</span></span><br><span class="line"><span class="prompt">&gt;&gt;&gt; </span>sel = Selector(text=doc, type=<span class="string">"html"</span>)</span><br><span class="line"><span class="prompt">&gt;&gt;&gt; </span>sel.xpath(<span class="string">'//li//@href'</span>).extract()</span><br><span class="line">[<span class="string">u'link1.html'</span>, <span class="string">u'link2.html'</span>, <span class="string">u'link3.html'</span>, <span class="string">u'link4.html'</span>, <span class="string">u'link5.html'</span>]</span><br><span class="line"><span class="prompt">&gt;&gt;&gt; </span>sel.xpath(<span class="string">'//li[re:test(@class, "item-\d$")]//@href'</span>).extract()</span><br><span class="line">[<span class="string">u'link1.html'</span>, <span class="string">u'link2.html'</span>, <span class="string">u'link4.html'</span>, <span class="string">u'link5.html'</span>]</span><br><span class="line">&gt;&gt;&gt;</span><br></pre></td></tr></table></figure>
+<h4 id="Set"><a href="#Set" class="headerlink" title="Set"></a>Set</h4><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; doc = <span class="string">""</span><span class="string">"</span><br><span class="line">... &lt;div itemscope itemtype="</span>http://schema.org/Product<span class="string">"&gt;</span><br><span class="line">...   &lt;span itemprop="</span>name<span class="string">"&gt;Kenmore White 17"</span> Microwave&lt;/span&gt;</span><br><span class="line"><span class="keyword">...</span>   &lt;img src=<span class="string">"kenmore-microwave-17in.jpg"</span> alt=<span class="string">'Kenmore 17" Microwave'</span> /&gt;</span><br><span class="line"><span class="keyword">...</span>   &lt;div itemprop=<span class="string">"aggregateRating"</span></span><br><span class="line"><span class="keyword">...</span>     itemscope itemtype=<span class="string">"http://schema.org/AggregateRating"</span>&gt;</span><br><span class="line"><span class="keyword">...</span>    Rated &lt;span itemprop=<span class="string">"ratingValue"</span>&gt;<span class="number">3.5</span>&lt;/span&gt;/<span class="number">5</span></span><br><span class="line"><span class="keyword">...</span>    based on &lt;span itemprop=<span class="string">"reviewCount"</span>&gt;<span class="number">11</span>&lt;/span&gt; customer reviews</span><br><span class="line"><span class="keyword">...</span>   &lt;/div&gt;</span><br><span class="line"><span class="keyword">...</span></span><br><span class="line"><span class="keyword">...</span>   &lt;div itemprop=<span class="string">"offers"</span> itemscope itemtype=<span class="string">"http://schema.org/Offer"</span>&gt;</span><br><span class="line"><span class="keyword">...</span>     &lt;span itemprop=<span class="string">"price"</span>&gt;$<span class="number">55.00</span>&lt;/span&gt;</span><br><span class="line"><span class="keyword">...</span>     &lt;link itemprop=<span class="string">"availability"</span> href=<span class="string">"http://schema.org/InStock"</span> /&gt;In stock</span><br><span class="line"><span class="keyword">...</span>   &lt;/div&gt;</span><br><span class="line"><span class="keyword">...</span></span><br><span class="line"><span class="keyword">...</span>   Product description:</span><br><span class="line"><span class="keyword">...</span>   &lt;span itemprop=<span class="string">"description"</span>&gt;<span class="number">0.7</span> cubic feet countertop microwave.</span><br><span class="line"><span class="keyword">...</span>   Has six preset cooking categories and convenience features like</span><br><span class="line"><span class="keyword">...</span>   Add-A-Minute and Child Lock.&lt;/span&gt;</span><br><span class="line"><span class="keyword">...</span></span><br><span class="line"><span class="keyword">...</span>   Customer reviews:</span><br><span class="line"><span class="keyword">...</span></span><br><span class="line"><span class="keyword">...</span>   &lt;div itemprop=<span class="string">"review"</span> itemscope itemtype=<span class="string">"http://schema.org/Review"</span>&gt;</span><br><span class="line"><span class="keyword">...</span>     &lt;span itemprop=<span class="string">"name"</span>&gt;Not a happy camper&lt;/span&gt; -</span><br><span class="line"><span class="keyword">...</span>     by &lt;span itemprop=<span class="string">"author"</span>&gt;Ellie&lt;/span&gt;,</span><br><span class="line"><span class="keyword">...</span>     &lt;meta itemprop=<span class="string">"datePublished"</span> content=<span class="string">"2011-04-01"</span>&gt;April <span class="number">1</span>, <span class="number">2011</span></span><br><span class="line"><span class="keyword">...</span>     &lt;div itemprop=<span class="string">"reviewRating"</span> itemscope itemtype=<span class="string">"http://schema.org/Rating"</span>&gt;</span><br><span class="line"><span class="keyword">...</span>       &lt;meta itemprop=<span class="string">"worstRating"</span> content = <span class="string">"1"</span>&gt;</span><br><span class="line"><span class="keyword">...</span>       &lt;span itemprop=<span class="string">"ratingValue"</span>&gt;<span class="number">1</span>&lt;/span&gt;/</span><br><span class="line"><span class="keyword">...</span>       &lt;span itemprop=<span class="string">"bestRating"</span>&gt;<span class="number">5</span>&lt;/span&gt;stars</span><br><span class="line"><span class="keyword">...</span>     &lt;/div&gt;</span><br><span class="line"><span class="keyword">...</span>     &lt;span itemprop=<span class="string">"description"</span>&gt;The lamp burned out and now I have to replace</span><br><span class="line"><span class="keyword">...</span>     it. &lt;/span&gt;</span><br><span class="line"><span class="keyword">...</span>   &lt;/div&gt;</span><br><span class="line"><span class="keyword">...</span></span><br><span class="line"><span class="keyword">...</span>   &lt;div itemprop=<span class="string">"review"</span> itemscope itemtype=<span class="string">"http://schema.org/Review"</span>&gt;</span><br><span class="line"><span class="keyword">...</span>     &lt;span itemprop=<span class="string">"name"</span>&gt;Value purchase&lt;/span&gt; -</span><br><span class="line"><span class="keyword">...</span>     by &lt;span itemprop=<span class="string">"author"</span>&gt;Lucas&lt;/span&gt;,</span><br><span class="line"><span class="keyword">...</span>     &lt;meta itemprop=<span class="string">"datePublished"</span> content=<span class="string">"2011-03-25"</span>&gt;March <span class="number">25</span>, <span class="number">2011</span></span><br><span class="line"><span class="keyword">...</span>     &lt;div itemprop=<span class="string">"reviewRating"</span> itemscope itemtype=<span class="string">"http://schema.org/Rating"</span>&gt;</span><br><span class="line"><span class="keyword">...</span>       &lt;meta itemprop=<span class="string">"worstRating"</span> content = <span class="string">"1"</span>/&gt;</span><br><span class="line"><span class="keyword">...</span>       &lt;span itemprop=<span class="string">"ratingValue"</span>&gt;<span class="number">4</span>&lt;/span&gt;/</span><br><span class="line"><span class="keyword">...</span>       &lt;span itemprop=<span class="string">"bestRating"</span>&gt;<span class="number">5</span>&lt;/span&gt;stars</span><br><span class="line"><span class="keyword">...</span>     &lt;/div&gt;</span><br><span class="line"><span class="keyword">...</span>     &lt;span itemprop=<span class="string">"description"</span>&gt;Great microwave <span class="keyword">for</span> the price. It is small and</span><br><span class="line"><span class="keyword">...</span>     fits <span class="keyword">in</span> my apartment.&lt;/span&gt;</span><br><span class="line"><span class="keyword">...</span>   &lt;/div&gt;</span><br><span class="line"><span class="keyword">...</span>   <span class="keyword">...</span></span><br><span class="line"><span class="keyword">...</span> &lt;/div&gt;</span><br><span class="line"><span class="keyword">...</span> <span class="string">""</span><span class="string">"</span><br><span class="line">&gt;&gt;&gt; sel = Selector(text=doc, type="</span>html<span class="string">") # 生成 Selector 对象</span><br><span class="line">&gt;&gt;&gt; for scope in sel.xpath('//div[@itemscope]'): # 遍历每个含有 itemscope 属性的 div 元素</span><br><span class="line">...     print "</span>current scope:<span class="string">", scope.xpath('@itemtype').extract() # 先把这个元素的 itemtype 属性打印出来</span><br><span class="line">...     props = scope.xpath(''' # 利用集合抓取元素</span><br><span class="line">...                 set:difference(./descendant::*/@itemprop, # 这里暂时看不懂</span><br><span class="line">...                                .//*[@itemscope]/*/@itemprop)''') # 选择一个含有 itemscope 属性的元素，再选择他的含有 itemprop 属性的元素</span><br><span class="line">...     print "</span>    properties:<span class="string">", props.extract()</span><br><span class="line">...     print</span><br><span class="line">...</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">current scope: [<span class="string">u'http://schema.org/Product'</span>]</span><br><span class="line">    properties: [<span class="string">u'name'</span>, <span class="string">u'aggregateRating'</span>, <span class="string">u'offers'</span>, <span class="string">u'description'</span>, <span class="string">u'review'</span>, <span class="string">u'review'</span>]</span><br><span class="line"></span><br><span class="line">current scope: [<span class="string">u'http://schema.org/AggregateRating'</span>]</span><br><span class="line">    properties: [<span class="string">u'ratingValue'</span>, <span class="string">u'reviewCount'</span>]</span><br><span class="line"></span><br><span class="line">current scope: [<span class="string">u'http://schema.org/Offer'</span>]</span><br><span class="line">    properties: [<span class="string">u'price'</span>, <span class="string">u'availability'</span>]</span><br><span class="line"></span><br><span class="line">current scope: [<span class="string">u'http://schema.org/Review'</span>]</span><br><span class="line">    properties: [<span class="string">u'name'</span>, <span class="string">u'author'</span>, <span class="string">u'datePublished'</span>, <span class="string">u'reviewRating'</span>, <span class="string">u'description'</span>]</span><br><span class="line"></span><br><span class="line">current scope: [<span class="string">u'http://schema.org/Rating'</span>]</span><br><span class="line">    properties: [<span class="string">u'worstRating'</span>, <span class="string">u'ratingValue'</span>, <span class="string">u'bestRating'</span>]</span><br><span class="line"></span><br><span class="line">current scope: [<span class="string">u'http://schema.org/Review'</span>]</span><br><span class="line">    properties: [<span class="string">u'name'</span>, <span class="string">u'author'</span>, <span class="string">u'datePublished'</span>, <span class="string">u'reviewRating'</span>, <span class="string">u'description'</span>]</span><br><span class="line"></span><br><span class="line">current scope: [<span class="string">u'http://schema.org/Rating'</span>]</span><br><span class="line">    properties: [<span class="string">u'worstRating'</span>, <span class="string">u'ratingValue'</span>, <span class="string">u'bestRating'</span>]</span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt;</span><br></pre></td></tr></table></figure>
+<h4 id="Selector-方法"><a href="#Selector-方法" class="headerlink" title="Selector 方法"></a>Selector 方法</h4><ul>
+<li><code>xpath()</code> 传入一个 XPath 表达式，返回一个 selector list。</li>
+<li><code>css()</code> 同上，但是传入的是 CSS 表达式。</li>
+<li><code>extract()</code> 序列化节点，返回list。</li>
+<li><code>re()</code> 传入正则表达式进行提取，返回 unicode 的 list。</li>
+</ul>
+<h3 id="Selector-Shell"><a href="#Selector-Shell" class="headerlink" title="Selector Shell"></a>Selector Shell</h3><figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scrapy <span class="built_in">shell</span> <span class="string">"http://www.example.com"</span></span><br></pre></td></tr></table></figure>
+<p>得到一个 <code>response</code> 变量。</p>
+<h3 id="嵌套选择器示例"><a href="#嵌套选择器示例" class="headerlink" title="嵌套选择器示例"></a>嵌套选择器示例</h3><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> sel <span class="keyword">in</span> response.<span class="function"><span class="title">xpath</span><span class="params">(<span class="string">'//ul/li'</span>)</span></span>:</span><br><span class="line">    title = sel.<span class="function"><span class="title">xpath</span><span class="params">(<span class="string">'a/text()'</span>)</span></span>.<span class="function"><span class="title">extract</span><span class="params">()</span></span></span><br><span class="line">    link = sel.<span class="function"><span class="title">xpath</span><span class="params">(<span class="string">'a/@href'</span>)</span></span>.<span class="function"><span class="title">extract</span><span class="params">()</span></span></span><br><span class="line">    print title, link</span><br></pre></td></tr></table></figure>
+<h3 id="将爬取的数据返回"><a href="#将爬取的数据返回" class="headerlink" title="将爬取的数据返回"></a>将爬取的数据返回</h3><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">import scrapy</span><br><span class="line"></span><br><span class="line">from tutorial<span class="class">.items</span> import DmozItem</span><br><span class="line"></span><br><span class="line">class <span class="function"><span class="title">DmozSpider</span><span class="params">(scrapy.Spider)</span></span>:</span><br><span class="line">    name = <span class="string">"dmoz"</span></span><br><span class="line">    allowed_domains = [<span class="string">"dmoz.org"</span>]</span><br><span class="line">    start_urls = [</span><br><span class="line">        <span class="string">"http://www.dmoz.org/Computers/Programming/Languages/Python/Books/"</span>,</span><br><span class="line">        <span class="string">"http://www.dmoz.org/Computers/Programming/Languages/Python/Resources/"</span></span><br><span class="line">    ]</span><br><span class="line"></span><br><span class="line">    def <span class="function"><span class="title">parse</span><span class="params">(self, response)</span></span>:</span><br><span class="line">        <span class="keyword">for</span> sel <span class="keyword">in</span> response.<span class="function"><span class="title">xpath</span><span class="params">(<span class="string">'//ul/li'</span>)</span></span>:</span><br><span class="line">            item = <span class="function"><span class="title">Example_Item</span><span class="params">()</span></span></span><br><span class="line">            item[<span class="string">'title'</span>] = sel.<span class="function"><span class="title">xpath</span><span class="params">(<span class="string">'a/text()'</span>)</span></span>.<span class="function"><span class="title">extract_first</span><span class="params">()</span></span></span><br><span class="line">            item[<span class="string">'link'</span>] = sel.<span class="function"><span class="title">xpath</span><span class="params">(<span class="string">'a/@href'</span>)</span></span>.<span class="function"><span class="title">extract_first</span><span class="params">()</span></span></span><br><span class="line">            item[<span class="string">'desc'</span>] = sel.<span class="function"><span class="title">xpath</span><span class="params">(<span class="string">'text()'</span>)</span></span>.<span class="function"><span class="title">extract_first</span><span class="params">()</span></span></span><br><span class="line">            yield item</span><br></pre></td></tr></table></figure>
+<h3 id="追踪链接"><a href="#追踪链接" class="headerlink" title="追踪链接"></a>追踪链接</h3><p>注意看 <code>start_urls</code> 的部分<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">import scrapy</span><br><span class="line"></span><br><span class="line">from tutorial<span class="class">.items</span> import DmozItem</span><br><span class="line"></span><br><span class="line">class <span class="function"><span class="title">DmozSpider</span><span class="params">(scrapy.Spider)</span></span>:</span><br><span class="line">    name = <span class="string">"dmoz"</span></span><br><span class="line">    allowed_domains = [<span class="string">"dmoz.org"</span>]</span><br><span class="line">    start_urls = [</span><br><span class="line">        <span class="string">"http://www.dmoz.org/Computers/Programming/Languages/Python/"</span>,</span><br><span class="line">    ]</span><br><span class="line"></span><br><span class="line">    def <span class="function"><span class="title">parse</span><span class="params">(self, response)</span></span>:</span><br><span class="line">        <span class="keyword">for</span> href <span class="keyword">in</span> response.<span class="function"><span class="title">css</span><span class="params">(<span class="string">"ul.directory.dir-col &gt; li &gt; a::attr('href')"</span>)</span></span>:</span><br><span class="line">            url = response.<span class="function"><span class="title">urljoin</span><span class="params">(response.url, href.extract()</span></span>)</span><br><span class="line">            yield scrapy.<span class="function"><span class="title">Request</span><span class="params">(url, callback=self.parse_dir_contents)</span></span></span><br><span class="line"></span><br><span class="line">    def <span class="function"><span class="title">parse_dir_contents</span><span class="params">(self, response)</span></span>:</span><br><span class="line">        <span class="keyword">for</span> sel <span class="keyword">in</span> response.<span class="function"><span class="title">xpath</span><span class="params">(<span class="string">'//ul/li'</span>)</span></span>:</span><br><span class="line">            item = <span class="function"><span class="title">DmozItem</span><span class="params">()</span></span></span><br><span class="line">            item[<span class="string">'title'</span>] = sel.<span class="function"><span class="title">xpath</span><span class="params">(<span class="string">'a/text()'</span>)</span></span>.<span class="function"><span class="title">extract</span><span class="params">()</span></span></span><br><span class="line">            item[<span class="string">'link'</span>] = sel.<span class="function"><span class="title">xpath</span><span class="params">(<span class="string">'a/@href'</span>)</span></span>.<span class="function"><span class="title">extract</span><span class="params">()</span></span></span><br><span class="line">            item[<span class="string">'desc'</span>] = sel.<span class="function"><span class="title">xpath</span><span class="params">(<span class="string">'text()'</span>)</span></span>.<span class="function"><span class="title">extract</span><span class="params">()</span></span></span><br><span class="line">            yield item</span><br></pre></td></tr></table></figure></p>
+<h3 id="更常见的一遍爬取一遍追踪"><a href="#更常见的一遍爬取一遍追踪" class="headerlink" title="更常见的一遍爬取一遍追踪"></a>更常见的一遍爬取一遍追踪</h3><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">def <span class="function"><span class="title">parse_articles_follow_next_page</span><span class="params">(self, response)</span></span>:</span><br><span class="line">    <span class="keyword">for</span> <span class="tag">article</span> <span class="keyword">in</span> response.<span class="function"><span class="title">xpath</span><span class="params">(<span class="string">"//article"</span>)</span></span>:</span><br><span class="line">        item = <span class="function"><span class="title">ArticleItem</span><span class="params">()</span></span></span><br><span class="line"></span><br><span class="line">        ... extract <span class="tag">article</span> data here</span><br><span class="line"></span><br><span class="line">        yield item</span><br><span class="line"></span><br><span class="line">    next_page = response.<span class="function"><span class="title">css</span><span class="params">(<span class="string">"ul.navigation &gt; li.next-page &gt; a::attr('href')"</span>)</span></span></span><br><span class="line">    <span class="keyword">if</span> next_page:</span><br><span class="line">        url = response.<span class="function"><span class="title">urljoin</span><span class="params">(next_page[<span class="number">0</span>].extract()</span></span>)</span><br><span class="line">        yield scrapy.<span class="function"><span class="title">Request</span><span class="params">(url, self.parse_articles_follow_next_page)</span></span></span><br></pre></td></tr></table></figure>
+<h3 id="保存爬取到的数据为-JSON-格式"><a href="#保存爬取到的数据为-JSON-格式" class="headerlink" title="保存爬取到的数据为 JSON 格式"></a>保存爬取到的数据为 JSON 格式</h3><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">scrapy</span> <span class="tag">crawl</span> <span class="tag">spider_name</span> <span class="tag">-o</span> <span class="tag">items</span><span class="class">.json</span></span><br></pre></td></tr></table></figure>
+
+        </div>
+        <footer class="article-footer">
+            
+
+
+
+    <a data-url="http://xhinliang.github.io/2016/04/17/Learnning_scrapy/" data-id="cixbj3hat002dqjo8vjkzne7h" class="article-share-link"><i class="fa fa-share"></i>分享到</a>
+<script>
+    (function ($) {
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+        </footer>
+    </div>
+</article>
+
+    <section id="comments">
+    
+        
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+
+    
+    </section>
+
+                        </div>
+                    </section>
+                    <aside id="sidebar">
+    <a class="sidebar-toggle" title="Expand Sidebar"><i class="toggle icon"></i></a>
+    <div class="sidebar-top">
+        <p>关注我 :</p>
+        <ul class="social-links">
+            
+                
+                <li>
+                    <a class="social-tooltip" title="twitter" href="https://twitter.com/xhinliang" target="_blank">
+                        <i class="icon fa fa-twitter"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="facebook" href="https://www.facebook.com/xhin.liang" target="_blank">
+                        <i class="icon fa fa-facebook"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="google-plus" href="https://plus.google.com/105647538121556950461" target="_blank">
+                        <i class="icon fa fa-google-plus"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="github" href="https://github.com/XhinLiang" target="_blank">
+                        <i class="icon fa fa-github"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="weibo" href="http://weibo.com/xhinliang" target="_blank">
+                        <i class="icon fa fa-weibo"></i>
+                    </a>
+                </li>
+                
+            
+        </ul>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/2016/04/17/Tips_of_XPath/" id="article-nav-newer" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">下一篇</strong>
+        <p class="article-nav-title">
+        
+            【译】XPath 实用技巧
+        
+        </p>
+        <i class="icon fa fa-chevron-right" id="icon-chevron-right"></i>
+    </a>
+    
+    
+        <a href="/2016/04/14/PHP_in_vim/" id="article-nav-older" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">上一篇</strong>
+        <p class="article-nav-title">PHP 在 Vim 上的使用问题</p>
+        <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
+        </a>
+    
+</nav>
+
+    
+    <div class="widgets-container">
+        
+            
+                
+    <div class="widget-wrap">
+        <h3 class="widget-title">最新文章</h3>
+        <div class="widget">
+            <ul id="recent-post" class="">
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2016/06/14/Linux_redirect/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+    
+</a>
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/工具/">工具</a></p>
+                            <p class="item-title"><a href="/2016/06/14/Linux_redirect/" class="title">PHP Tips</a></p>
+                            <p class="item-date"><time datetime="2016-06-14T07:16:29.000Z" itemprop="datePublished">2016-06-14</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2016/06/09/PHP_tips/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+    
+</a>
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/工具/">工具</a></p>
+                            <p class="item-title"><a href="/2016/06/09/PHP_tips/" class="title">PHP Tips</a></p>
+                            <p class="item-date"><time datetime="2016-06-09T07:16:29.000Z" itemprop="datePublished">2016-06-09</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2016/05/16/Thinking_in_May/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+    
+</a>
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/生活/">生活</a></p>
+                            <p class="item-title"><a href="/2016/05/16/Thinking_in_May/" class="title">五月碎碎念</a></p>
+                            <p class="item-date"><time datetime="2016-05-16T13:55:29.000Z" itemprop="datePublished">2016-05-16</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2016/04/17/Learnning_scrapy_command_tools/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+    
+</a>
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Python/">Python</a></p>
+                            <p class="item-title"><a href="/2016/04/17/Learnning_scrapy_command_tools/" class="title">Scrapy 的命令行工具</a></p>
+                            <p class="item-date"><time datetime="2016-04-17T11:28:29.000Z" itemprop="datePublished">2016-04-17</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2016/04/17/Learning_Python/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+    
+</a>
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Python/">Python</a></p>
+                            <p class="item-title"><a href="/2016/04/17/Learning_Python/" class="title">Python Tips</a></p>
+                            <p class="item-date"><time datetime="2016-04-17T09:28:29.000Z" itemprop="datePublished">2016-04-17</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">分类</h3>
+        <div class="widget">
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Python/">Python</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/工具/">工具</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/生活/">生活</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/算法/">算法</a><span class="category-list-count">3</span></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">归档</h3>
+        <div class="widget">
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">十二月 2015</a><span class="archive-list-count">4</span></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">标签</h3>
+        <div class="widget">
+            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/ACM/">ACM</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/">Android</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/C/">C</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/C/">C++</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Django/">Django</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/">Linux</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MySQL/">MySQL</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Nginx/">Nginx</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PHP/">PHP</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Python/">Python</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RxJava/">RxJava</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Scrapy/">Scrapy</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Vim/">Vim</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/工具/">工具</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据结构/">数据结构</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/生活/">生活</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/算法/">算法</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/读书/">读书</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/面试/">面试</a><span class="tag-list-count">1</span></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-float">
+        <h3 class="widget-title">标签云</h3>
+        <div class="widget tagcloud">
+            <a href="/tags/ACM/" style="font-size: 10px;">ACM</a> <a href="/tags/Android/" style="font-size: 15px;">Android</a> <a href="/tags/C/" style="font-size: 15px;">C</a> <a href="/tags/C/" style="font-size: 10px;">C++</a> <a href="/tags/Django/" style="font-size: 12.5px;">Django</a> <a href="/tags/Java/" style="font-size: 10px;">Java</a> <a href="/tags/Linux/" style="font-size: 17.5px;">Linux</a> <a href="/tags/MySQL/" style="font-size: 10px;">MySQL</a> <a href="/tags/Nginx/" style="font-size: 10px;">Nginx</a> <a href="/tags/PHP/" style="font-size: 12.5px;">PHP</a> <a href="/tags/Python/" style="font-size: 20px;">Python</a> <a href="/tags/RxJava/" style="font-size: 10px;">RxJava</a> <a href="/tags/Scrapy/" style="font-size: 15px;">Scrapy</a> <a href="/tags/Vim/" style="font-size: 10px;">Vim</a> <a href="/tags/工具/" style="font-size: 10px;">工具</a> <a href="/tags/数据结构/" style="font-size: 10px;">数据结构</a> <a href="/tags/生活/" style="font-size: 12.5px;">生活</a> <a href="/tags/算法/" style="font-size: 15px;">算法</a> <a href="/tags/读书/" style="font-size: 10px;">读书</a> <a href="/tags/面试/" style="font-size: 10px;">面试</a>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">链接</h3>
+        <div class="widget">
+            <ul>
+                
+                    <li>
+                        <a href="http://igaves.com">莫大艺术家</a>
+                    </li>
+                
+                    <li>
+                        <a href="http://www.a-jie.com">阿杰</a>
+                    </li>
+                
+                    <li>
+                        <a href="http://besideriver.com">宁大人</a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+
+            
+        
+    </div>
+</aside>
+                </div>
+            </div>
+        </div>
+        <footer id="footer">
+    <div class="container">
+        <div class="container-inner">
+            <a id="back-to-top" href="javascript:;"><i class="icon fa fa-angle-up"></i></a>
+            <div class="credit">
+                <h1 class="logo-wrap">
+                    <a href="/" class="logo"></a>
+                </h1>
+                <p>&copy; 2016 Xhin Liang</p>
+                <p>Powered by <a href="//hexo.io/" target="_blank">Hexo</a>. Theme by <a href="//github.com/ppoffice" target="_blank">PPOffice</a></p>
+            </div>
+        </div>
+    </div>
+</footer>
+        
+    
+    <script>
+    var disqus_shortname = 'xhinliang';
+    
+    
+    var disqus_url = 'http://xhinliang.github.io/2016/04/17/Learnning_scrapy/';
+    
+    (function() {
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+    </script>
+
+
+
+    
+        <script src="/vendor/fancybox/jquery.fancybox.pack.js" type="text/javascript"></script>
+    
+
+    
+        <script src="/vendor/scrollLoading/jquery.scrollLoading.js" type="text/javascript"></script>
+        <script src="/vendor/scrollLoading/main.js" type="text/javascript"></script>
+    
+
+
+<!-- Custom Scripts -->
+<script src="/js/main.js" type="text/javascript"></script>
+
+    </div>
+</body>
+</html>
