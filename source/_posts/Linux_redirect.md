@@ -1,4 +1,4 @@
-title: PHP Tips
+title: Linux 的重定向
 date: 2016-6-14 15:16:29
 tags: [Linux]
 categories: 工具
