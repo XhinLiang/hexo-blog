@@ -1,0 +1,64 @@
+# Menus
+menu:
+    Home: /
+    # Delete this row if you don't want categories in your header nav bar
+    Categories:
+    About: /about/index.html
+
+# Customize
+customize:
+    logo:
+        width: 60
+        height: 60
+        url: /uploads/xhinliang.png
+    theme_color: '#3b8dbd'
+    highlight: androidstudio
+    sidebar: left # sidebar position, options: left, right
+    thumbnail: true # enable posts thumbnail, options: true, false
+    favicon: /uploads/avatar.png
+    social_links: # for more icons, please see http://fontawesome.io/icons/#brand
+        twitter: https://twitter.com/xhinliang
+        facebook: https://www.facebook.com/xhin.liang
+        google-plus: https://plus.google.com/105647538121556950461
+        github: https://github.com/XhinLiang
+        weibo: http://weibo.com/xhinliang
+
+# Widgets
+widgets:
+    - recent_posts
+    - category
+    - archive
+    - tag
+    - tagcloud
+    - links
+
+# Search
+search:
+    swiftype: 3MHy44anUbqi-KpQvFB8 # enter swiftype install key here
+    baidu: false # you need to disable other search engines to use Baidu search, options: true, false
+
+# Comment
+comment:
+    disqus: xhinliang
+    duoshuo: xhinliang # enter duoshuo shortname here
+
+# Share
+share: default # options: jiathis, bdshare, addtoany, default
+
+# Plugins
+plugins:
+    fancybox: true # options: true, false
+    scrollLoading: true # options: true, false
+    google_analytics: # enter the tracking ID for your Google Analytics
+    baidu_analytics: # enter Baidu Analytics hash key
+
+# Miscellaneous
+miscellaneous:
+    open_graph: # see http://ogp.me
+        fb_app_id:
+        fb_admins:
+        twitter_id:
+        google_plus:
+    links:
+        莫大艺术家: http://igaves.com
+        阿城: https://qiutc.me
