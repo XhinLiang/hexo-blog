@@ -1,6 +1,6 @@
 title: 简明数据结构
 date: 2016-03-8 13:28:29
-tags: [C,算法,数据结构]
+tags: [Python,C,算法,数据结构]
 categories: 算法
 toc: true
 ---
@@ -203,6 +203,35 @@ void swap(int &a, int &b) {
 
 #### 快速排序
 选一个基准数 x，在序列中比它小的放在它前面，比它大的放在它后面，形成 A x B （A ， B 为集合）这样的分布，再对 A B 进行同样的操作，直到 A B 只包含一个元素为止。
+``` python
+def qsort(nums_list):
+    def qsort_exec(nums, left, right):
+        l = right - left + 1
+        if l < 2:
+            return
+        if l == 2:
+            if nums[left] > nums[right]:
+                nums[left], nums[right] = nums[right], nums[left]
+            return
+        start, end = left, right
+        stand = nums[start]
+        while start < end:
+            while nums[end] > stand and start < end:
+                end -= 1
+            if start < end:
+                nums[start] = nums[end]
+                start += 1
+            while nums[start] < stand and start < end:
+                start += 1
+            if start < end:
+                nums[end] = nums[start]
+                end -= 1
+        nums[start] = stand
+        qsort_exec(nums, left, start - 1)
+        qsort_exec(nums, start + 1, right)
+    qsort_exec(nums_list, 0, len(nums_list) - 1)
+    return nums_list
+```
 [参考链接](http://blog.csdn.net/morewindows/article/details/6684558)
 
 #### 归并排序
@@ -211,5 +240,3 @@ void swap(int &a, int &b) {
 
 ### 参考代码
 只知道原理是不行的，很多算法需要自己写出来才有感觉，对于以上的数据结构和算法，这里 **[Structure](https://github.com/XhinLiang/Structure)** 提供一部分参考代码，项目更新中，有兴趣的同学可以跟我一起完善它。
-
-
