@@ -54,6 +54,9 @@ get 不影响目前的长度。
 ``` python
 # -*- coding: utf-8 -*-
 
+import sys
+
+
 class ListNode(object):
     """
     LinkedListNode
@@ -81,31 +84,30 @@ class LinkedList(object):
         self.tail.pre = self.head
         self.length = 0
 
-    def insert_head(self, val):
+    def insert_head(self, node):
         """
         insert a value to head
-        :param val: the value
+        :param node: the value
         :return: ListNode the node has been inserted
         """
-        newNode = ListNode(val)
-        newNode.next = self.head.next
-        newNode.pre = self.head
-        self.head.next = newNode
+        node.next = self.head.next
+        self.head.next.pre = node
+        node.pre = self.head
+        self.head.next = node
         self.length += 1
-        return newNode
+        return node
 
-    def insert_tail(self, val):
+    def insert_tail(self, node):
         """
-        insert a value to tail
-        :param val: the value
+        insert a node to tail
+        :param node: the value
         :return: ListNode the node has been inserted
         """
-        newNode = ListNode(val)
-        newNode.pre = self.tail.pre
-        newNode.next = self.tail
-        self.tail.pre = newNode
+        node.pre = self.tail.pre
+        node.next = self.tail
+        self.tail.pre = node
         self.length += 1
-        return newNode
+        return node
 
     def pop_head(self):
         """
@@ -120,17 +122,15 @@ class LinkedList(object):
         self.length -= 1
         return tempNode
 
-    @staticmethod
-    def remove_node(node):
+    def remove_node(self, node):
         """
         remove a node from linkedlist
         :param node: ListNode
         :return: ListNode the node has been removed
         """
-        if node is None:
-            return
         node.next.pre = node.pre
         node.pre.next = node.next
+        self.length -= 1
 
     def pop_tail(self):
         """
@@ -139,11 +139,27 @@ class LinkedList(object):
         """
         if self.length == 0:
             return None
-        tempNode = self.tail.pre.pre
+        shouldRemoveNode = self.tail.pre
+        tempNode = shouldRemoveNode.pre
         tempNode.next = self.tail
         self.tail.pre = tempNode
         self.length -= 1
-        return tempNode
+        return shouldRemoveNode
+
+    def print_self(self):
+        if self.length == 0:
+            print('none')
+            return
+        current_node = self.head.next
+        while current_node.next is not None:
+            sys.stdout.write(str(current_node.val[0]) + ":" + str(current_node.val[1]) + " => ")
+            current_node = current_node.next
+            if current_node.next is None:
+                break
+        sys.stdout.write(" None ")
+        sys.stdout.write(" :: Length: " + str(self.length))
+        sys.stdout.flush()
+        print('')
 
 
 class LRUCache(object):
@@ -163,25 +179,80 @@ class LRUCache(object):
             node = self.map[key]
             node.val[1] = value
             self.get(key)
+            self.linkedlist.print_self()
             return
 
         # not exist yet, insert this value to head and put this node to map
-        newNode = self.linkedlist.insert_head([key, value])
+        newNode = self.linkedlist.insert_head(ListNode([key, value]))
         self.map[key] = newNode
 
         # check the capacity, remove the tail node if LRUCache is full
-        if self.linkedlist.length + 1 >= self.cap:
+        if self.linkedlist.length > self.cap:
             oldNode = self.linkedlist.pop_tail()
-            self.map.pop(oldNode.val[0])
+            oldKey = oldNode.val[0]
+            self.map.pop(oldKey)
+
+        self.linkedlist.print_self()
 
     def get(self, key):
         if key not in self.map:
-            return None
+            self.linkedlist.print_self()
+            return -1
 
         # get the node, move this node to head
         node = self.map[key]
-        LinkedList.remove_node(node)
+        self.linkedlist.remove_node(node)
         self.linkedlist.insert_head(node)
         # return the value
+        self.linkedlist.print_self()
         return node.val[1]
+
+
+cmds = ["put", "put", "put", "put", "put", "get", "put", "get", "get", "put", "get", "put", "put", "put", "get",
+        "put", "get", "get", "get", "get", "put", "put", "get", "get", "get", "put", "put", "get", "put", "get", "put",
+        "get",
+        "get", "get", "put", "put", "put", "get", "put", "get", "get", "put", "put", "get", "put", "put", "put", "put",
+        "get",
+        "put", "put", "get", "put", "put", "get", "put", "put", "put", "put", "put", "get", "put", "put", "get", "put",
+        "get",
+        "get", "get", "put", "get", "get", "put", "put", "put", "put", "get", "put", "put", "put", "put", "get", "get",
+        "get",
+        "put", "put", "put", "get", "put", "put", "put", "get", "put", "put", "put", "get", "get", "get", "put", "put",
+        "put",
+        "put", "get", "put", "put", "put", "put", "put", "put", "put"]
+
+params = [[10, 13], [3, 17], [6, 11], [10, 5], [9, 10], [13], [2, 19], [2], [3], [5, 25], [8], [9, 22], [5, 5], [1, 30],
+          [11], [9, 12], [7], [5], [8], [9], [4, 30], [9, 3], [9], [10], [10], [6, 14], [3, 1], [3], [10, 11], [8],
+          [2, 14], [1],
+          [5], [4], [11, 4], [12, 24], [5, 18], [13], [7, 23], [8], [12], [3, 27], [2, 12], [5], [2, 9], [13, 4],
+          [8, 18],
+          [1, 7], [6], [9, 29], [8, 21], [5], [6, 30], [1, 12], [10], [4, 15], [7, 22], [11, 26], [8, 17], [9, 29], [5],
+          [3, 4],
+          [11, 30], [12], [4, 29], [3], [9], [6], [3, 4], [1], [10], [3, 29], [10, 28], [1, 20], [11, 13], [3], [3, 12],
+          [3, 8],
+          [10, 9], [3, 26], [8], [7], [5], [13, 17], [2, 27], [11, 15], [12], [9, 19], [2, 15], [3, 16], [1], [12, 17],
+          [9, 1],
+          [6, 19], [4], [5], [5], [8, 1], [11, 7], [5, 2], [9, 28], [1], [2, 2], [7, 4], [4, 22], [7, 24], [9, 26],
+          [13, 28],
+          [11, 26]]
+
+
+
+
+def print_list(l):
+    sys.stdout.write('[')
+    sys.stdout.write(', '.join(str(p) for p in l))
+    sys.stdout.write(']')
+
+cache = LRUCache(10)
+
+for i in xrange(len(cmds)):
+    cmd = cmds[i]
+    param = params[i]
+
+    sys.stdout.write(str(i) + " " + cmd + " ")
+    print_list(param)
+    sys.stdout.write("\n")
+    val = getattr(cache, cmd)(*param)
+    print("result " + str(val))
 ```
