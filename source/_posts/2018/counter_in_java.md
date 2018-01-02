@@ -45,19 +45,10 @@ public class Counter<E> implements ICounter<E>{
 
     public static void main(String[] args) throws InterruptedException {
         ICounter<String> counter = new Counter<>();
-        Thread[] threads = new Thread[10000];
-
         for (int i = 0; i < 1; ++i) {
-            threads[i] = new Thread(() -> {
                 for (int j = 0; j < 1000000; ++j) {
                     counter.add("a");
                 }
-            });
-            threads[i].start();
-        }
-
-        for (int i = 0; i < 1; ++i) {
-            threads[i].join();
         }
         System.out.println(counter.get("a"));
     }
