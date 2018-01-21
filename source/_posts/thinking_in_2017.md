@@ -73,3 +73,8 @@ toc: true
 两个 offer 非常相似，一开始我答应了一家公司（回复了确认邮件），但后来另一家公司的另一个团队又邀请我考虑下他们团队，于是又面试了两轮，好吧，到后来我反悔了，去了后一家公司。
 这个选择的过程也是非常艰难的。我真的不知道自己选择哪个团队会更好，也不知道哪款产品会更有前景（又有谁会知道呢）。
 木已成舟，我已经入职了，接下来只能全力以赴了。
+
+<audio autoplay="autoplay" controls="controls"loop="loop" preload="auto"
+            src="/uploads/thinking_in_2017/can_t_bring_me_down.mp3">
+      你的浏览器不支持audio标签
+</audio>
