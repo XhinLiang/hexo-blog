@@ -74,6 +74,11 @@ toc: true
 这个选择的过程也是非常艰难的。我真的不知道自己选择哪个团队会更好，也不知道哪款产品会更有前景（又有谁会知道呢）。
 木已成舟，我已经入职了，接下来只能全力以赴了。
 
+#### 后记
+我很喜欢一个摇滚歌手，叫黄贯中。
+欣赏他的才华，喜欢他骨子里的一股叛逆。
+文章最后，贴上一首我自己很喜欢的歌。
+
 <audio autoplay="autoplay" controls="controls"loop="loop" preload="auto"
             src="/uploads/thinking_in_2017/can_t_bring_me_down.mp3">
       你的浏览器不支持audio标签
