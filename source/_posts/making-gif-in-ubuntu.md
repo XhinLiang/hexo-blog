@@ -1,7 +1,7 @@
 title: 在Ubuntu下录制屏幕GIF
 date: 2016-03-9 17:28:29
 tags: [工具,Linux]
-categories: Android
+categories: 工具
 toc: true
 ---
 
@@ -19,7 +19,7 @@ sudo apt-get update
 sudo apt-get install byzanz
 ```
 ### byzanz 使用说明
-**byzanz** 的图形界面智能在 **gnome** 环境下使用，而我现在使用的是默认的 **Unity** 桌面，所以不能使用 **byzanz** 的图形界面，只能通过命令行来使用。
+**byzanz** 的图形界面只能在 **gnome** 环境下使用，而我现在使用的是默认的 **Unity** 桌面，所以不能使用 **byzanz** 的图形界面，只能通过命令行来使用。
 ``` bash
 byzanz-record --cursor --x=0 --y=52 --width=312 --height=521 /home/xhinliang/picture/sample.gif
 ```
