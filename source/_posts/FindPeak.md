@@ -43,7 +43,7 @@ def find_peak(arr, length):
         return -1
 
     middle = length / 2
-    if length < 5:
+    if length < 4:
         return middle 
     
     if arr[middle] > arr[middle - 1] and arr[middle] > arr[middle + 1]:
