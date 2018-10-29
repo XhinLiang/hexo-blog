@@ -343,6 +343,6 @@ $ src/redis-cli --eval add-test-big-key.lua big_hash3 , 100000000
 ## PostScript
 
 总结一下：
-- 尽量从业务上避免 Redis 大 Key，无论从性能角度（hash成本）还是过期删除成本，都会比较高
+- 尽量从业务上避免 Redis 大 Key，无论从性能角度（hash成本）还是过期删除成本角度，都会比较高
 - 尽量使用 `unlink` 代替 `del` 删除大 key
 - key 的自然活期和手动删除，都会阻塞 Redis
