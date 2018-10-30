@@ -48,4 +48,5 @@ toc: true
 
 ## Code 搞起
 
-// TODO
+今晚在机场等胖胖回京，简单写了下，轻喷[https://github.com/XhinLiang/multi-level-cache](https://github.com/XhinLiang/multi-level-cache)
+
