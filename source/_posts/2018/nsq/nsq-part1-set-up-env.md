@@ -5,8 +5,6 @@ categories: 后端
 toc: true
 ---
 
-# Understanding Nsq part 1 -- set up Golang evironment
-
 Nsq 是一个 Golang 实现的消息队列，现在应该特性已经比较稳定了。
 看了下代码量，还 OK，那么最近开始倒腾倒腾他。
 
