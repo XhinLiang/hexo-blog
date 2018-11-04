@@ -92,18 +92,18 @@ $ bin/go version
 go version go1.11.1 linux/amd64
 ```
 
-至此 Golang 在 Linux 环境就安装好了
+至此 Golang 在 Linux 环境就安装好了。
 
 ## Workspaces
 
-Golang 有个 Workspace 的概念，其实就是一个文件夹，默认是 $HOME/go/。
+Golang 有个 Workspace 的概念，其实就是一个文件夹，默认是 `$HOME/go/`。
 
-假设 /home/xhinliang/code/GoProjects/go-hello 这个文件夹是一个 Workspace，那么这个文件夹需要包含两个子文件夹
+假设 `/home/xhinliang/code/GoProjects/go-hello` 这个文件夹是一个 Workspace，那么这个文件夹需要包含两个子文件夹：
 - bin # 编译后的二进制文件
 - src # 源代码文件
 
 为了让大家理解，官网给了一个例子：
-```
+``` bash
 bin/
     hello                          # command executable
     outyet                         # command executable
@@ -126,7 +126,7 @@ src/
     ... (many more repositories and packages omitted) ...
 ```
 
-可以注意到， src 的 github.com/golang/example/ 类似的文件夹，这些显然是第三方的库。
+可以注意到， `src` 的 `github.com/golang/example/` 类似的文件夹，这些显然是第三方的库。
 
 一个典型的 Golang Workplace 应该包含很多第三方的库的源代码，和一些必要的二进制的文件，这点跟 $HOME/node_modules 差不多。
 
