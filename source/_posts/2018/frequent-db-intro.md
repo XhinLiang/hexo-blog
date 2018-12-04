@@ -13,7 +13,7 @@ toc: true
 他是一种关系数据库管理系统（Relational Database Management System：RDBMS），目前由 Oracle 公司维护。
 特点：
 1. 源代码使用 C 和 C++ 编写，性能稳定。
-2. 支持多种数据库引擎（MyISAM，InnoDB，Memory etc..）可以满足不同场景下的需要。
+2. 支持多种数据库引擎（MyISAM，InnoDB，Memory，MyRocks etc..）可以满足不同场景下的需要。
 3. InnoDB 支持事务，但 MyISAM 不支持。
 4. 索引使用 B+ 数实现，大部分操作都是顺序读取，对 HDD 友好。
 5. MyISAM 中每个索引都是一级索引，但 InnoDB 中除主键外的索引都是二级索引（二级索引找到主键，主键再找到数据）。
@@ -121,3 +121,20 @@ Greenplum数据库（GPDB），分布式数据库，数据仓库快速查询工�
 ## ClickHouse
 
 最近兴起的一个 OLAP 数据库，由俄罗斯公司 Yandex 开发，性能强劲。
+
+
+## LevelDb
+
+Leveldb是一个google实现的非常高效的kv数据库，能够支持billion级别的数据量。 在这个数量级别下还有着非常高的性能，主要归功于它的良好的设计。特别是LSM算法。
+
+## RocksDb
+
+RocksDB是使用C++编写的嵌入式kv存储引擎，其键值均允许使用二进制流。由Facebook基于LevelDB开发， 提供向后兼容的LevelDB API。
+
+RocksDB针对Flash存储进行优化，延迟极小。RocksDB使用LSM存储引擎，纯C++编写。Java版本RocksJava正在开发中。
+
+我理解 RocksDb 应该是 LevelDb 的另一种实现，从功能上算是超集吧。
+
+## MyRocks
+
+MySQL 兼容的 RocksDb，底层实现基本上跟 RocksDB 一致，但是作为一种存储引擎在 MySQL 中使用。

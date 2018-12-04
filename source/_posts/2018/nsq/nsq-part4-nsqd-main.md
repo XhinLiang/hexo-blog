@@ -1,3 +1,10 @@
+title: 理解 Nsq （四）源码解析
+date: 2018-12-4
+tags: [nsq,消息队列,messageQueue,go,golang]
+categories: 后端
+toc: true
+---
+
 ## Overview
 
 上一节我们介绍了 Nsq 的一些基本概念，那么我们从这节开始就单刀直入 Nsq 源码探个究竟。
@@ -106,3 +113,5 @@ func (p *program) Stop() error {
 	return nil
 }
 ```
+
+暂时没写完，源码还在阅读中，挖坑了。。
