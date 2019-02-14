@@ -98,6 +98,7 @@ sudo apt-get remove unity-webapps-common
 zsh-autosuggestions
 zsh-syntax-highlighting
 
+
 ## 安装必备开发工具
 安装 `n` && `node`
 k-vim https://github.com/wklken/k-vim
@@ -123,7 +124,6 @@ export CLASSPATH=".:$JAVA_HOME/lib:$JRE_HOME/lib:$CLASSPATH"
 export PATH="$JAVA_HOME/bin:$JRE_HOME/bin:$PATH"
 
 ### 配置小飞机
-
 地址忽略
 
 小飞机的本地代理可以直接使用 HTTP 形式，所以可以直接用 HTTP 代理暴露出来，然后使用
@@ -134,4 +134,39 @@ export PATH="$JAVA_HOME/bin:$JRE_HOME/bin:$PATH"
 ``` bash
 sudo apt install proxychains
 sudo vim /etc/proxychains.conf
+```
+
+### autojump
+https://github.com/wting/autojump
+
+``` bash
+git clone git://github.com/wting/autojump.git
+cd autojump
+./install.py
+```
+
+.zshrc 加上 plugin，并加上 autojump 提示的那两行
+``` bash
+plugins=(
+  git
+  zsh-autosuggestions
+  zsh-syntax-highlighting
+  # ...
+  autojump
+)
+
+# autojump
+[[ -s /home/xhinliang/.autojump/etc/profile.d/autojump.sh ]] && source /home/xhinliang/.autojump/etc/profile.d/autojump.sh
+autoload -U compinit && compinit -u
+```
+
+### 配置舒适的日志记录环境
+我习惯使用 VSCode + 坚果云 + Markdown 记日志。
+但默认的 Markdown 不支持 PlantUML 的绘制，我们加上插件让他更完美些。
+1. 在 VSCode 中安装 markdown preview enhanced 插件
+2. `sudo apt-get install graphviz`
+3. 下载 plantuml.jar 放到$HOME/cli-utils/jars文件夹并配置 .shrc_software
+``` bash
+export PLANTUML_JAR="$HOME/cli-utils/jars"
+export PATH="$JAVA_HOME/bin:$PLANTUML_JAR:$PATH"
 ```
