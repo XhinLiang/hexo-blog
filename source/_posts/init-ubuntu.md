@@ -170,3 +170,8 @@ autoload -U compinit && compinit -u
 export PLANTUML_JAR="$HOME/cli-utils/jars"
 export PATH="$JAVA_HOME/bin:$PLANTUML_JAR:$PATH"
 ```
+4. 安装图床上传工具 [fu](https://github.com/klesh/fu)
+```
+tar 包编译失败了
+源代码编译成功，但是运行失败。。
+```
