@@ -5,7 +5,7 @@ categories: 计算机
 toc: true
 ---
 
-![](https://ws3.sinaimg.cn/large/006tKfTcgy1g07apvz6gfj31660u07h1.jpg)
+![](/uploads/_006tKfTcgy1g07apvz6gfj31660u07h1.jpg)
 VSCode 相信已经是大家的必备编辑器了，轻量，免费。
 在 Linux 环境中， VSCode 可以通过图标启动，也可以通过命令行启动。
 例如，我想在 VSCode 中打开这个文件夹，可以这样：
@@ -31,7 +31,7 @@ nohup /Applications/Visual\ Studio\ Code.app/Contents/MacOS/Electron $TARGET_DIR
 
 
 给个示例：
-![](https://ws1.sinaimg.cn/large/006tKfTcgy1g07arzgl7ij30u604djt7.jpg)
-![](https://ws2.sinaimg.cn/large/006tKfTcgy1g07asgll76j30u20mggrj.jpg)
+![](/uploads/_006tKfTcgy1g07arzgl7ij30u604djt7.jpg)
+![](/uploads/_006tKfTcgy1g07asgll76j30u20mggrj.jpg)
 
 
