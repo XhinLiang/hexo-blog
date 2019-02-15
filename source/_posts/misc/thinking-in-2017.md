@@ -51,7 +51,7 @@ toc: true
 在深圳见了很多旧友，也认识了很多新的小伙伴，恩，这段旅程还是不错的。
 
 #### 君问归期已有期
-![飞机票](/uploads/thinking_in_2017/passport.jpg)
+![飞机票](/uploads/thinking-in-2017/passport.jpg)
 终于，我在十月份的尾巴回到了北京，再一次从事 “后台开发” 的工作。
 
 #### 变
@@ -80,6 +80,6 @@ toc: true
 文章最后，贴上一首我自己很喜欢的歌。
 
 <audio autoplay="autoplay" controls="controls"loop="loop" preload="auto"
-            src="/uploads/thinking_in_2017/can_t_bring_me_down.mp3">
+            src="/uploads/thinking-in-2017/can_t_bring_me_down.mp3">
       你的浏览器不支持audio标签
 </audio>
