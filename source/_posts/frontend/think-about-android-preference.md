@@ -1,7 +1,7 @@
 title: Android™ 中设置界面的思考
 date: 2016-3-11 11:55:29
 tags: [Android]
-categories: Android
+categories: 前端
 toc: true
 ---
 
@@ -50,7 +50,7 @@ toc: true
 ```
 
 在不同设备的效果如图所示
-![original](/uploads/Think_about_Preference/original_preference.gif)
+![original](/uploads/think-about-preference/original_preference.gif)
 
 左边的是 **API 16 Android™ 4.1.1**，右边的是 **API 22 Android™ 5.1.1**
 
@@ -90,7 +90,7 @@ compile 'com.github.XhinLiang.MDPreference:material:0.3.1@aar'
 
 #### 效果
 这里展示了在 **API 16** 设备中的效果
-![sample](/uploads/Think_about_Preference/sample.gif)
+![sample](/uploads/think-about-preference/sample.gif)
 
 对话框变色应该是截图软件引起的
 

@@ -1,7 +1,7 @@
 title: 【译】XPath 实用技巧
 date: 2016-04-17 15:28:29
 tags: [Scrapy,Python]
-categories: Python
+categories: 计算机
 toc: true
 ---
 

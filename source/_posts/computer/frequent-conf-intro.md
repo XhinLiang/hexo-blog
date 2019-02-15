@@ -1,7 +1,7 @@
 title: 那些年，我们一起改过的配置文件 -- 常见配置文件类型简介
 date: 2018-11-25
 tags: [后端,xml,yaml,json,json5,toml,ini,properties]
-categories: 后端
+categories: 计算机
 toc: true
 ---
 # Overview

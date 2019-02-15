@@ -1,7 +1,7 @@
 title: 安装 Ubuntu Workstation 之后要做的事儿
 date: 2019-1-11
 tags: [Ubuntu,Linux]
-categories: Linux
+categories: 计算机
 toc: true
 ---
 

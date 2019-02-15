@@ -1,7 +1,7 @@
 title: 常见数据库简介
 date: 2018-11-18
 tags: [后端,随笔]
-categories: 后端
+categories: 计算机
 toc: true
 ---
 

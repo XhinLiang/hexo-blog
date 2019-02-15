@@ -214,15 +214,15 @@ python manage.py runserver
 这时候我们可以通过`/admin/`来访问我们的管理界面，例如`http://127.0.0.1:8000/admin/`
 
 你可以看到如下的管理界面
-![Alt text](/uploads/Writing_your_first_Django_app/admin01.png)
+![Alt text](/uploads/writing-your-first-django-app/admin01.png)
 
 登陆之后，你就可以随意在管理界面玩耍了
-![Alt text](/uploads/Writing_your_first_Django_app/admin02.png)
-![Alt text](/uploads/Writing_your_first_Django_app/admin02.png)
-![Alt text](/uploads/Writing_your_first_Django_app/admin03t.png)
-![Alt text](/uploads/Writing_your_first_Django_app/admin04t.png)
-![Alt text](/uploads/Writing_your_first_Django_app/admin05t.png)
-![Alt text](/uploads/Writing_your_first_Django_app/admin06t.png)
+![Alt text](/uploads/writing-your-first-django-app/admin02.png)
+![Alt text](/uploads/writing-your-first-django-app/admin02.png)
+![Alt text](/uploads/writing-your-first-django-app/admin03t.png)
+![Alt text](/uploads/writing-your-first-django-app/admin04t.png)
+![Alt text](/uploads/writing-your-first-django-app/admin05t.png)
+![Alt text](/uploads/writing-your-first-django-app/admin06t.png)
 
 
 

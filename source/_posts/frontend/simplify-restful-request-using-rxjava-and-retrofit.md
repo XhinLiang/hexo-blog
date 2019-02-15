@@ -1,7 +1,7 @@
 title: RxJava && Retrofit 简化RESTful请求
 date: 2015-12-3 16:55:29
 tags: [Android]
-categories: Android
+categories: 前端
 toc: true
 ---
 

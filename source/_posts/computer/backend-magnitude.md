@@ -1,7 +1,7 @@
 title: 后端基本素养 - 数据敏感性
 date: 2018-4-1 11:26:29
 tags: [后端基本素养,随笔]
-categories: 生活
+categories: 计算机
 toc: true
 ---
 

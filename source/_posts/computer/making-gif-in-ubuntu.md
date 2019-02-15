@@ -1,7 +1,7 @@
 title: 在Ubuntu下录制屏幕GIF
 date: 2016-03-9 17:28:29
 tags: [工具,Linux]
-categories: 工具
+categories: 计算机
 toc: true
 ---
 
