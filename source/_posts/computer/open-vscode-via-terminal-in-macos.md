@@ -26,4 +26,26 @@ fi
 nohup /Applications/Visual\ Studio\ Code.app/Contents/MacOS/Electron $TARGET_DIR > /dev/null 2>&1 &
 ```
 
+```puml
+@startuml
+start
+if (1.是否取到了数据) then (yes)
+elseif (2.是否取到了数据) then (yes)
+  :将数据回写到1;
+elseif (3.是否取到了数据) then (yes)
+  :将数据回写到1,2;
+elseif (4.是否取到了数据) then (yes)
+  :将数据回写到1,2,3;
+else (no)
+  :到下一级缓存中寻找数据，找到数据后回写1,2,3,4;
+endif
+if (是否有上级缓存) then (yes)
+  :返回给上级缓存;
+  stop
+endif
+:返回到应用层;
+stop
+@enduml
+```
+
 然后，把 `code` 所在的目录加入到 `PATH` 环境变量中，即可。
