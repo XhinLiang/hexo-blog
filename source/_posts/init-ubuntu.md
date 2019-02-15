@@ -39,6 +39,28 @@ clean
 convert gpt
 ```
 
+``` puml
+@startuml
+start
+if (1.是否取到了数据) then (yes)
+elseif (2.是否取到了数据) then (yes)
+  :将数据回写到1;
+elseif (3.是否取到了数据) then (yes)
+  :将数据回写到1,2;
+elseif (4.是否取到了数据) then (yes)
+  :将数据回写到1,2,3;
+else (no)
+  :到下一级缓存中寻找数据，找到数据后回写1,2,3,4;
+endif
+if (是否有上级缓存) then (yes)
+  :返回给上级缓存;
+  stop
+endif
+:返回到应用层;
+stop
+@enduml
+```
+
 然后分出 200G 给 Windows 10，Windows 安装程序会自动再分出三个小分区，我们只需要关注其中 100M 的那个 EFI 分区，此分区的文件系统是 FAT32，应该非常好辨认。
 
 ### Step 1
