@@ -7,6 +7,7 @@ toc: true
 
 # 安装 Ubuntu Workstation 之后要做的事儿
 
+![logo](/uploads/new--2000px-Former_Ubuntu_logo.png)
 ## Pre
 
 最近自己心爱的 Dell Latitude E6430s 频繁死机，以为是硬盘问题，格式化硬盘重装系统问题依旧。

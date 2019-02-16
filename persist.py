@@ -24,7 +24,7 @@ def persist_md(md_file_path, output_dir, new_img_prefix):
                 print(origin_img)
                 print(origin_img_url)
                 print(origin_img_name)
-                new_img_file_name = "new-" + img_tag + "-" + origin_img_name;
+                new_img_file_name = "new-" + "-" + origin_img_name;
                 url_downloader.retrieve(origin_img_url, output_dir + "/" + new_img_file_name)
                 new_img = "![" + img_tag + "](" + new_img_prefix + new_img_file_name + ")"
                 md_line = md_line.replace(origin_img, new_img)
