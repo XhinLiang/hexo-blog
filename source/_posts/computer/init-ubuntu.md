@@ -70,21 +70,21 @@ export LANG=zh_CN
 ```
 ### Softwares
 
-以下软件手动寻找 deb 安装文件，使用 dpkg 安装即可
-VS Code
-Chrome
-S1h1a1d1o1w1s1o1c1k1s1-QT5
-Nutcloud
-网易云音乐
+以下软件手动寻找 deb 安装文件，使用 dpkg 安装即可：
+- VS Code
+- Chrome
+- S1h1a1d1o1w1s1o1c1k1s1-QT5
+- Nutcloud
+- 网易云音乐
 
 ### Sogoupingying
 官网下载 deb 格式的安装包
-``` bash
+```bash
 sudo dpkg -i sogoupinyin_2.2.0.0108_amd64.deb
 sudo apt-get -f install # 解决依赖冲突问题
 ```
 
-### 删掉亚马逊
+###删掉亚马逊
 ``` bash
 sudo apt-get remove unity-webapps-common
 ```
@@ -112,6 +112,7 @@ https://xhinliang.win/2018/10/30/2018/nsq/nsq-part1-set-up-env/
 https://www.oracle.com/technetwork/java/javase/downloads/jdk11-downloads-5066655.html
 
 ### 设置 Golang 的安装目录
+```bash
 export GOROOT="$HOME/cli-utils/golang/go"
 export PATH="$GOROOT/bin:$PATH"
 
@@ -124,7 +125,7 @@ export JAVA_HOME="/usr/lib/jvm/jdk-11.0.1"
 export JRE_HOME="$JAVA_HOME/jre"
 export CLASSPATH=".:$JAVA_HOME/lib:$JRE_HOME/lib:$CLASSPATH"
 export PATH="$JAVA_HOME/bin:$JRE_HOME/bin:$PATH"
-
+```
 ### 配置小飞机
 地址忽略
 
@@ -133,7 +134,7 @@ export PATH="$JAVA_HOME/bin:$JRE_HOME/bin:$PATH"
 这个命令给 chrome 配置 proxy 并启动，然后登录原来的账号，就可以安装上各种插件，包括 SwitchyOmega
 
 安装 proxychains 并配置
-``` bash
+```bash
 sudo apt install proxychains
 sudo vim /etc/proxychains.conf
 ```
@@ -141,14 +142,14 @@ sudo vim /etc/proxychains.conf
 ### autojump
 https://github.com/wting/autojump
 
-``` bash
+```bash
 git clone git://github.com/wting/autojump.git
 cd autojump
 ./install.py
 ```
 
 .zshrc 加上 plugin，并加上 autojump 提示的那两行
-``` bash
+```bash
 plugins=(
   git
   zsh-autosuggestions
@@ -165,10 +166,10 @@ autoload -U compinit && compinit -u
 ### 配置舒适的日志记录环境
 我习惯使用 VSCode + 坚果云 + Markdown 记日志。
 但默认的 Markdown 不支持 PlantUML 的绘制，我们加上插件让他更完美些。
-1. 在 VSCode 中安装 markdown preview enhanced 插件
+1. 在 VSCode 中安装 `markdown preview enhanced` 插件
 2. `sudo apt-get install graphviz`
-3. 下载 plantuml.jar 放到$HOME/cli-utils/jars文件夹并配置 .shrc_software
-``` bash
+3. 下载 plantuml.jar 放到 `$HOME/cli-utils/jars` 文件夹并把这个文件夹加到 PATH 环境变量中：
+```bash
 export PLANTUML_JAR="$HOME/cli-utils/jars"
 export PATH="$JAVA_HOME/bin:$PLANTUML_JAR:$PATH"
 ```
