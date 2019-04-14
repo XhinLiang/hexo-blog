@@ -1,5 +1,5 @@
 title: JavaScript 面向对象编程
-date: 2017-5-25 12:36:29
+date: 2017-5-25
 tags: [JavaScript,Node.js]
 categories: 前端
 toc: true
