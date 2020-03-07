@@ -1,9 +1,7 @@
 # 关于
 
-- Dotaer
 - 后端工程师
-- 全干工程师（Full Fuck Engineer）
-- 就职于快手
+- 全站工程师（Full Stand Engineer）
 
 ### 联系方式
  - 微博 [@XhinLiang](https://weibo.com/XhinLiang)

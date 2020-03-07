@@ -64,7 +64,7 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
 **最让我不能忍的莫过于这段**
 
-```
+```java
 AVFile file = null;
 try {
     file = AVFile.withAbsoluteLocalPath(String.format("avatar_%s.jpg", user.name), photo);
@@ -80,7 +80,7 @@ final AVFile finalFile = file;
 ```
 由于 **AVFile** 的 **withAbsoluteLocalPath** 方法有 **Checked** 异常，在调用的时候必须捕获异常，然而在上传头像 （**AVFile** 的 **saveInBackgroud** 方法）中，我们需要更新用户的 **头像URL** 而需要使用到这个 **AVFile** 对象，所以我们还得在定义一个 **final** 对象！
 
-```
+```java
 final AVFile finalFile = file;
 ```
 #### 多么蛋疼！！！
@@ -165,8 +165,8 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
 其实第一条很简单，只需把 **ProgressDialog** 的样式改为水平即可
 
-```
-final ProgressDialog pd = new ProgressDialog(MyDetailsActivity.this);
+```java
+jinal ProgressDialog pd = new ProgressDialog(MyDetailsActivity.this);
 pd.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
 pd.setMax(100);
 pd.show();
@@ -175,7 +175,7 @@ pd.show();
 
  **完整代码如下**
 
-```
+```java
 protected void onActivityResult(int requestCode, int resultCode, Intent data) {
     super.onActivityResult(requestCode, resultCode, data);
     if (resultCode != RESULT_OK || requestCode != REQUEST_FOR_SELECT_PICTURE || data == null)
@@ -270,7 +270,3 @@ public Bitmap compressImageByPixel(String imgPath, int maxSize) {
     return BitmapFactory.decodeFile(imgPath, newOpts);
 }
 ```
-
-
-## 后记
- **[Studio](https://github.com/XhinLiang/Studio)** 是我很用心写的一个应用，代码已经尽我能力进行了优化，如果大家有时间不妨到看看源代码，欢迎大家 **PR** 。
