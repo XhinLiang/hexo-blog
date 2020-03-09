@@ -11,7 +11,7 @@ toc: true
 新的机制主要由三个工具支撑，番茄土豆、坚果云，VSCode。
 番茄土豆主要用于管理细碎的时间和待办事项，坚果云用于存储更宏观的计划和日志，而 VSCode 用于管理坚果云的文件。
 
-![](manage-self-time/pomodoro.png)
+![](/uploads/manage-self-time/pomodoro.png)
 
 # 制定 OKR
 
