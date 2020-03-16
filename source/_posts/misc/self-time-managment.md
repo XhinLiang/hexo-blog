@@ -1,7 +1,7 @@
 title: 自我时间管理
 date: 2020-03-08
 tags: [杂谈]
-categories: misc
+categories: Misc
 toc: true
 ---
 
