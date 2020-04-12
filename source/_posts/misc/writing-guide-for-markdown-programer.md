@@ -53,9 +53,13 @@ VS Code 我大概不用介绍了，是一个文本编辑器，同时也是一个
 
 Markdown Preview Enhanced 是一个很著名的 Markdown 插件，我通过它在 VS Code 上渲染 Markdown 查看效果。当然它也支持很多原生 Markdown 不支持的功能，例如 puml 渲染，甘特图渲染等，但我最近没有在使用这些功能了，因为觉得使用文本画图效率不是太高。
 
+![MPE](https://user-images.githubusercontent.com/1908863/28227953-eb6eefa4-68a1-11e7-8769-96ea83facf3b.png)
+
 ### 坚果云
 
 坚果云是为我提供了个人的云盘，Markdown 文件很小，免费版的坚果云流量限额已经完全足够。我自己有多台设备，我会在各个设备安装坚果云，并开启同步，基本能达到无缝切换的效果。如果我需要在手机上阅读和查找，手机的坚果云客户端也完全能满足我的需求。
+
+![nutcloud](http://www.jianguoyun.com/s/content/wp-content/uploads/2019/06/normal.jpg)
 
 ### iPic + persister
 
@@ -64,6 +68,8 @@ iPic 是一个图床管理器，支持将截图上传到图床，并直接给出
 ### Draw.io
 
 Draw.io 是一个开源的画图工具，基本功能跟 processon 类似，但是免费的，而且支持多种存储。我习惯使用它的桌面版客户端，然后使用坚果云提供的本地存储。画图结束后，我习惯输出 svg 格式的图片，然后在 Markdown 中引用。
+
+![drawio](https://pic3.zhimg.com/v2-45382597c219dca9114d65900d5c868a_1200x500.jpg)
 
 ## 写在最后
 
