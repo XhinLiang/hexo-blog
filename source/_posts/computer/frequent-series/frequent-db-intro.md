@@ -7,7 +7,7 @@ toc: true
 
 # Overview
 
-![overview](https://cdn.lynda.com/course/548706/548706-637199619492944531-16x9.jpg)
+![overview](/uploads/persister-frequent-db-intro-overview-548706-637199619492944531-16x9.jpg)
 
 数据库在后端程序员中应该是最常使用到的中间件了，今天我们来侃一侃常见的数据库。
 

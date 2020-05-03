@@ -10,7 +10,7 @@ toc: true
 在高并发量的后端业务中，多级缓存是一个非常常见的设计。
 事实上，多级缓存策略在计算机硬件也是普遍存在的。
 
-![overview](https://www.liberaldictionary.com/wp-content/uploads/2019/01/cache-memory-4113.jpg)
+![overview](/uploads/persister-multi-level-cache-overview-cache-memory-4113.jpg)
 
 为什么会有多级缓存？
 通常缓存都是比原数据要小的，设立缓存的目的很简单：某些数据经常用到，我们不想每次都去最深的地方（这里一般是指数据库）去找，所以我们就在更方便取到数据的地方把这些数据保存起来。

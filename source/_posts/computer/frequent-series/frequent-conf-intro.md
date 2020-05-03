@@ -7,7 +7,7 @@ toc: true
 
 # Overview
 
-![overview](https://i.ytimg.com/vi/72uwo_cRANw/maxresdefault.jpg)
+![overview](/uploads/persister-frequent-conf-intro-overview-maxresdefault.jpg)
 
 在程序员日常开发中，配置文件是一个非常常见的需求。
 

@@ -7,7 +7,7 @@ toc: true
 
 ## Preview
 
-![overview](https://venturebeat.com/wp-content/uploads/2016/05/Redis.png?fit=578%2C305&strip=all)
+![overview](/uploads/persister-big-key-in-redis-overview-Redis.png)
 
 公司里某位工程师小斌发现在一个 Redis 集群中的 some_big_list 经常出现慢查询，而且 QPS 特别高。初步定位是出现了一个热点的 Key。
 ```bash
