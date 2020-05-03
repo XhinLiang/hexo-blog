@@ -5,12 +5,20 @@ categories: 计算机
 toc: true
 ---
 
+# Overview
+
+![overview](https://cdn.lynda.com/course/548706/548706-637199619492944531-16x9.jpg)
+
+数据库在后端程序员中应该是最常使用到的中间件了，今天我们来侃一侃常见的数据库。
 
 ## MySQL 派系
+
+MySQL 无疑是世界上最火热的数据库了。因为太过火热，它也有很多不同的分支，这些分支会有一些不同的特点。
+
 ### MySQL
 
-在国内来说，MySQL 是一个最常见的数据库了。
-他是一种关系数据库管理系统（Relational Database Management System：RDBMS），目前由 Oracle 公司维护。
+在国内来说，MySQL 是一个最常见的数据库了，也是 MySQL 派系中最主流的分支，目前由 Oracle 公司维护。
+
 特点：
 1. 源代码使用 C 和 C++ 编写，性能稳定。
 2. 支持多种数据库引擎（MyISAM，InnoDB，Memory，MyRocks etc..）可以满足不同场景下的需要。
@@ -27,11 +35,10 @@ MariaDB 是 MySQL 的一个开源分支，其目标是对 MySQL 实现 100% 的�
 1. 她的存储引擎跟 MySQL 的不一致。
 2. 她独特的存储引擎叫 Maria，是 InnoDB 的变体，支持事务。除此之外还支持 FederatedX，XtraDB 等别的存储引擎。
 3. 跟 MySQL 100% 兼容：
-   - 数据和表定义文件（.frm）是二进制兼容的
-   - 所有客户端 API、协议和结构都是完全一致的
-   - 所有文件名、二进制、路径、端口等都是一致的
-
-整体性能上应该跟 MySQL 类似。
+   1. 数据和表定义文件（.frm）是二进制兼容的
+   2. 所有客户端 API、协议和结构都是完全一致的
+   3. 所有文件名、二进制、路径、端口等都是一致的
+4. 整体性能上跟 MySQL 类似。
 
 ### TiDB
 
@@ -43,13 +50,13 @@ TiDB 是 PingCAP 公司推出的一种开源分布式关系型数据库。
 - 支持分布式事务。（这个牛逼了）
 - 支持在线 DDL。
 - 100% 支持标准的 ACID 事务。
-- 不同于于 MySQL 主从复制方案。基于 Raft 的多数派选举协议可以提供金融级的 100% 数据强一致性保证，且在不丢失大多数副本的前提下，可以实现故障的自动恢复 (auto-failover)，无需人工介入。（这个牛逼了）
+- 不同于于 MySQL 主从复制方案，基于 Raft 的多数派选举协议可以提供金融级的 100% 数据强一致性保证，且在不丢失大多数副本的前提下，可以实现故障的自动恢复 (auto-failover)，无需人工介入。（这个牛逼了）
 - 对大部分 OLAP 场景也提供支持。（OLAP：联机分析处理）
 
 ### AliSQL
 
-AliSQL 是另一个 MySQL 的分支版本，目前由 Alibaba 维护。
-[GitHub](https://github.com/alibaba/AliSQL)
+AliSQL 是另一个 MySQL 的分支版本，目前由 Alibaba 维护。[GitHub](https://github.com/alibaba/AliSQL)
+
 官方的描述是：「在通用基准测试场景下，AliSQL 版本比 MySQL 官方版本有着 70% 的性能提升；在秒杀场景下，性能提升 100 倍。」
 
 特点：
@@ -61,7 +68,8 @@ AliSQL 是另一个 MySQL 的分支版本，目前由 Alibaba 维护。
 ## PostgreSQL
 
 PostgreSQL 跟 MySQL 类似，也是一个关系型数据库，但他又多了一个特点，它是对象关系数据库管理系统(ORDBMS)。
-提起 PostgreSQL，那就不得不拿他跟 MySQL 对比一下，这里有简单的对比：https://blog.csdn.net/tiandao2009/article/details/79839037。
+
+提起 PostgreSQL，那就不得不拿他跟 MySQL 对比一下，[这里有简单的对比](https://blog.csdn.net/tiandao2009/article/details/79839037)。
 
 特点：
 - 更学院派。这个是个哲学问题，不多说。
@@ -81,9 +89,9 @@ MongoDB 不是一种关系型数据库。是一种 NoSQL。
 
 HBase 是建立在 HDFS 之上的分布式面向列的数据库。是 Google 的著名论文《BigTable》的开源实现。
 
-这篇文章讲得不错：https://blog.csdn.net/nosqlnotes/article/details/79647096。
+[这篇文章讲得不错](https://blog.csdn.net/nosqlnotes/article/details/79647096)。
 
-HBase是一个面向列的数据库，在表中它由行排序。表模式定义只能列族，也就是键值对。一个表有多个列族以及每一个列族可以有任意数量的列。后续列的值连续地存储在磁盘上。表中的每个单元格值都具有时间戳。
+HBase 是一个面向列的数据库，在表中它由行排序。表模式定义只能列族，也就是键值对。一个表有多个列族以及每一个列族可以有任意数量的列。后续列的值连续地存储在磁盘上。表中的每个单元格值都具有时间戳。
 
 HBase常被用来存放一些结构简单，但数据量非常大的数据。
 
@@ -99,7 +107,9 @@ HBase常被用来存放一些结构简单，但数据量非常大的数据。
 
 ## InfluxDB
 
-InfluxDB 是一个开源的时序数据库，使用GO语言开发，特别适合用于处理和分析资源监控数据这种时序相关数据。而InfluxDB自带的各种特殊函数如求标准差，随机取样数据，统计数据变化比等，使数据统计和实时分析变得十分方便。
+InfluxDB 是一个开源的时序数据库，使用 Golang开发，特别适合用于处理和分析资源监控数据这种时序相关数据。
+
+InfluxDB 自带的各种特殊函数如求标准差，随机取样数据，统计数据变化比等，使数据统计和实时分析变得十分方便。
 
 特点：
 - 数据可以被标记，允许非常灵活的查询。
@@ -112,7 +122,8 @@ InfluxDB 是一个开源的时序数据库，使用GO语言开发，特别适合
 
 ## GpDB -- Greenplum
 
-Greenplum数据库（GPDB），分布式数据库，数据仓库快速查询工具。
+Greenplum 数据库，也叫 GPDB，是一个分布式数据库，数据仓库快速查询工具。
+
 特点：
 - 支持 SQL。
 - 支持分布式事务。
@@ -124,16 +135,16 @@ Greenplum数据库（GPDB），分布式数据库，数据仓库快速查询工�
 
 ## LevelDb
 
-Leveldb是一个google实现的非常高效的kv数据库，能够支持billion级别的数据量。 在这个数量级别下还有着非常高的性能，主要归功于它的良好的设计。特别是LSM算法。
+LevelDb 是一个 google 实现的非常高效的 KV 数据库，能够支持 billion 级别的数据量。 在这个数量级别下还有着非常高的性能，主要归功于它的良好的设计。特别是 LSM 算法。
 
 ## RocksDb
 
-RocksDB是使用C++编写的嵌入式kv存储引擎，其键值均允许使用二进制流。由Facebook基于LevelDB开发， 提供向后兼容的LevelDB API。
+RocksDB 是使用 Facebook 基于 C++ 编写的嵌入式 KV 存储引擎，其键值均允许使用二进制流，提供向后兼容的 LevelDB API。
 
-RocksDB针对Flash存储进行优化，延迟极小。RocksDB使用LSM存储引擎，纯C++编写。Java版本RocksJava正在开发中。
+RocksDB 针对 Flash 存储进行优化，延迟极小。RocksDB使用 LSM 存储引擎，纯C++编写。Java 版本 RocksJava 正在开发中。
 
 我理解 RocksDb 应该是 LevelDb 的另一种实现，从功能上算是超集吧。
 
 ## MyRocks
 
-MySQL 兼容的 RocksDb，底层实现基本上跟 RocksDB 一致，但是作为一种存储引擎在 MySQL 中使用。
+MySQL 兼容的 RocksDb，底层实现基本上跟 RocksDB 一致，但是作为一种存储引擎在 MySQL 中使用。国内有一些公司在使用。

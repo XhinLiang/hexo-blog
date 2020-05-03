@@ -1,5 +1,5 @@
 title: 为什么不建议在 Redis 使用大 Key
-date: 2018-10-30 00:57:29
+date: 2018-10-30
 tags: [后端,缓存,Java,Redis,Lua,运维,DevOps]
 categories: 后端
 toc: true
@@ -7,8 +7,10 @@ toc: true
 
 ## Preview
 
+![overview](https://venturebeat.com/wp-content/uploads/2016/05/Redis.png?fit=578%2C305&strip=all)
+
 公司里某位工程师小斌发现在一个 Redis 集群中的 some_big_list 经常出现慢查询，而且 QPS 特别高。初步定位是出现了一个热点的 Key。
-``` bash
+```bash
 newexplore> llen some_big_list
 500000
 ```
@@ -59,7 +61,7 @@ newexplore> llen some_big_list
 这场测试在我自己的电脑上做，先来了解下我的爱机：
 
 CPU：i5-3380m@3.6Ghz，双核四线程
-``` bash
+```bash
 $ cat /proc/cpuinfo
 processor	: 0
 vendor_id	: GenuineIntel
@@ -90,7 +92,7 @@ power management:
 ```
 
 内存： 2×8G DDR3L 1600Mhz
-``` bash
+```bash
 $ free -m
              total       used       free     shared    buffers     cached
 Mem:         15951      13847       2103        445       2331       6722
@@ -98,7 +100,7 @@ Mem:         15951      13847       2103        445       2331       6722
 Swap:        15624          0      15624
 ```
 系统版本：
-``` bash
+```bash
 $ cat /etc/os-release
 NAME="Ubuntu"
 VERSION="14.04.5 LTS, Trusty Tahr"
@@ -113,7 +115,7 @@ BUG_REPORT_URL="http://bugs.launchpad.net/ubuntu/"
 
 
 系统限制
-``` bash
+```bash
 $ ulimit -a
 -t: cpu time (seconds)              unlimited
 -f: file size (blocks)              unlimited
@@ -135,7 +137,7 @@ $ ulimit -a
 ```
 
 硬盘：美光 M500,480G
-``` bash
+```bash
 $ dd if=/dev/zero of=test bs=64k count=512 oflag=dsync
 记录了512+0 的读入
 记录了512+0 的写出
@@ -143,7 +145,7 @@ $ dd if=/dev/zero of=test bs=64k count=512 oflag=dsync
 ```
 
 Redis版本：2.8，很老的版本了，连 Redis-Cluster 都不支持的版本
-``` bash
+```bash
 $ redis-server -v
 Redis server v=2.8.4 sha=00000000:0 malloc=jemalloc-3.4.1 bits=64 build=a44a05d76f06a5d9
 ```
@@ -152,12 +154,12 @@ Redis server v=2.8.4 sha=00000000:0 malloc=jemalloc-3.4.1 bits=64 build=a44a05d7
 
 非常尴尬，我的机器上的 Redis 居然是 2.8 这个上古世纪的版本，既然这样我就把它先删了吧（笑）
 
-``` bash
+```bash
 sudo apt-get remove redis-server
 ```
 
 一顿操作猛如虎，编译源代码走起！
-``` bash
+```bash
 $ wget http://download.redis.io/releases/redis-5.0.0.tar.gz
 $ tar xzf redis-5.0.0.tar.gz
 $ cd redis-5.0.0
@@ -167,7 +169,7 @@ $ make test # 编译完了跑个测试吧
 Redis 是很轻量的，按理说编译不会有什么坑，果然顺滑无比，编译加测试总共只花了三分钟。
 
 那么现在来试下新版本的 Redis 吧！
-``` bash
+```bash
 $ src/redis-server -v
 Redis server v=5.0.0 sha=00000000:0 malloc=jemalloc-5.1.0 bits=64 build=792f3c7998732f3c
 
@@ -209,7 +211,7 @@ $ src/redis-cli
 
 So Easy～
 先看看现在 Redis 占用了多少内存吧
-``` bash
+```bash
 $ ps aef -o command,vsize,rss,%mem,size | grep redis-server 
 src/redis-server *:6379  63004  5532  0.0 40964
 ```
@@ -242,7 +244,7 @@ return "OK"
 
 
 灌数据，然后看下内存占用
-``` bash
+```bash
 $ src/redis-cli --eval add-test-big-key.lua big_hash1 , 1000000
 "OK"
 $ ps aef -o command,vsize,rss,%mem,size | grep redis-server
@@ -252,7 +254,7 @@ src/redis-server *:6379 134660 74044  0.4 112620
 可以看到虽然这个大Key里有100w条数据，但内存占用依然很低。
 我们现在尝试把这个 key 删除，并查看 SLOWLOG。
 
-``` bash
+```bash
 127.0.0.1:6379> del big_hash1
 (integer) 1
 127.0.0.1:6379> SLOWLOG GET 2
@@ -279,7 +281,7 @@ src/redis-server *:6379 134660 74044  0.4 112620
 
 我们把数据量增大 100 倍看下吧，预期 redis-server 会占用 40% 左右的内存（redis好像没有这方面的优化。。）：
 
-``` bash
+```bash
 $ src/redis-cli --eval add-test-big-key.lua big_hash1 , 100000000 
 "OK"
 $ ps aef -o command,vsize,rss,%mem,size | grep redis-server    
@@ -288,7 +290,7 @@ src/redis-server *:6379 7804420 6656092 40.7 7782380
 
 果不其然。。
 
-``` bash
+```bash
 127.0.0.1:6379> del big_hash1
 (integer) 1
 (62.95s)
@@ -317,7 +319,7 @@ src/redis-server *:6379 7804420 6656092 40.7 7782380
 
 接下来我们是下 `unlink` 的性能
 
-``` bash
+```bash
 $ src/redis-cli --eval add-test-big-key.lua big_hash3 , 100000000 &
 
 127.0.0.1:6379> unlink big_hash2
@@ -331,7 +333,7 @@ $ top
 可以看到， `unlink` 立刻就返回了，但是 redis-server 还是会消耗很多 CPU。
 
 接下来我们看一下大 key 自然过期的时候会发生什么事情：
-``` bash
+```bash
 $ src/redis-cli --eval add-test-big-key.lua big_hash3 , 100000000 
 
 127.0.0.1:6379> expire big_hash3 5
