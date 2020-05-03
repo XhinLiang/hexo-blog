@@ -1,19 +1,21 @@
 title: 理解 Nsq （一）设置 Golang 开发环境
-date: 2018-10-30 01:43:29
-tags: [Golang,GOPATH,GOROOT,Golang环境搭建,Go,go,golang]
+date: 2018-10-30
+tags: [Golang,GOPATH,GOROOT,Golang环境搭建]
 categories: 后端
 toc: true
 ---
 
 Nsq 是一个 Golang 实现的消息队列，现在应该特性已经比较稳定了。
-看了下代码量，还 OK，那么最近开始倒腾倒腾他。
+
+本系列文章共分为三篇，会分别从环境搭建、基础使用、基础概念三个方面分析 nsq。
 
 开始倒腾之前，先把环境搭好，那么我来在我的两个主要工作环境上把 Golang 环境搭好。
 
 ## macOS
 
 首先我在公司的电脑的 macOS 系统装上 Golang 吧，直接最新版本开怼：
-``` bash
+
+```bash
 brew install go
 ```
 
@@ -21,7 +23,8 @@ brew install go
 
 准备一个 hello world 程序（感觉回到了大一）
 注意一下，这个 go 程序的风格有问题。
-``` bash
+
+```bash
 $ cat hello.go
 package main
 
@@ -38,7 +41,7 @@ hello, world
 
 试下 gofmt
 
-``` bash
+```bash
 $ go fmt hello.go
 hello.go
 
@@ -60,19 +63,17 @@ Golang 的代码目前来看基本各家都是统一的，相比 Java，省去�
 
 ## Ubuntu
 
-我家里的 Ubuntu 电脑很久以前装了 Golang 了（忘了咋装的了，应该是 apt-get 装的）
-隐约记得，好像 go fmt 功能有一点问题的。
+我家里的 Ubuntu 电脑很久以前装了 Golang 了（忘了咋装的了，应该是 apt-get 装的）。隐约记得 go fmt 功能有一点问题的。
 
-回到家了，发现我不知道啥时候已经把 Go 删除了，正好，我要重装一个
+回到家了，发现我不知道啥时候已经把 Go 删除了，正好，我要重装一个。
 
-在官网找到下载链接： (下载)[https://golang.org/dl/]
-官网说，已经事先为大家编译好二进制了，大家直接下载编译好的结果就行了。
+在官网找到下载链接，并直接开启下载。(下载)[https://golang.org/dl/]。官网说，已经事先为大家编译好二进制了，大家直接下载编译好的结果就行了。
 
-嗯，编译 Golang 应该挺麻烦的，所以我还是选择下载 releases 包。
-有时间折腾的同学可以下载源代码编译。
+嗯，编译 Golang 应该挺麻烦的，所以我还是选择下载 releases 包。有时间折腾的同学可以下载源代码编译。
 
-三个平台分别有三个 release 包，证明 Golang 的兼容是相当好了（不同 Linux 发行版间差异还是挺大的，很多软件是需要根据发行版来重新编译的）。
-``` bash
+三个平台分别有三个 release 包，证明 Golang 的兼容是相当好了。不同 Linux 发行版间差异还是挺大的，很多软件是需要根据发行版来重新编译的。
+
+```bash
 $ pwd
 /home/xhinliang/software
 
@@ -103,7 +104,7 @@ Golang 有个 Workspace 的概念，其实就是一个文件夹，默认是 `$HO
 - src # 源代码文件
 
 为了让大家理解，官网给了一个例子：
-``` bash
+```bash
 bin/
     hello                          # command executable
     outyet                         # command executable
@@ -128,7 +129,7 @@ src/
 
 可以注意到， `src` 的 `github.com/golang/example/` 类似的文件夹，这些显然是第三方的库。
 
-一个典型的 Golang Workplace 应该包含很多第三方的库的源代码，和一些必要的二进制的文件，这点跟 $HOME/node_modules 差不多。
+一个典型的 Golang Workplace 应该包含很多第三方的库的源代码，和一些必要的二进制的文件，这点跟 `$HOME/node_modules` 差不多。
 
 大多数的 Golang 开发者都会只使用一个 Golang Workplace。
 
@@ -151,14 +152,15 @@ export PATH="$GOROOT/bin:$PATH"
 
 GOPATH 环境变量指明 Golang Workplace 的目录。
 默认值是 `$HOME/go`，可以用 `go env` 查询当前的 GOPATH：
-``` bash
+```bash
 $ go env GOPATH
 /home/xhinliang/go
 ```
 
 我使用 Golang 的默认 Workplace 路径，但是还是显式配置下 GOPATH 吧，以后想改的话也方便。
 在 ~/.shrc_golang 中加入这一行：
-```
+
+```bash
 export GOPATH="$HOME/go"
 ```
 
@@ -170,7 +172,7 @@ export PATH="$GOPATH/bin:$PATH"
 
 ### 测试 && zshrc 配置
 
-``` bash
+```bash
 $ cat ~/.shrc_golang 
 # 设置 Golang 的安装目录
 export GOROOT="$HOME/software/go"
@@ -179,7 +181,6 @@ export PATH="$GOROOT/bin:$PATH"
 # 设置 GOPATH
 export GOPATH="$HOME/go"
 export PATH="$GOPATH/bin:$PATH"
-
 
 $ source ~/.shrc_golang
 $ go version
@@ -196,7 +197,8 @@ $ gotop
 
 测试没啥问题，我们把 .shrc_golang 加到 zshrc 中吧。
 在 ~/.zshrc 的最后加入这行：
-```
+
+```bash
 source  ~/.shrc_golang
 ```
 
