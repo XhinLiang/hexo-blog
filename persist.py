@@ -11,6 +11,8 @@ def persist_md(md_file_path, output_dir, new_img_prefix):
     change = False
     md_lines = []
     with open(md_file_path, 'r') as md_file:
+        str_arr = md_file_path.split('/')
+        relative_md_file_name = str_arr[len(str_arr) - 1].replace('.md', '')
         md_lines = md_file.readlines()
         for i in range(0, len(md_lines)):
             md_line = md_lines[i]
@@ -20,11 +22,15 @@ def persist_md(md_file_path, output_dir, new_img_prefix):
                 img_tag = match_obj.group(2)
                 origin_img_url = match_obj.group(3)
                 origin_img_name = match_obj.group(4)
-                print(img_tag)
-                print(origin_img)
-                print(origin_img_url)
-                print(origin_img_name)
-                new_img_file_name = "new-" + "-" + origin_img_name;
+                new_img_file_name = "persister-" + relative_md_file_name + "-" + img_tag + "-" + origin_img_name
+                print('======== replace start ===========')
+                print('img_tag: ' +img_tag)
+                print('origin_img: ' + origin_img)
+                print('origin_img_url: ' + origin_img_url)
+                print('origin_img_name: ' + origin_img_name)
+                print('new_image_file_name: ' + new_img_file_name)
+                print('======== replace end ===========')
+                print('')
                 url_downloader.retrieve(origin_img_url, output_dir + "/" + new_img_file_name)
                 new_img = "![" + img_tag + "](" + new_img_prefix + new_img_file_name + ")"
                 md_line = md_line.replace(origin_img, new_img)
