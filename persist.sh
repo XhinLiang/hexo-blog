@@ -1,3 +1,3 @@
 #!/bin/bash
 
-python ./persist.py source source/uploads "/uploads/"
+python2 ./persist.py source source/uploads "/uploads/"
