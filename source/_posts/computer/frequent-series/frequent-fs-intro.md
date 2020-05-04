@@ -7,7 +7,8 @@ toc: true
 
 # Overview
 
-![overview](/uploads/fs-intr-overview.jpg)
+![overview](/uploads/fs-intro-overview.jpg)
+
 文件系统应该是计算机软件当中比较底层的部分，可能很多程序员都不会接触到。
 今天简单地学习了一下，做下笔记。
 
