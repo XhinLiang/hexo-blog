@@ -8,6 +8,7 @@ toc: true
 > 计数器是一个很常见的需求，这里使用 Java 实现了计数器的线程安全和非线程安全版本
 
 #### `ICounter` 接口
+
 ``` java
 public interface ICounter<E> {
     void add(E e);
@@ -16,6 +17,7 @@ public interface ICounter<E> {
 ```
 
 #### `Counter` 非线程安全版本
+
 ``` java
 public class Counter<E> implements ICounter<E>{
     private Map<E, long[]> map;
@@ -56,6 +58,7 @@ public class Counter<E> implements ICounter<E>{
 ```
 
 #### 线程安全版本
+
 ``` java
 public class ConcurrentCounter<E> implements ICounter<E>{
     private Map<E, AtomicLong> map;
