@@ -38,8 +38,9 @@ search:
 
 # Comment
 comment:
-  #disqus: xhinliang
-  valine: xhinliang
+  # disqus: xhinliang
+  # valine: xhinliang
+  gitalk: xhinliang
 
 # Share
 share: default # options: jiathis, bdshare, addtoany, default

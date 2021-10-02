@@ -1,0 +1,23 @@
+<% if (typeof(script) !== 'undefined' && script) { %>
+<script type="text/javascript">
+    var duoshuoQuery = {
+        short_name: '<%= theme.comment.duoshuo %>'
+    };
+</script>
+<% } else { %>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+  <script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+  <div id="gitalk-container"></div>
+  <script>
+  var gitalk = new Gitalk({
+    clientID: '3bc58c210437748e5c1a',
+    clientSecret: 'b09d5996ecdc60d1f183120c3f4f0864bf6a9af9',
+    repo: 'XhinLiang/xhinliang-win',      // The repository of store comments,
+    owner: 'XhinLiang',
+    admin: ['XhinLiang'],
+    id: location.href,      // Ensure uniqueness and length less than 50
+    distractionFreeMode: false  // Facebook-like distraction free mode
+  });
+  gitalk.render('gitalk-container');
+</script>
+<% } %>
